@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Huynh Khac Vinh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260203-41">
+    <style>
+        .profile-content {
+            padding-top: var(--space-xl);
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-gradient-bar"></div>
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <span class="header-name">VINH</span>
+                <span class="header-divider">|</span>
+                <div class="header-title">
+                    <span>Artist Designer</span>
+                    <span class="separator">•</span>
+                    <span>Creative Director</span>
+                </div>
+            </a>
+            
+            <button class="hamburger-btn" aria-label="Menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay">
+        <button class="menu-close-btn" aria-label="Close Menu">×</button>
+        <ul class="menu-list">
+            <li class="menu-item"><a href="say-hi.html" class="menu-link">Say "Hi"</a></li>
+            <li class="menu-item"><a href="cv.html" class="menu-link">CV</a></li>
+            <li class="menu-item"><a href="portfolio.html" class="menu-link">Portfolio</a></li>
+            <li class="menu-item"><a href="knowledge-sharing.html" class="menu-link">Knowledge sharing</a></li>
+            <li class="menu-item"><a href="social-update.html" class="menu-link">Social update</a></li>
+        </ul>
+    </div>
+
+    <main class="container profile-content">
+        
+        <!-- Expertise Section -->
+        <section class="section fade-in">
+            <div class="section-label">Expertise</div>
+            <h2 class="section-title">Areas of Excellence</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Creative Leadership</h3>
+                    <div class="skill-list">
+                        Creative Direction, Brand Strategy, Proposal Development, Team Mentorship, Cross-Functional Collaboration
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Design & Production</h3>
+                    <div class="skill-list">
+                        Art Direction, UI/UX Design, Motion Graphics, Video Production, Typography
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Technical Platforms</h3>
+                    <div class="skill-list">
+                        Figma, Adobe Creative Suite, Meta Creative Hub, Google Creative Studio, Playable Ads
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Operational Excellence</h3>
+                    <div class="skill-list">
+                        Workflow Optimization, Agile & Jira, Resource Planning, Quality Assurance
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Career Highlights -->
+        <section class="section highlights-box fade-in">
+            <div class="section-label">Impact & Achievements</div>
+            <h2 class="section-title">Career Highlights</h2>
+            <div class="highlights-list">
+                <div class="highlight-item">
+                    <strong>End-to-End Creative Production</strong> — Led creative production for diverse global brands, overseeing Art, Design, Video, and UX teams
+                </div>
+                <div class="highlight-item">
+                    <strong>Operational Excellence</strong> — Improved production speed by ~20% and reduced redundancies by ~10% while maintaining ~70% pitch win rate
+                </div>
+                <div class="highlight-item">
+                    <strong>R&D & Innovation</strong> — Directed high-impact R&D initiatives including Playable Ads, AR experiences, and motion optimization
+                </div>
+                <div class="highlight-item">
+                    <strong>Team Building & Scaling</strong> — Built and scaled creative teams from early-stage to 50+ personnel in fast-paced agency settings
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Companies -->
+        <div class="recent-companies fade-in" style="margin-bottom: 60px;">
+            <div class="recent-companies-label">Most Recent Companies</div>
+            <div class="companies-carousel">
+                <a href="#exp-filament" class="company-item">
+                    <img src="logos/company1.svg" alt="Filament" class="company-logo" width="140" height="60">
+                    <span class="company-type">Agency</span>
+                    <span class="company-role">Creative Director</span>
+                </a>
+                <a href="#exp-trusting-social" class="company-item">
+                    <img src="logos/company2.svg" alt="Trusting Social" class="company-logo" width="140" height="60">
+                    <span class="company-type">Fintech</span>
+                    <span class="company-role">UI/UX Manager</span>
+                </a>
+                <a href="#exp-shuttlerock" class="company-item">
+                    <img src="logos/company3.svg" alt="Shuttlerock" class="company-logo" width="140" height="60">
+                    <span class="company-type">CaaS</span>
+                    <span class="company-role">Art Director</span>
+                </a>
+                <a href="#exp-gobear" class="company-item">
+                    <img src="logos/company4.svg" alt="GoBear" class="company-logo" width="140" height="60">
+                    <span class="company-type">Fintech</span>
+                    <span class="company-role">Design Manager</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Clients Marquee -->
+        <div class="clients-marquee fade-in">
+            <div class="marquee-content">
+                <span class="client-logo">META</span>
+                <span class="client-logo">GOOGLE</span>
+                <span class="client-logo">TIKTOK</span>
+                <span class="client-logo">SPOTIFY</span>
+                <span class="client-logo">LAZADA</span>
+                <span class="client-logo">SHOPEE</span>
+                <span class="client-logo">GRAB</span>
+                <span class="client-logo">NIKE</span>
+                <!-- Duplicate for seamless loop -->
+                <span class="client-logo">META</span>
+                <span class="client-logo">GOOGLE</span>
+                <span class="client-logo">TIKTOK</span>
+                <span class="client-logo">SPOTIFY</span>
+                <span class="client-logo">LAZADA</span>
+                <span class="client-logo">SHOPEE</span>
+                <span class="client-logo">GRAB</span>
+                <span class="client-logo">NIKE</span>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <section class="section fade-in">
+            <div class="section-label">Professional Journey</div>
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="experience-item" id="exp-filament">
+                <div class="exp-header">
+                    <h3 class="exp-role">Creative Director</h3>
+                    <div class="exp-company">FILAMENT — Singapore Agency</div>
+                    <div class="exp-date">Apr 2023 - Feb 2024 (11 months)</div>
+                </div>
+                <p class="exp-description">
+                    Led integrated marketing campaigns for a Singapore-based agency specializing in data-driven strategies and creative solutions.
+                </p>
+                <div class="exp-responsibilities">
+                    <div class="responsibility">
+                        <strong>Creative Direction & Team Leadership</strong> — Led design and production teams in developing integrated campaign concepts, ensuring creative excellence and brand consistency
+                    </div>
+                    <div class="responsibility">
+                        <strong>Proposal & Pitch Strategy</strong> — Directed compelling pitch presentations, translating client briefs into actionable creative strategies that secured new business
+                    </div>
+                    <div class="responsibility">
+                        <strong>Cross-Functional Collaboration</strong> — Worked with Account, Strategy, and Media teams to align creative outputs with marketing objectives
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item" id="exp-trusting-social">
+                <div class="exp-header">
+                    <h3 class="exp-role">UI/UX Manager</h3>
+                    <div class="exp-company">TRUSTING SOCIAL — AI & Big Data Fintech</div>
+                    <div class="exp-date">Aug 2021 - Apr 2022 (1 year 7 months)</div>
+                </div>
+                <p class="exp-description">
+                    Led UX initiatives for an AI-driven Fintech pioneer leveraging Big Data for alternative credit scoring across Southeast Asia.
+                </p>
+                <div class="exp-responsibilities">
+                    <div class="responsibility">
+                        <strong>User-Centered Design</strong> — Led UX research and interface optimization using behavioral data and heatmaps for iterative improvements
+                    </div>
+                    <div class="responsibility">
+                        <strong>Brand System Creation</strong> — Developed digital-first visual identity for Project EVO, including logo, design system, and asset library
+                    </div>
+                    <div class="responsibility">
+                        <strong>Conversion-Focused Design</strong> — Produced high-performing landing pages integrating third-party tools to enhance user engagement
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item" id="exp-shuttlerock">
+                <div class="exp-header">
+                    <h3 class="exp-role">Art Director</h3>
+                    <div class="exp-company">SHUTTLEROCK — Multinational CaaS</div>
+                    <div class="exp-date">Apr 2019 - Aug 2021 (2 years 5 months)</div>
+                </div>
+                <p class="exp-description">
+                    Specialized in motion graphic optimization, transforming static assets into high-performing, platform-specific digital ads.
+                </p>
+                <div class="exp-responsibilities">
+                    <div class="responsibility">
+                        <strong>Creative & Technical Leadership</strong> — Directed motion graphic and digital ad production for global campaigns
+                    </div>
+                    <div class="responsibility">
+                        <strong>Innovation Projects</strong> — Led R&D in Playable Ads, HTML5 Motion, and AR, integrating new formats into scalable pipelines
+                    </div>
+                    <div class="responsibility">
+                        <strong>Team Development</strong> — Recruited and trained designers, establishing standardized workflows and elevating team capability
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item" id="exp-gobear">
+                <div class="exp-header">
+                    <h3 class="exp-role">Design Manager / Senior Designer</h3>
+                    <div class="exp-company">GOBEAR — Fintech Singapore</div>
+                    <div class="exp-date">Aug 2016 - Apr 2019 (2 years 9 months)</div>
+                </div>
+                <p class="exp-description">
+                    Created social, motion, and display assets for regional marketing initiatives across Southeast Asia.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Back to Home Button (Optional, good UX) -->
+        <div style="text-align: center; margin: 60px 0;">
+            <a href="index.html" style="text-decoration: none; color: var(--text-secondary); font-size: 14px;">← Back to Home</a>
+        </div>
+
+    </main>
+
+    <script>
+        // Menu Toggle Logic
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        const menuCloseBtn = document.querySelector('.menu-close-btn');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const body = document.body;
+
+        function toggleMenu() {
+            hamburgerBtn.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            
+            // Prevent scrolling when menu is open
+            if (menuOverlay.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        }
+
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        menuCloseBtn.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking a link
+        const menuLinks = document.querySelectorAll('.menu-link');
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+
+        menuLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            
+            // Hide current page link (UX requirement)
+            if (linkPath === currentPath) {
+                link.closest('.menu-item').classList.add('current-page');
+            }
+
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section, .experience-item, .skills-grid').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Add visible class style dynamically
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .visible {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

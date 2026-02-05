@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<!-- 
+    ============================================================================
+    CẤU HÌNH MEDIA (MEDIA CONFIGURATION)
+    1. SHOW_MEDIA_SECTION: Bật/tắt hiển thị khu vực này (true = hiện, false = ẩn).
+       Toggle visibility of this section (true = show, false = hide).
+    2. SHOW_IMAGE_INSTEAD: Bật lên để hiển thị ảnh thay vì video (true = hiện ảnh, false = hiện video).
+       Set to true to show image instead of video (true = show image, false = show video).
+    3. AUTO_PLAY_VIDEO: Bật/tắt tự động phát video khi cuộn tới (true = bật, false = tắt).
+       Toggle auto-play video on scroll (true = on, false = off).
+    4. Thay đổi đường dẫn trong dấu ngoặc kép để cập nhật nội dung.
+       Change the URL inside the quotes to update content.
+    ============================================================================
+-->
+<script>
+    const SHOW_MEDIA_SECTION = true;
+    const SHOW_IMAGE_INSTEAD = false;
+    const AUTO_PLAY_VIDEO = true;
+    
+    const MAIN_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder";
+    const MAIN_IMAGE_URL = "https://placehold.co/1200x675"; // Đường dẫn ảnh (Image URL) - 16:9 ratio recommended
+
+    // CẤU HÌNH BONG BÓNG TƯƠNG TÁC (INTERACTION BUBBLE CONFIGURATION)
+    // Nội dung tin nhắn hiển thị khi click vào bong bóng lần thứ 4
+    // Message content shown when clicking bubbles for the 4th time
+    const INTERACTION_MESSAGE_TEXT = "I hope the upcoming content intrigues you more. Let's keep exploring!";
+</script>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huynh Khac Vinh - Artist & Creative Director</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260203-49">
+</head>
+<body>
+    
+    <!-- Background Marquee (Initially Hidden) -->
+    <div class="bg-marquee-container">
+        <!-- Row 1: Creativity connects (Reverse) -->
+        <div class="bg-marquee-row reverse">
+            <div class="bg-marquee-content">
+                <span class="bg-marquee-text">Creativity connects&nbsp;</span>
+                <span class="bg-marquee-text">Creativity connects&nbsp;</span>
+                <span class="bg-marquee-text">Creativity connects&nbsp;</span>
+                <span class="bg-marquee-text">Creativity connects&nbsp;</span>
+                <span class="bg-marquee-text">Creativity connects&nbsp;</span>
+                <span class="bg-marquee-text">Creativity connects&nbsp;</span>
+            </div>
+        </div>
+        
+        <!-- Row 2: Compelling narratives... (Normal) -->
+        <div class="bg-marquee-row normal">
+            <div class="bg-marquee-content">
+                <span class="bg-marquee-text">Compelling narratives meet strategic goals&nbsp;</span>
+                <span class="bg-marquee-text">Compelling narratives meet strategic goals&nbsp;</span>
+                <span class="bg-marquee-text">Compelling narratives meet strategic goals&nbsp;</span>
+                <span class="bg-marquee-text">Compelling narratives meet strategic goals&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header (Initially Hidden) -->
+    <header class="header">
+        <div class="header-gradient-bar"></div>
+        <div class="marquee-track">
+            <div class="marquee-content">
+                <!-- Set 1 -->
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <!-- Set 2 (Duplicate for seamless loop) -->
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
+            </div>
+        </div>
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <span class="header-name">V I N H</span>
+                <span class="header-divider">|</span>
+                <div class="header-title">
+                    <span>Creative Leadership</span>
+                </div>
+            </a>
+            
+            <button class="hamburger-btn" aria-label="Menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay">
+        <button class="menu-close-btn" aria-label="Close Menu">×</button>
+        <ul class="menu-list">
+            <!-- Removed Say Hi and CV as requested -->
+            <li class="menu-item"><a href="portfolio.html" class="menu-link">Portfolio</a></li>
+            <li class="menu-item"><a href="knowledge-sharing.html" class="menu-link">Knowledge sharing</a></li>
+            <li class="menu-item"><a href="social-update.html" class="menu-link">Social update</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section (Fixed Background) -->
+    <section class="hero" id="hero">
+        <div class="hero-name-wrapper">
+            <!-- Removed intro-greeting as requested -->
+            <h1 class="hero-name">VINH.HK</h1>
+        </div>
+        <h2 class="hero-title">
+            <span>Creative Leadership</span>
+        </h2>
+        <div class="hero-slogan">
+            <div class="slogan-inner">
+                <strong>Bridging <span class="text-gradient">Brand Strategy</span>, <span class="text-gradient">Visual Arts</span> & <span class="text-gradient">Digital Experience</span></strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll Indicator (Separated from Hero for fixed positioning) -->
+    <div class="bottom-gradient-overlay"></div>
+    <a href="#main-content" class="scroll-indicator-link">
+        <div class="scroll-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="#00D4AA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <span class="scroll-text">Swipe Up</span>
+    </a>
+
+    <!-- Main Content (Slides over Hero) -->
+    <main class="container main-content" id="main-content">
+        
+        <!-- Expertise Section -->
+        <section class="section fade-in">
+            <!-- 
+                VIDEO EMBED PLACEHOLDER 
+                The video URL is now controlled by the configuration script at the top of the file.
+            -->
+            <div id="media-wrapper" class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 20px; margin-bottom: 50px; background-color: #eee;">
+                <iframe id="expertise-video"
+                        src="" 
+                        title="Video Player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        allowfullscreen
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                </iframe>
+                <img id="expertise-image" src="" alt="Cover Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none;">
+            </div>
+
+            <script>
+                // Apply the video/image configuration
+                document.addEventListener('DOMContentLoaded', function() {
+                    const mediaWrapper = document.getElementById('media-wrapper');
+                    const videoFrame = document.getElementById('expertise-video');
+                    const imageElement = document.getElementById('expertise-image');
+                    
+                    // 1. Check if we should show the media section at all
+                    if (typeof SHOW_MEDIA_SECTION !== 'undefined' && !SHOW_MEDIA_SECTION) {
+                        if (mediaWrapper) mediaWrapper.style.display = 'none';
+                        return; // Stop here if hidden
+                    }
+
+                    // 2. Check if we should show image instead of video
+                    if (typeof SHOW_IMAGE_INSTEAD !== 'undefined' && SHOW_IMAGE_INSTEAD) {
+                        // Show Image, Hide Video
+                        if (videoFrame) videoFrame.style.display = 'none';
+                        if (imageElement && typeof MAIN_IMAGE_URL !== 'undefined') {
+                            imageElement.src = MAIN_IMAGE_URL;
+                            imageElement.style.display = 'block';
+                        }
+                    } else {
+                        // Show Video, Hide Image
+                        if (imageElement) imageElement.style.display = 'none';
+                        
+                        if (videoFrame && typeof MAIN_VIDEO_URL !== 'undefined') {
+                            videoFrame.style.display = 'block';
+                            // Ensure URL has enablejsapi=1 and mute=1 for autoplay
+                            let videoUrl = MAIN_VIDEO_URL;
+                            const hasQuery = videoUrl.indexOf('?') !== -1;
+                            const separator = hasQuery ? '&' : '?';
+                            
+                            // Add enablejsapi=1 if missing (always useful for API control)
+                            if (videoUrl.indexOf('enablejsapi=1') === -1) {
+                                videoUrl += separator + 'enablejsapi=1';
+                            }
+
+                            // Check if Auto Play is enabled
+                            const isAutoPlay = (typeof AUTO_PLAY_VIDEO !== 'undefined') ? AUTO_PLAY_VIDEO : true;
+
+                            // Add mute=1 if missing (required for autoplay) AND autoplay is enabled
+                            if (isAutoPlay && videoUrl.indexOf('mute=1') === -1) {
+                                videoUrl += '&mute=1';
+                            }
+                            
+                            videoFrame.src = videoUrl;
+
+                            // Only setup Intersection Observer if Auto Play is enabled
+                            if (isAutoPlay) {
+                                // Intersection Observer for Auto Play/Pause
+                                const observerOptions = {
+                                    root: null,
+                                    rootMargin: '0px',
+                                    threshold: 0.25 // Trigger when 25% of video is visible
+                                };
+
+                                const observer = new IntersectionObserver((entries) => {
+                                    entries.forEach(entry => {
+                                        // Send command to YouTube player
+                                        const command = entry.isIntersecting ? 'playVideo' : 'pauseVideo';
+                                        if (videoFrame.contentWindow) {
+                                            videoFrame.contentWindow.postMessage(JSON.stringify({
+                                                'event': 'command',
+                                                'func': command,
+                                                'args': []
+                                            }), '*');
+                                        }
+                                    });
+                                }, observerOptions);
+
+                                // Observe the media wrapper
+                                if (mediaWrapper) {
+                                    observer.observe(mediaWrapper);
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
+
+            <div class="section-label">I DO</div>
+            <h2 class="section-title">Hands-on Leadership & Execution</h2>
+            <p class="section-intro"><strong>Creative Leader</strong> with <strong>12 years</strong> of professional design experience, including <strong>6 years</strong> of <strong>Art Direction</strong> at agencies in the <strong>USA</strong> and <strong>Singapore</strong>. Proven track record in <strong>UI-UX design</strong> for <strong>AI Fintech</strong> firms and <strong>content production</strong> for <strong>global clients</strong>, consistently meeting the rigorous advertising standards of partners like <strong>Meta</strong> and <strong>Google</strong>.</p>
+            <div class="skills-grid">
+                <div class="skill-category highlight-green">
+                    <div class="skill-list">
+                        <span class="skill-tag">Art Direction</span>
+                        <span class="skill-tag">UI/UX Design</span>
+                        <span class="skill-tag">Motion Graphics</span>
+                        <span class="skill-tag">Video Production</span>
+                        <span class="skill-tag">Brand Incubation</span>
+                        <span class="skill-tag">Figma & Adobe Suite</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-list">
+                        <span class="skill-tag">Creative Direction</span>
+                        <span class="skill-tag">Brand Strategy</span>
+                        <span class="skill-tag">Team Mentorship</span>
+                        <span class="skill-tag">Workflow Optimization</span>
+                        <span class="skill-tag">Agile & Jira</span>
+                        <span class="skill-tag">Resource Planning</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Companies -->
+        <div class="recent-companies fade-in" style="margin-bottom: 60px; margin-top: -42px;">
+            <div class="recent-companies-label">EXPERIENCE</div>
+            <div class="companies-carousel">
+                <a href="#exp-filament" class="company-item">
+                    <span class="company-role">Creative Director</span>
+                    <img src="logos/1.png" alt="Filament" class="company-logo" width="140" height="60">
+                    <span class="company-type">Agency (Singapore)</span>
+                </a>
+                <a href="#exp-trusting-social" class="company-item">
+                    <span class="company-role">UI/UX Manager</span>
+                    <img src="logos/2.png" alt="Trusting Social" class="company-logo" width="140" height="60">
+                    <span class="company-type">AI-Bigdata Fintech</span>
+                </a>
+                <a href="#exp-shuttlerock" class="company-item">
+                    <span class="company-role">Art Director</span>
+                    <img src="logos/3.png" alt="Shuttlerock" class="company-logo" width="140" height="60">
+                    <span class="company-type">Creative Production</span>
+                </a>
+                <a href="#exp-gobear" class="company-item">
+                    <span class="company-role">Design Manager</span>
+                    <img src="logos/4.png" alt="GoBear" class="company-logo" width="140" height="60">
+                    <span class="company-type">Fintech (Vietnam)</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Creative Case Study -->
+        <section class="section highlights-box-custom fade-in">
+            <div class="section-label">IMPACT</div>
+            <h2 class="section-title">Creative Case Study</h2>
+            <div class="highlights-list-custom masonry-grid">
+                <!-- Video 1 (9:16 Vertical) - Autoplay -->
+                <div class="masonry-item">
+                    <div class="media-wrapper ratio-9-16">
+                        <video class="media-content" autoplay loop muted playsinline>
+                            <source src="https://videos.pexels.com/video-files/5926528/5926528-hd_1080_1920_30fps.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="item-caption">Campaign Video Showreel</div>
+                </div>
+
+                <!-- Image 1 (Portrait) -->
+                <div class="masonry-item">
+                    <img src="https://placehold.co/600x800/333/fff?text=Vertical+Image+1" alt="Design Showcase 1" class="media-content">
+                    <div class="item-caption">Brand Identity System</div>
+                </div>
+
+                <!-- Image 2 (Tall) - REMOVED -->
+
+
+                <!-- Video 2 (9:16 Vertical) - REMOVED -->
+
+
+                <!-- Image 3 (Medium Portrait) - REMOVED -->
+
+
+                <!-- Image 4 (Short Portrait) - REMOVED -->
+
+            </div>
+        </section>
+
+        <!-- Clients Marquee -->
+        <div class="recent-companies-label">Notable Brands & Clients</div>
+        <div class="clients-marquee fade-in">
+            <div class="marquee-content clients-grid">
+                <img src="Clients/1.png" alt="Client 1" class="client-logo-img">
+                <img src="Clients/2.png" alt="Client 2" class="client-logo-img">
+                <img src="Clients/3.png" alt="Client 3" class="client-logo-img">
+                <img src="Clients/4.png" alt="Client 4" class="client-logo-img">
+                <img src="Clients/5.png" alt="Client 5" class="client-logo-img">
+                <img src="Clients/6.png" alt="Client 6" class="client-logo-img">
+                <img src="Clients/7.png" alt="Client 7" class="client-logo-img">
+                <img src="Clients/8.png" alt="Client 8" class="client-logo-img">
+                <img src="Clients/9.png" alt="Client 9" class="client-logo-img">
+                <img src="Clients/10.png" alt="Client 10" class="client-logo-img">
+                <img src="Clients/11.png" alt="Client 11" class="client-logo-img">
+                <img src="Clients/12.png" alt="Client 12" class="client-logo-img">
+            </div>
+        </div>
+
+        <!-- Career Highlights -->
+        <section class="section highlights-box fade-in">
+            <div class="section-label">Impact & Achievements</div>
+            <h2 class="section-title">Career Highlights</h2>
+            <div class="highlights-list">
+                <div class="highlight-item">
+                    <strong>End-to-End Creative Production</strong> — Led creative production for diverse global brands, overseeing Art, Design, Video, and UX teams
+                </div>
+                <div class="highlight-item">
+                    <strong>Operational Excellence</strong> — Improved production speed by ~20% and reduced redundancies by ~10% while maintaining ~70% pitch win rate
+                </div>
+                <div class="highlight-item">
+                    <strong>R&D & Innovation</strong> — Directed high-impact R&D initiatives including Playable Ads, AR experiences, and motion optimization
+                </div>
+                <div class="highlight-item">
+                    <strong>Team Building & Scaling</strong> — Built and scaled creative teams from early-stage to 50+ personnel in fast-paced agency settings
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section class="section fade-in" id="experience-section" style="display: none;">
+            <div class="section-label">Professional Journey</div>
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="experience-item" id="filament">
+                <div class="exp-header">
+                    <h3 class="exp-role">Creative Director</h3>
+                    <div class="exp-company">FILAMENT — Singapore Agency</div>
+                    <div class="exp-date">Apr 2023 - Feb 2024 (11 months)</div>
+                </div>
+                <p class="exp-description">
+                    Led integrated marketing campaigns for a Singapore-based agency specializing in data-driven strategies and creative solutions.
+                </p>
+                <div class="exp-responsibilities">
+                    <div class="responsibility">
+                        <strong>Creative Direction & Team Leadership</strong> — Led design and production teams in developing integrated campaign concepts, ensuring creative excellence and brand consistency
+                    </div>
+                    <div class="responsibility">
+                        <strong>Proposal & Pitch Strategy</strong> — Directed compelling pitch presentations, translating client briefs into actionable creative strategies that secured new business
+                    </div>
+                    <div class="responsibility">
+                        <strong>Cross-Functional Collaboration</strong> — Worked with Account, Strategy, and Media teams to align creative outputs with marketing objectives
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item" id="trusting-social">
+                <div class="exp-header">
+                    <h3 class="exp-role">UI/UX Manager</h3>
+                    <div class="exp-company">TRUSTING SOCIAL — AI & Big Data Fintech</div>
+                    <div class="exp-date">Aug 2021 - Apr 2022 (1 year 7 months)</div>
+                </div>
+                <p class="exp-description">
+                    Led UX initiatives for an AI-driven Fintech pioneer leveraging Big Data for alternative credit scoring across Southeast Asia.
+                </p>
+                <div class="exp-responsibilities">
+                    <div class="responsibility">
+                        <strong>User-Centered Design</strong> — Led UX research and interface optimization using behavioral data and heatmaps for iterative improvements
+                    </div>
+                    <div class="responsibility">
+                        <strong>Brand System Creation</strong> — Developed digital-first visual identity for Project EVO, including logo, design system, and asset library
+                    </div>
+                    <div class="responsibility">
+                        <strong>Conversion-Focused Design</strong> — Produced high-performing landing pages integrating third-party tools to enhance user engagement
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item" id="shuttlerock">
+                <div class="exp-header">
+                    <h3 class="exp-role">Art Director</h3>
+                    <div class="exp-company">SHUTTLEROCK — Multinational CaaS</div>
+                    <div class="exp-date">Apr 2019 - Aug 2021 (2 years 5 months)</div>
+                </div>
+                <p class="exp-description">
+                    Specialized in motion graphic optimization, transforming static assets into high-performing, platform-specific digital ads.
+                </p>
+                <div class="exp-responsibilities">
+                    <div class="responsibility">
+                        <strong>Creative & Technical Leadership</strong> — Directed motion graphic and digital ad production for global campaigns
+                    </div>
+                    <div class="responsibility">
+                        <strong>Innovation Projects</strong> — Led R&D in Playable Ads, HTML5 Motion, and AR, integrating new formats into scalable pipelines
+                    </div>
+                    <div class="responsibility">
+                        <strong>Team Development</strong> — Recruited and trained designers, establishing standardized workflows and elevating team capability
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item" id="gobear">
+                <div class="exp-header">
+                    <h3 class="exp-role">Design Manager / Senior Designer</h3>
+                    <div class="exp-company">GOBEAR — Fintech Singapore</div>
+                    <div class="exp-date">Aug 2016 - Apr 2019 (2 years 9 months)</div>
+                </div>
+                <p class="exp-description">
+                    Created social, motion, and display assets for regional marketing initiatives across Southeast Asia.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Back to Top (Optional) -->
+        <div style="text-align: center; margin: 60px 0;">
+            <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" style="text-decoration: none; color: var(--text-secondary); font-size: 14px;">↑ Back to Top</a>
+        </div>
+
+    </main>
+
+    <!-- Company Detail Modal -->
+    <div class="company-modal-overlay"></div>
+    <div class="company-modal">
+        <button class="company-modal-close">&times;</button>
+        <div class="company-modal-body">
+            <!-- Content will be injected here -->
+        </div>
+    </div>
+
+    <!-- Hidden Toggle Button for Bubbles -->
+    <button class="bubble-toggle-btn" id="bubbleToggleBtn" aria-label="Toggle Bubble Effect"></button>
+
+    <script src="main.js"></script>
+    <script>
+        // Global Config
+        const SITE_CONFIG = {
+            ENABLE_BUBBLES_BY_DEFAULT: true
+        };
+        let isBubblesEnabled = SITE_CONFIG.ENABLE_BUBBLES_BY_DEFAULT;
+
+        // DOM Elements
+        const hero = document.querySelector('.hero');
+        const header = document.querySelector('.header');
+        const mainContent = document.querySelector('.main-content');
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        const menuCloseBtn = document.querySelector('.menu-close-btn');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const body = document.body;
+        let parallaxEnabled = false;
+
+        const updateParallaxState = () => {
+            if (!hero) {
+                parallaxEnabled = false;
+                return;
+            }
+            parallaxEnabled = window.getComputedStyle(hero).position === 'fixed';
+        };
+
+        updateParallaxState();
+
+        // Bubble Effect Setup
+        const bubbles = [];
+        const sloganBubbles = []; // Array for slogan bubbles
+        const sloganInner = document.querySelector('.slogan-inner');
+        
+        const initBubbles = () => {
+            if (!sloganInner) return;
+            // Respect Global Config if called initially
+            if (!isBubblesEnabled && bubbles.length === 0) return;
+            
+            // Colorful Bubble Gradients (with opacity)
+            // Format: [color1, color2] for radial gradient
+            const bubbleGradients = [
+                // Yellow-ish
+                ['rgba(255, 212, 6, 0.6)', 'rgba(255, 212, 6, 0)'],
+                // Blue-ish
+                ['rgba(12, 184, 255, 0.6)', 'rgba(12, 184, 255, 0)'],
+                // Teal-ish (Green)
+                ['rgba(41, 224, 178, 0.6)', 'rgba(41, 224, 178, 0)']
+            ];
+
+            // Disable background bubbles as requested
+            /*
+            for (let i = 0; i < 20; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble-particle');
+                
+                // Random 3 distinct sizes (approx 3x larger than original leaves)
+                // Small: 30px, Medium: 45px, Large: 60px
+                const sizes = [30, 45, 60];
+                const size = sizes[Math.floor(Math.random() * sizes.length)];
+                
+                const gradientPair = bubbleGradients[Math.floor(Math.random() * bubbleGradients.length)];
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                // Radial gradient for bubble look
+                bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), ${gradientPair[0]} 60%, ${gradientPair[1]} 80%)`;
+                
+                // Position logic: Bias towards the center horizontally to align better with text
+                bubble.style.left = `${10 + Math.random() * 80}%`;
+                bubble.style.top = `${10 + Math.random() * 80}%`;
+                
+                // Random movement factors - Explode in all directions
+                const data = {
+                    element: bubble,
+                    speedX: (Math.random() - 0.5) * 8, 
+                    speedY: (Math.random() - 0.5) * 6, // Balanced vertical movement (was biased -0.6)
+                    rotation: (Math.random() - 0.5) * 25,
+                    delay: Math.random() * 2000
+                };
+                
+                bubbles.push(data);
+                sloganInner.appendChild(bubble);
+                
+                // Initialize state: hidden and small
+                bubble.style.opacity = '0';
+                bubble.style.transform = 'scale(0)';
+            }
+            */
+
+            // Initialize Slogan Bubbles (Fixed positions)
+            initSloganBubbles(bubbleGradients);
+        };
+
+        const initSloganBubbles = (gradients) => {
+            // Fixed configuration for slogan bubbles (Added 2 new bubbles)
+            const configs = [
+                { size: 120, left: 5, top: 20, speedY: 0.15 },
+                { size: 140, left: 90, top: 70, speedY: 0.35 }, // Increased speed for depth
+                { size: 80, left: 25, top: 45, speedY: 0.08 },
+                { size: 50, left: 70, top: 35, speedY: 0.05 },
+                { size: 40, left: 55, top: 60, speedY: 0.12 },
+                // Two new bubbles added
+                { size: 90, left: 15, top: 80, speedY: 0.25 }, // Increased speed
+                { size: 60, left: 85, top: 15, speedY: 0.18 }
+            ];
+
+            configs.forEach((conf, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('slogan-bubble-wrapper');
+
+                const bubble = document.createElement('div');
+                bubble.classList.add('slogan-bubble');
+                bubble.classList.add('animate-wiggle'); // Add wiggle class
+
+                const gradientPair = gradients[Math.floor(Math.random() * gradients.length)];
+
+                bubble.style.width = `${conf.size}px`;
+                bubble.style.height = `${conf.size}px`;
+                bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), ${gradientPair[0]} 60%, ${gradientPair[1]} 80%)`;
+
+                // Independent Wiggle: Randomize duration, delay, and path
+                // Base duration 6s, variation ±2s
+                const wiggleDuration = 5 + Math.random() * 5; 
+                // Entrance delay 2.1s fixed, Wiggle delay randomized offset
+                const wiggleDelay = 2.1 + Math.random() * 3;
+                
+                // Randomize wiggle path using CSS variables
+                // Range: -20px to 20px for translation, -10deg to 10deg for rotation
+                const r = () => (Math.random() - 0.5) * 40; // -20 to 20
+                const rot = () => (Math.random() - 0.5) * 20; // -10 to 10
+
+                bubble.style.setProperty('--wx1', `${r()}px`);
+                bubble.style.setProperty('--wy1', `${r()}px`);
+                bubble.style.setProperty('--wr1', `${rot()}deg`);
+                bubble.style.setProperty('--wx2', `${r()}px`);
+                bubble.style.setProperty('--wy2', `${r()}px`);
+                bubble.style.setProperty('--wr2', `${rot()}deg`);
+
+                // Set inline styles for independent animation
+                bubble.style.animationDuration = `1.5s, ${wiggleDuration}s`;
+                bubble.style.animationDelay = `2.1s, ${wiggleDelay}s`;
+
+                // Wrapper positions (relative to hero)
+                wrapper.style.left = `${conf.left}%`;
+                wrapper.style.top = `${conf.top}%`;
+
+                wrapper.appendChild(bubble);
+                hero.appendChild(wrapper);
+
+                sloganBubbles.push({
+                    wrapper: wrapper,
+                    bubble: bubble,
+                    speedY: conf.speedY,
+                    baseTop: conf.top
+                });
+            });
+        };
+
+        // Initialize bubbles
+        initBubbles();
+
+        /* 
+           ==========================================================================
+           FINAL PARALLAX LOGIC - DO NOT MODIFY
+           This version is optimized for all screen scales (Desktop & Mobile).
+           Changes here may break the "perfect" parallax feel.
+           ==========================================================================
+        */
+        let lastScrollTop = 0;
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const heroHeight = hero.offsetHeight;
+            const triggerPoint = heroHeight * 0.3; // 30% scroll to start showing header
+
+            // Parallax Effect for all screen sizes
+            const slogan = document.querySelector('.hero-slogan');
+            const nameWrapper = document.querySelector('.hero-name-wrapper');
+            const heroTitle = document.querySelector('.hero-title');
+            const scrollIndicator = document.querySelector('.scroll-indicator-link');
+            const bottomGradient = document.querySelector('.bottom-gradient-overlay');
+            
+            // Reset styles if at the very top to let CSS animations show clearly
+            if (scrollY < 5) {
+                if (nameWrapper) {
+                    nameWrapper.style.removeProperty('opacity');
+                    nameWrapper.style.removeProperty('transform');
+                }
+                if (heroTitle) {
+                    heroTitle.style.removeProperty('opacity');
+                    heroTitle.style.removeProperty('transform');
+                }
+                if (scrollIndicator) {
+                    scrollIndicator.style.removeProperty('opacity');
+                    scrollIndicator.style.pointerEvents = 'auto';
+                    scrollIndicator.style.visibility = 'visible';
+                }
+                if (bottomGradient) {
+                    bottomGradient.classList.remove('fade-out');
+                    bottomGradient.style.removeProperty('opacity');
+                }
+                if (slogan) {
+                    slogan.style.removeProperty('transform');
+                }
+            } else {
+                // Universal Parallax Logic - works everywhere since hero is now always fixed
+                const isMobile = window.innerWidth <= 1024;
+                const effectDistance = isMobile ? 350 : 480;
+                let progress = (scrollY - 5) / effectDistance;
+                if (progress > 1) progress = 1;
+
+                const eased = 1 - Math.pow(1 - progress, 2);
+                const opacity = 1 - eased;
+                
+                // Adjust movement strength based on screen size
+                const moveMultiplier = isMobile ? 180 : 240;
+                const fastTranslateY = eased * moveMultiplier;
+
+                // Calculate faster fade out for scroll indicator (+100% speed)
+                const indicatorDistance = effectDistance / 2;
+                let indicatorProgress = (scrollY - 5) / indicatorDistance;
+                if (indicatorProgress > 1) indicatorProgress = 1;
+                const indicatorEased = 1 - Math.pow(1 - indicatorProgress, 2);
+                const indicatorOpacity = 1 - indicatorEased;
+
+                if (nameWrapper) {
+                    nameWrapper.style.setProperty('opacity', opacity, 'important');
+                    nameWrapper.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
+                }
+                if (heroTitle) {
+                    heroTitle.style.setProperty('opacity', opacity, 'important');
+                    heroTitle.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
+                }
+                if (scrollIndicator) {
+                    scrollIndicator.style.setProperty('opacity', indicatorOpacity, 'important');
+                    // Completely disable interaction when invisible
+                    if (indicatorOpacity <= 0.05) {
+                        scrollIndicator.style.pointerEvents = 'none';
+                        scrollIndicator.style.visibility = 'hidden';
+                    } else {
+                        scrollIndicator.style.pointerEvents = 'auto';
+                        scrollIndicator.style.visibility = 'visible';
+                    }
+                }
+                
+                // Bottom Gradient fade out with delay (handled via CSS class)
+                if (bottomGradient) {
+                    bottomGradient.classList.add('fade-out');
+                }
+                
+                // Continuous Parallax for Slogan
+                // Move slowly and continuously without fading out or stopping early
+                const parallaxSpeed = isMobile ? 0.45 : 0.30; // 45% speed on mobile, 30% on desktop
+                const sloganTranslateY = scrollY * parallaxSpeed;
+                if (slogan) {
+                    slogan.style.setProperty('transform', `translateY(-${sloganTranslateY}px)`, 'important');
+                }
+                
+            }
+
+            // Bubble Particles Parallax (Always run)
+            // Background bubbles disabled - skipping loop
+            /*
+            bubbles.forEach(data => {
+                const isMobile = window.innerWidth <= 1024;
+                
+                // Growth phase: 0 to 150px scroll
+                const growthRange = 150;
+                let growthProgress = scrollY / growthRange;
+                if (growthProgress > 1) growthProgress = 1;
+                
+                // Scale: 0 -> 1 based on scroll
+                // Opacity: 0 -> 0.8 based on scroll
+                const scale = growthProgress;
+                const opacity = growthProgress * 0.8;
+                
+                // Movement phase: starts immediately but scales with scroll
+                const moveFactor = isMobile ? 0.5 : 1;
+                
+                // Apply easing to movement so they start slow and accelerate
+                // We use scrollY directly but only effectively visible after growth starts
+                const x = scrollY * data.speedX * moveFactor;
+                const y = scrollY * data.speedY * moveFactor;
+                const r = scrollY * data.rotation * 0.1;
+                
+                data.element.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${r}deg) scale(${scale})`;
+                data.element.style.opacity = opacity;
+            });
+            */
+
+            // Slogan Bubbles Parallax (New Effect)
+            sloganBubbles.forEach(data => {
+                // Move based on scroll to create depth relative to fixed hero
+                // Increased speed multiplier from -3.0 to -5.0 for very clear parallax
+                const y = scrollY * data.speedY * -5.0; 
+                data.wrapper.style.transform = `translate3d(0, ${y}px, 0)`;
+            });
+
+            // Smart Header Logic (Updated Request: Scroll Down/Content Up -> Show, Scroll Up -> Hide)
+            if (scrollY > triggerPoint) {
+                if (scrollY > lastScrollTop) {
+                    // Scrolling Down (Content moves Up) -> Show Header
+                    header.classList.add('visible');
+                } else {
+                    // Scrolling Up (Content moves Down) -> Hide Header
+                    header.classList.remove('visible');
+                }
+            } else {
+                // At Hero (Top) -> Always Hide Header
+                header.classList.remove('visible');
+            }
+            // Update lastScrollTop (prevent negative values on mobile bounce)
+            lastScrollTop = scrollY <= 0 ? 0 : scrollY;
+
+            // Main Content Background Logic (Independent of Header)
+            if (scrollY > triggerPoint) {
+                mainContent.classList.add('visible');
+            } else {
+                if (scrollY > 100) {
+                     mainContent.classList.add('visible');
+                } else {
+                     mainContent.classList.remove('visible');
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Initialize state on load
+        handleScroll();
+
+        // Custom Smooth Scroll Function
+        function smoothScrollTo(targetPosition, duration) {
+            const startPosition = window.scrollY;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            // Easing function (easeInOutCubic) - smooth acceleration and deceleration
+            function ease(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
+                t -= 2;
+                return c / 2 * (t * t * t + 2) + b;
+            }
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        // Scroll Indicator Click
+        document.querySelector('.scroll-indicator-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector('#main-content');
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+            
+            // "Chậm hơn 70%" -> Increase duration significantly
+            // Standard smooth scroll is approx 800ms. 
+            // 2500ms provides a very elegant, slow glide (~3x slower or 70% speed reduction)
+            smoothScrollTo(targetPosition, 2500); 
+        });
+
+        // Menu Toggle Logic
+        function toggleMenu() {
+            hamburgerBtn.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            
+            if (menuOverlay.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        }
+
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        menuCloseBtn.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking a link
+        const menuLinks = document.querySelectorAll('.menu-link');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+
+        // Intersection Observer for Content Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section, .experience-item, .recent-companies, .clients-marquee').forEach(el => {
+            // Check if fade-in class already exists or add style manually if needed
+            // The css for .fade-in needs to be in style.css
+            observer.observe(el);
+        });
+
+        window.addEventListener('resize', () => {
+            updateParallaxState();
+        });
+
+        // Prevent animation reload on responsive resize
+        // Mark animations as completed after the longest sequence (~5.5s)
+        setTimeout(() => {
+            document.body.classList.add('animations-completed');
+        }, 5500);
+
+        // Specific fix for "Hi, I'm" reappearing
+        // Listen for animation end on the greeting element and force hide it
+        const introGreeting = document.querySelector('.intro-greeting');
+        if (introGreeting) {
+            introGreeting.addEventListener('animationend', () => {
+                introGreeting.classList.add('finished');
+            });
+        }
+
+        // Toggle Bubble Effect Logic (Long Press 3s)
+        const bubbleToggleBtn = document.getElementById('bubbleToggleBtn');
+        let bubblePressTimer;
+        // isBubblesEnabled is now defined at the top
+
+        if (bubbleToggleBtn) {
+            const toggleBubbles = () => {
+                isBubblesEnabled = !isBubblesEnabled;
+                console.log('Bubble effect toggled:', isBubblesEnabled);
+                
+                if (isBubblesEnabled) {
+                    // Turn On
+                    if (bubbles.length === 0) {
+                        initBubbles();
+                        // Trigger a scroll update to set positions
+                        handleScroll();
+                    }
+                } else {
+                    // Turn Off
+                    bubbles.forEach(b => {
+                        if (b.element && b.element.parentNode) {
+                            b.element.parentNode.removeChild(b.element);
+                        }
+                    });
+                    bubbles.length = 0; // Clear array
+
+                    // Clear Slogan Bubbles
+                    sloganBubbles.forEach(b => {
+                        if (b.wrapper && b.wrapper.parentNode) {
+                            b.wrapper.parentNode.removeChild(b.wrapper);
+                        }
+                    });
+                    sloganBubbles.length = 0;
+                }
+            };
+
+            const startPress = (e) => {
+                // Prevent default context menu on long press if necessary
+                // e.preventDefault(); 
+                
+                bubblePressTimer = setTimeout(() => {
+                    toggleBubbles();
+                    // Optional: Visual feedback that action occurred
+                    // alert('Bubble effect ' + (isBubblesEnabled ? 'enabled' : 'disabled'));
+                }, 3000);
+            };
+
+            const cancelPress = () => {
+                if (bubblePressTimer) {
+                    clearTimeout(bubblePressTimer);
+                    bubblePressTimer = null;
+                }
+            };
+
+            // Mouse events
+            bubbleToggleBtn.addEventListener('mousedown', startPress);
+            bubbleToggleBtn.addEventListener('mouseup', cancelPress);
+            bubbleToggleBtn.addEventListener('mouseleave', cancelPress);
+
+            // Touch events
+            bubbleToggleBtn.addEventListener('touchstart', startPress, {passive: true});
+            bubbleToggleBtn.addEventListener('touchend', cancelPress);
+            bubbleToggleBtn.addEventListener('touchcancel', cancelPress);
+        }
+
+        // Company Modal Logic
+        const companyLinks = document.querySelectorAll('.company-item');
+        const companyModalOverlay = document.querySelector('.company-modal-overlay');
+        const companyModalClose = document.querySelector('.company-modal-close');
+        const companyModalBody = document.querySelector('.company-modal-body');
+
+        if (companyLinks.length > 0 && companyModalOverlay) {
+            companyLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1); // remove #
+                    const sourceContent = document.getElementById(targetId);
+                    
+                    if (sourceContent) {
+                        const contentClone = sourceContent.cloneNode(true);
+                        contentClone.removeAttribute('id');
+                        companyModalBody.innerHTML = '';
+                        companyModalBody.appendChild(contentClone);
+                        companyModalOverlay.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            function closeCompanyModal() {
+                companyModalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            if (companyModalClose) {
+                companyModalClose.addEventListener('click', closeCompanyModal);
+            }
+
+            if (companyModalOverlay) {
+                companyModalOverlay.addEventListener('click', (e) => {
+                    if (e.target === companyModalOverlay) {
+                        closeCompanyModal();
+                    }
+                });
+            }
+        }
+
+    </script>
+</body>
+</html>
