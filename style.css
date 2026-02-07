@@ -465,7 +465,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 .hero-slogan {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(2rem, 15vw, 15vw); /* Added minimum size (2rem) to prevent infinite shrinking */
+    font-size: clamp(3rem, 7vw, 8rem); /* Optimized for Desktop (approx 7vw, max 128px) */
     font-weight: 300;
     line-height: 1.02; /* Increased by 20% from 0.85 */
     max-width: 100%;
@@ -1028,9 +1028,6 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         padding: 70px var(--gutter) 40px; /* Reduced from 80px */
         justify-content: center;
     }
-    .hero-slogan {
-        font-size: 8vw; /* Use viewport width instead of huge mobile size */
-    }
     .main-content {
         margin-top: 100vh;
         padding-top: 150px;
@@ -1161,7 +1158,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         letter-spacing: 0.28em; /* Reduced by 30% (0.4 -> 0.28) */
     }
     .hero-slogan { 
-        font-size: 8vw; /* Reset to desktop-like scaling for short screens */
+        font-size: 13vw; /* Larger size for Mobile (max 770px) */
         margin-bottom: var(--space-md);
         line-height: 1.02;
         letter-spacing: -0.04em;
