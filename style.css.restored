@@ -101,22 +101,12 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .text-gradient {
-    background: linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
+    background: linear-gradient(135deg, #FFD406, #FF506A, #0CB8FF, #29E0B2, #9D26D0, #FFD406);
     background-size: 300% 300%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradientTextAnim 8s ease infinite;
-}
-
-/* New Slogan Modifier Class */
-.slogan-small {
-    font-size: 0.4em; /* Reduced to 40% (-60%) */
-    color: #000000;
-    font-weight: 500;
-    -webkit-text-fill-color: initial;
-    text-fill-color: initial;
-    background: none;
 }
 
 @keyframes gradientTextAnim {
@@ -465,46 +455,20 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 .hero-slogan {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(2rem, 15vw, 15vw); /* Added minimum size (2rem) to prevent infinite shrinking */
+    font-size: var(--h2); /* Unified with H2 */
     font-weight: 300;
-    line-height: 1.02; /* Increased by 20% from 0.85 */
-    max-width: 100%;
+    line-height: 1.1;
+    max-width: 900px;
     margin: 0 auto calc(var(--space-xl) * 0.5);
     position: relative;
     padding: 0 var(--gutter);
-    letter-spacing: -0.04em;
+    letter-spacing: -0.025em;
     color: #000000;
     will-change: transform;
-    text-align: center; /* Ensure center alignment on all screens */
-    width: 100%;
-    box-sizing: border-box;
-    /* text-transform: uppercase; Removed per user request */
 }
 
 .hero-slogan strong {
     font-weight: 500;
-}
-
-.hero-slogan .text-gradient {
-    font-weight: 800; /* Reduced from 900 */
-}
-
-/* Staggered and independent gradient animation for slogan words */
-.hero-slogan .text-gradient:nth-of-type(1) {
-    animation-delay: 0s;
-    animation-duration: 8s;
-}
-.hero-slogan .text-gradient:nth-of-type(2) {
-    animation-delay: -2.2s;
-    animation-duration: 9.5s;
-}
-.hero-slogan .text-gradient:nth-of-type(3) {
-    animation-delay: -5.1s;
-    animation-duration: 7.2s;
-}
-.hero-slogan .text-gradient:nth-of-type(4) {
-    animation-delay: -1.4s;
-    animation-duration: 8.4s;
 }
 
 .slogan-inner {
@@ -964,14 +928,6 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     pointer-events: auto;
     cursor: pointer;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy transition */
-
-    /* Apple Glass Effect - Enhanced */
-    backdrop-filter: blur(12px) saturate(180%) brightness(1.1); /* Increased blur & saturation for stronger distortion */
-    -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1);
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Stronger border */
-    box-shadow: 
-        0 8px 32px 0 rgba(31, 38, 135, 0.2),
-        inset 0 0 15px rgba(255, 255, 255, 0.3); /* Added inner glow for volume */
 }
 
 /* New class for wiggle animation to be added via JS */
@@ -1124,7 +1080,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     :root {
         /* Professional Mobile Type Scale */
         --h1: 40px;
-        --h2: 32px; /* Restored to reasonable size for mobile */
+        --h2: 52px; /* Increased to match Mobile Slogan (was 32px) */
         --h3: 24px;
         --h4: 20px;
         --gutter: 24px;
@@ -1142,19 +1098,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         position: relative;
     }
     
-    .hero-name { font-size: 1.3rem; } /* Reduced by ~20% (1.6 -> 1.3) */
-    .hero-title { 
-        font-size: 0.8rem; 
-        margin-bottom: 16px; 
-        letter-spacing: 0.28em; /* Reduced by 30% (0.4 -> 0.28) */
-    }
-    .hero-slogan { 
-        font-size: clamp(2rem, 15vw, 15vw); /* Consistent huge size with minimum limit */
-        margin-bottom: var(--space-md);
-        /* text-transform: uppercase; Removed per user request */
-        line-height: 1.02; /* Increased by 20% from 0.85 */
-        letter-spacing: -0.04em;
-    }
+    .hero-name { font-size: 1.6rem; }
+    .hero-title { font-size: 0.8rem; margin-bottom: 16px; }
+    .hero-slogan { font-size: var(--h2); margin-bottom: var(--space-md); }
     .companies-carousel {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -1180,7 +1126,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 @media (max-width: 370px) {
     .hero-slogan {
-        font-size: clamp(2rem, 15vw, 15vw); /* Consistent huge size with minimum limit */
+        font-size: calc(var(--h2) * 0.9); /* Slightly smaller font for very small screens */
         padding: 0 16px; /* Reduced padding to prevent overflow/shifting */
         width: 100%; /* Ensure it doesn't exceed viewport */
         box-sizing: border-box; /* Include padding in width calculation */

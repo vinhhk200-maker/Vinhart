@@ -95,6 +95,105 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(animation);
     }
 
+    // =========================================================================
+    // DRAG & DROP LOGIC FOR BUBBLES
+    // =========================================================================
+    let isDragging = false;
+    let dragItem = null;
+    let dragWrapper = null;
+    let dragStart = { x: 0, y: 0 };
+    let initialPos = { left: 0, top: 0 };
+    let wasDragging = false;
+
+    // Helper to get client coordinates
+    const getClientPos = (e) => {
+        return e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY };
+    };
+
+    const startDrag = (e) => {
+        const bubble = e.target.closest('.slogan-bubble');
+        if (!bubble) return;
+        
+        dragItem = bubble;
+        dragWrapper = bubble.closest('.slogan-bubble-wrapper');
+        if (!dragWrapper) return;
+
+        const pos = getClientPos(e);
+        dragStart = pos;
+        
+        // Get initial position in px
+        initialPos = {
+            left: dragWrapper.offsetLeft,
+            top: dragWrapper.offsetTop
+        };
+        
+        // Disable transition for direct control
+        dragWrapper.style.transition = 'none';
+        isDragging = false;
+        wasDragging = false;
+    };
+
+    const moveDrag = (e) => {
+        if (!dragWrapper) return;
+
+        const pos = getClientPos(e);
+        const dx = pos.x - dragStart.x;
+        const dy = pos.y - dragStart.y;
+
+        // Check threshold to consider it a drag
+        if (!isDragging && Math.hypot(dx, dy) > 5) {
+            isDragging = true;
+            wasDragging = true;
+        }
+
+        if (isDragging) {
+            if (e.cancelable) e.preventDefault(); // Stop scrolling/selection
+            
+            const parent = dragWrapper.offsetParent;
+            if (!parent) return;
+
+            const newLeftPx = initialPos.left + dx;
+            const newTopPx = initialPos.top + dy;
+
+            // Convert to %
+            const leftPercent = (newLeftPx / parent.offsetWidth) * 100;
+            const topPercent = (newTopPx / parent.offsetHeight) * 100;
+
+            dragWrapper.style.left = `${leftPercent}%`;
+            dragWrapper.style.top = `${topPercent}%`;
+        }
+    };
+
+    const endDrag = (e) => {
+        if (!dragWrapper) return;
+
+        // Restore transition (stylesheet default)
+        dragWrapper.style.transition = ''; 
+
+        dragItem = null;
+        dragWrapper = null;
+        isDragging = false;
+        
+        // Keep wasDragging true briefly for the click handler
+        setTimeout(() => { wasDragging = false; }, 50);
+    };
+
+    document.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', moveDrag);
+    document.addEventListener('mouseup', endDrag);
+
+    document.addEventListener('touchstart', startDrag, { passive: false });
+    document.addEventListener('touchmove', moveDrag, { passive: false });
+    document.addEventListener('touchend', endDrag);
+
+    // Intercept click if dragged (Capture phase)
+    document.addEventListener('click', (e) => {
+        if (wasDragging) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+        }
+    }, true);
+
     // Event Delegation for Bubbles
     document.addEventListener('click', (e) => {
         const clickedBubble = e.target.closest('.slogan-bubble');
@@ -103,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Increment global click counter
         totalBubbleClicks++;
         
-        // Check for 4th click (Message + Scroll)
-        if (totalBubbleClicks === 4) {
+        // Check for 6th click (Message + Scroll)
+        if (totalBubbleClicks === 6) {
             messageBubble.classList.add('visible');
             
             // Wait 2 seconds then scroll
@@ -118,8 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2000);
         }
 
-        // Check for 6th click (4 + 2) -> Slogan fade out & Bubbles fly up
-        if (totalBubbleClicks === 6) {
+        // Check for 10th click (6 + 4) -> Slogan fade out & Bubbles fly up
+        if (totalBubbleClicks === 10) {
             const sloganInner = document.querySelector('.slogan-inner');
             if (sloganInner) {
                 // Fade out Slogan
@@ -183,3 +282,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+

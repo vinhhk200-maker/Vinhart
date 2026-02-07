@@ -104,11 +104,10 @@
     <div class="menu-overlay">
         <button class="menu-close-btn" aria-label="Close Menu">×</button>
         <ul class="menu-list">
-            <li class="menu-item"><a href="index.html" class="menu-link">INDEX</a></li>
-            <li class="menu-item"><a href="portfolio.html" class="menu-link">ARCHIVE</a></li>
-            <li class="menu-item"><a href="knowledge-sharing.html" class="menu-link">THE LAB</a></li>
-            <li class="menu-item"><a href="profile.html" class="menu-link">IDENTITY</a></li>
-            <li class="menu-item"><a href="say-hi.html" class="menu-link">CONNECT</a></li>
+            <li class="menu-item"><a href="portfolio.html" class="menu-link">Archive</a></li>
+            <li class="menu-item"><a href="knowledge-sharing.html" class="menu-link">The Lab</a></li>
+            <li class="menu-item"><a href="profile.html" class="menu-link">Identity</a></li>
+            <li class="menu-item"><a href="say-hi.html" class="menu-link">Connect</a></li>
         </ul>
     </div>
 
@@ -123,7 +122,7 @@
         </h2>
         <div class="hero-slogan">
             <div class="slogan-inner">
-                <strong>Bridging <span class="text-gradient">Brand Strategy</span>, <span class="text-gradient">Visual Arts</span> & <span class="text-gradient">Digital Experience</span></strong>
+                <strong><span class="text-gradient">Visual</span>. <span class="text-gradient">Interface</span>. <span class="text-gradient">Motion</span>. <span class="text-gradient">Identity</span>.</strong>
             </div>
         </div>
     </section>
@@ -512,13 +511,14 @@
             
             // Colorful Bubble Gradients (with opacity)
             // Format: [color1, color2] for radial gradient
+            // Modified for Apple Glass Effect: Increased opacity to 0.525 (+50% from 0.35)
             const bubbleGradients = [
                 // Yellow-ish
-                ['rgba(255, 212, 6, 0.6)', 'rgba(255, 212, 6, 0)'],
+                ['rgba(255, 212, 6, 0.53)', 'rgba(255, 212, 6, 0)'],
                 // Blue-ish
-                ['rgba(12, 184, 255, 0.6)', 'rgba(12, 184, 255, 0)'],
+                ['rgba(12, 184, 255, 0.53)', 'rgba(12, 184, 255, 0)'],
                 // Teal-ish (Green)
-                ['rgba(41, 224, 178, 0.6)', 'rgba(41, 224, 178, 0)']
+                ['rgba(41, 224, 178, 0.53)', 'rgba(41, 224, 178, 0)']
             ];
 
             // Disable background bubbles as requested
@@ -575,8 +575,12 @@
                 { size: 40, left: 55, top: 60, speedY: 0.12 },
                 // Two new bubbles added
                 { size: 90, left: 15, top: 80, speedY: 0.25 }, // Increased speed
-                { size: 60, left: 85, top: 15, speedY: 0.18 }
+                { size: 60, left: 85, top: 15, speedY: 0.18 },
+                // 8th bubble added per user request
+                { size: 75, left: 40, top: 12, speedY: 0.22 }
             ];
+
+            const totalSequenceDuration = 2.5; // Total time for entrance sequence
 
             configs.forEach((conf, index) => {
                 const wrapper = document.createElement('div');
@@ -595,8 +599,13 @@
                 // Independent Wiggle: Randomize duration, delay, and path
                 // Base duration 6s, variation ±2s
                 const wiggleDuration = 5 + Math.random() * 5; 
-                // Entrance delay 2.1s fixed, Wiggle delay randomized offset
-                const wiggleDelay = 2.1 + Math.random() * 3;
+                
+                // Calculate staggered entrance delay
+                // 0s to 2.5s spread
+                const entranceDelay = (index / (configs.length - 1)) * totalSequenceDuration;
+                
+                // Wiggle delay: Start shortly after entrance or randomize, but ensure natural feel
+                const wiggleDelay = entranceDelay + Math.random() * 2;
                 
                 // Randomize wiggle path using CSS variables
                 // Range: -20px to 20px for translation, -10deg to 10deg for rotation
@@ -611,8 +620,10 @@
                 bubble.style.setProperty('--wr2', `${rot()}deg`);
 
                 // Set inline styles for independent animation
+                // First value: sloganBubbleEntrance (1.5s duration)
+                // Second value: floatWiggle (wiggleDuration)
                 bubble.style.animationDuration = `1.5s, ${wiggleDuration}s`;
-                bubble.style.animationDelay = `2.1s, ${wiggleDelay}s`;
+                bubble.style.animationDelay = `${entranceDelay}s, ${wiggleDelay}s`;
 
                 // Wrapper positions (relative to hero)
                 wrapper.style.left = `${conf.left}%`;
