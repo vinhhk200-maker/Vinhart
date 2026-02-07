@@ -566,18 +566,27 @@
         };
 
         const initSloganBubbles = (gradients) => {
-            // Fixed configuration for slogan bubbles (Added 2 new bubbles)
+            // Fixed configuration for slogan bubbles with Dramatic Contrast
+            // Range: Tiny (15-30px) to Giant (200-280px)
             const configs = [
+                // GIANT (Foreground accents - Blur/Glass effect strong)
+                { size: 280, left: 85, top: 60, speedY: 0.45 }, // Main Giant Right
+                { size: 220, left: 10, top: 15, speedY: 0.40 }, // Main Giant Left
+
+                // MEDIUM (Mid-ground anchors)
                 { size: 120, left: 5, top: 20, speedY: 0.15 },
-                { size: 140, left: 90, top: 70, speedY: 0.35 }, // Increased speed for depth
-                { size: 80, left: 25, top: 45, speedY: 0.08 },
+                { size: 90, left: 15, top: 80, speedY: 0.25 },
+                { size: 75, left: 40, top: 12, speedY: 0.22 },
+
+                // SMALL (Background details)
                 { size: 50, left: 70, top: 35, speedY: 0.05 },
                 { size: 40, left: 55, top: 60, speedY: 0.12 },
-                // Two new bubbles added
-                { size: 90, left: 15, top: 80, speedY: 0.25 }, // Increased speed
-                { size: 60, left: 85, top: 15, speedY: 0.18 },
-                // 8th bubble added per user request
-                { size: 75, left: 40, top: 12, speedY: 0.22 }
+                
+                // TINY (Far background depth - Slower movement)
+                { size: 25, left: 35, top: 50, speedY: 0.02 },
+                { size: 20, left: 65, top: 20, speedY: 0.03 },
+                { size: 15, left: 95, top: 85, speedY: 0.01 },
+                { size: 30, left: 50, top: 90, speedY: 0.04 }
             ];
 
             const totalSequenceDuration = 2.5; // Total time for entrance sequence

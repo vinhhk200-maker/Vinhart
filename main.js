@@ -198,23 +198,65 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         const clickedBubble = e.target.closest('.slogan-bubble');
         if (!clickedBubble) return;
+
+        // Local tracking
+        let localClicks = parseInt(clickedBubble.dataset.clickCount || '0') + 1;
+        clickedBubble.dataset.clickCount = localClicks;
+
+        // Logic "Bơm căng" (Inflation) with Bounce
+        // Capture current opacity before stopping animation (to prevent disappearing)
+        const currentOpacity = window.getComputedStyle(clickedBubble).opacity;
+        
+        // STOP Wiggle Animation immediately to allow transform control
+        clickedBubble.classList.remove('animate-wiggle');
+        clickedBubble.style.animation = 'none'; // Force stop any animation
+        clickedBubble.style.opacity = currentOpacity; // Restore opacity manually
+
+        // Base scale increases by 0.3 each click: 1 -> 1.3 -> 1.6 -> 1.9 -> 2.2
+        const baseScale = 1 + (0.3 * localClicks);
+        
+        // Bounce Peak: Base + 0.05 (Total 35% increase relative to previous step's base + 5% overshoot?)
+        // User said: "nảy vượt 35% và thu về ở mức tăng 30%"
+        // Let's interpret relative to the START of this click.
+        // Start: Scale X. 
+        // End: Scale X + 0.3.
+        // Bounce Peak: Scale X + 0.35.
+        
+        const currentBase = 1 + (0.3 * (localClicks - 1)); // Previous scale
+        const targetScale = currentBase + 0.3; // +30%
+        const peakScale = currentBase + 0.35; // +35% (Overshoot)
+
+        // Apply animation via JS for precise control
+        clickedBubble.style.transition = 'transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        clickedBubble.style.transform = `scale(${peakScale})`;
+        
+        setTimeout(() => {
+            clickedBubble.style.transition = 'transform 0.2s ease-out';
+            clickedBubble.style.transform = `scale(${targetScale})`;
+        }, 150);
         
         // Increment global click counter
         totalBubbleClicks++;
         
-        // Check for 6th click (Message + Scroll)
-        if (totalBubbleClicks === 6) {
-            messageBubble.classList.add('visible');
-            
-            // Wait 2 seconds then scroll
-            setTimeout(() => {
-                const targetScroll = window.innerHeight;
-                smoothScrollTo(targetScroll, 3000);
+        console.log(`Global: ${totalBubbleClicks}, Local: ${localClicks}, Scale: ${targetScale}`);
+
+        // Logic Activation: Scroll Trigger
+        // Trigger if: Global reaches 6 OR Local reaches 4
+        if (totalBubbleClicks === 6 || localClicks === 4) {
+            // Ensure we don't trigger multiple times if user keeps clicking fast
+            if (!messageBubble.classList.contains('visible')) {
+                messageBubble.classList.add('visible');
                 
+                // Wait 2 seconds then scroll
                 setTimeout(() => {
-                    messageBubble.classList.remove('visible');
-                }, 1000);
-            }, 2000);
+                    const targetScroll = window.innerHeight;
+                    smoothScrollTo(targetScroll, 3000);
+                    
+                    setTimeout(() => {
+                        messageBubble.classList.remove('visible');
+                    }, 1000);
+                }, 2000);
+            }
         }
 
         // Check for 10th click (6 + 4) -> Slogan fade out & Bubbles fly up
