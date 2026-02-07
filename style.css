@@ -1020,13 +1020,16 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 /* =========================================
    RESPONSIVE
    ========================================= */
-@media (max-width: 1024px), (max-height: 700px) {
+@media (max-width: 1024px), (max-height: 600px) {
     .hero {
         position: fixed;
         height: 100vh;
         min-height: 100vh;
         padding: 70px var(--gutter) 40px; /* Reduced from 80px */
         justify-content: center;
+    }
+    .hero-slogan {
+        font-size: 8vw; /* Use viewport width instead of huge mobile size */
     }
     .main-content {
         margin-top: 100vh;
@@ -1158,10 +1161,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         letter-spacing: 0.28em; /* Reduced by 30% (0.4 -> 0.28) */
     }
     .hero-slogan { 
-        font-size: clamp(2rem, 15vw, 15vw); /* Consistent huge size with minimum limit */
+        font-size: 8vw; /* Reset to desktop-like scaling for short screens */
         margin-bottom: var(--space-md);
-        /* text-transform: uppercase; Removed per user request */
-        line-height: 1.02; /* Increased by 20% from 0.85 */
+        line-height: 1.02;
         letter-spacing: -0.04em;
     }
     .companies-carousel {
