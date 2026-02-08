@@ -125,7 +125,7 @@
                 <strong><span class="text-gradient">Visual</span>. <span class="text-gradient">Interface</span>. <span class="text-gradient">Motion</span>. <span class="text-gradient">Identity</span></strong>
             </div>
             <p class="hero-description">Architecting premium digital brands by fusing fine arts with technical logic.</p>
-            <a href="#highlights-video" class="hero-cta-btn" onclick="document.querySelector('#highlights-video').scrollIntoView({behavior: 'smooth'}); return false;">Selected Archive</a>
+            <a href="#media-wrapper" class="hero-cta-btn" onclick="smoothScrollToVideo(event)">Find me more</a>
         </div>
     </section>
 
@@ -1110,6 +1110,42 @@
             }
         }
 
+    </script>
+    <script>
+        // Custom Smooth Scroll Function
+        function smoothScrollToVideo(event) {
+            event.preventDefault(); // Prevent default anchor jump
+            
+            const targetId = 'media-wrapper'; // Target the video wrapper
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 1500; // 1.5 seconds (Slower, gentler)
+                let start = null;
+
+                function step(timestamp) {
+                    if (!start) start = timestamp;
+                    const progress = timestamp - start;
+                    
+                    // Ease-in-out Cubic function for smoother acceleration/deceleration
+                    const easeInOutCubic = t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+                    
+                    const percent = Math.min(progress / duration, 1);
+                    const ease = easeInOutCubic(percent);
+                    
+                    window.scrollTo(0, startPosition + distance * ease);
+                    
+                    if (progress < duration) {
+                        window.requestAnimationFrame(step);
+                    }
+                }
+                
+                window.requestAnimationFrame(step);
+            }
+        }
     </script>
 </body>
 </html>
