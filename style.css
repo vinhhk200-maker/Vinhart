@@ -50,7 +50,8 @@
     --space-md: 32px;
     --space-lg: 40px;
     --space-xl: 70px;
-    --gutter: 60px;
+    /* Fluid Gutter: 16px (Mobile) -> 60px (Desktop) */
+    --gutter: clamp(16px, 5vw, 60px); 
     --space-2xl: 100px;
 }
 
@@ -109,7 +110,40 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     animation: gradientTextAnim 8s ease infinite;
 }
 
-/* New Slogan Modifier Class */
+/* New Skills Text Layout */
+.skills-text-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.skill-column h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.skill-column p {
+    font-family: 'Inter', sans-serif;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .skills-text-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
 .slogan-small {
     font-size: 0.4em; /* Reduced to 40% (-60%) */
     color: #000000;
@@ -514,9 +548,64 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     z-index: 2;
 }
 
+.hero-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    max-width: 100%; /* Changed from 680px to 100% per user request */
+    margin: var(--space-sm) auto 0; /* Reduced top margin */
+    line-height: var(--leading-relaxed);
+    color: var(--text-secondary);
+    font-weight: 300; /* Changed from 400 to 300 (Light) */
+    padding: 0; /* Removed var(--gutter) to match sibling width */
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.8s forwards; /* Slight delay after slogan */
+    letter-spacing: normal; /* Reset inherited tracking from parent */
+}
+
 @keyframes slideUp {
     0% { transform: translateY(30px); opacity: 0; }
     100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* CTA Button (Apple Style Clone) */
+.hero-cta-btn {
+    display: inline-block;
+    margin-top: var(--space-md);
+    /* Apple Standard Properties */
+    padding: 11px 21px; /* Exact Apple padding */
+    border: none; /* No border for Apple primary buttons */
+    border-radius: 980px; /* Apple's specific pill radius */
+    background-color: #0071e3; /* Apple Blue */
+    color: #ffffff; /* White text */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* System font stack */
+    font-size: 17px; /* Standard Apple Body size */
+    font-weight: 400; /* Regular weight like 'Learn more' */
+    text-transform: none; /* Apple buttons are Sentence case, not Uppercase */
+    letter-spacing: -0.022em; /* Tight SF Pro spacing */
+    line-height: 1.17648; /* Apple specific line-height */
+    text-decoration: none;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Apple easing */
+    cursor: pointer;
+    
+    /* Animation similar to description */
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1.2s forwards; /* Delayed after description */
+    position: relative;
+    z-index: 2;
+}
+
+.hero-cta-btn:hover {
+    background-color: #0077ed; /* Lighter blue on hover */
+    transform: none;
+    box-shadow: none;
 }
 
 /* =========================================
@@ -539,6 +628,50 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .main-content.visible { opacity: 1; }
 
 .section { margin-bottom: 120px; }
+
+/* Video Caption Styles */
+.video-caption-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    margin-top: -10px; /* Pull closer to video wrapper */
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.video-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+}
+
+.video-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 500px;
+    line-height: 1.5;
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .video-caption-container {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    .video-description {
+        text-align: left;
+        max-width: 100%;
+    }
+}
+
 .section-label {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
@@ -784,7 +917,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     object-fit: contain;
     margin: 3px; /* Reduced margin -30% (from 5px) */
     opacity: 1;
-    transition: transform 0.3s ease;
+    filter: grayscale(100%); /* Default to grayscale */
+    transition: all 0.3s ease; /* Transition for filter and transform */
 }
 
 /* Responsive adjustments */
@@ -821,14 +955,14 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
    ========================================= */
 .scroll-indicator-link {
     position: fixed;
-    bottom: 30px;
+    bottom: 10px; /* Moved closer to bottom edge (was 30px) */
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
     opacity: 0;
     animation: simpleFadeIn 1s ease 3.5s forwards;
     cursor: pointer;
-    display: flex;
+    display: none; /* Hidden as per user request */
     flex-direction: column;
     align-items: center;
     color: var(--text-secondary);
@@ -1142,12 +1276,11 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     .hero {
         justify-content: center; /* Changed from flex-start to center per user request */
         padding-top: 0; /* Let flexbox handle centering */
-        padding-bottom: 50px; /* Moved up by ~50px effectively by adjusting padding/alignment if needed, or see .hero-name below */
+        padding-bottom: 0; /* Equal top/bottom for perfect centering */
     }
     /* Move H1 and Span up by ~50px */
     .hero-name-wrapper, .hero-title {
-        /* Changed from transform to top to avoid conflict with JS parallax effect */
-        top: -50px; 
+        /* Removed 'top: -50px' to prevent layout issues in Landscape */
         position: relative;
     }
     
@@ -1158,7 +1291,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         letter-spacing: 0.28em; /* Reduced by 30% (0.4 -> 0.28) */
     }
     .hero-slogan { 
-        font-size: 13vw; /* Larger size for Mobile (max 770px) */
+        font-size: 14.3vw; /* Larger size for Mobile (max 770px) + 10% */
         margin-bottom: var(--space-md);
         line-height: 1.02;
         letter-spacing: -0.04em;
@@ -1188,7 +1321,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 @media (max-width: 370px) {
     .hero-slogan {
-        font-size: clamp(2rem, 15vw, 15vw); /* Consistent huge size with minimum limit */
+        font-size: clamp(2.2rem, 16.5vw, 16.5vw); /* Increased by 10% (15vw -> 16.5vw) */
         padding: 0 16px; /* Reduced padding to prevent overflow/shifting */
         width: 100%; /* Ensure it doesn't exceed viewport */
         box-sizing: border-box; /* Include padding in width calculation */
@@ -1260,7 +1393,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     .hero {
         padding: 10px var(--gutter);
         justify-content: center;
-        min-height: 100vh;
+        min-height: 150vh; /* Increased by 50% from 100vh */
     }
 
     .hero-name-wrapper { margin-bottom: 4px; }
@@ -1270,8 +1403,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     /* Slogan increased ~50% (22px -> 33px) */
     .hero-slogan { 
         font-size: var(--h2); /* Unified with H2 */
-        max-width: 700px;
-        margin-bottom: 20px;
+        max-width: 95% !important; /* Increased width */
+        width: 100%;
+        margin-bottom: 0px !important; /* Tightened spacing */
         line-height: 1.2;
     }
 
@@ -1289,6 +1423,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     span:not(.text-gradient) {
         font-size: var(--text-body) !important;
         line-height: 1.5;
+        max-width: 95% !important; /* Matched to Slogan width for alignment */
+        margin-left: auto;
+        margin-right: auto;
     }
 
     /* Restore Slogan Sizes */
@@ -1353,9 +1490,301 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     .menu-close-btn { top: 10px; right: 20px; font-size: 24px; }
 }
 
+
 /* =========================================
-   SLOGAN REPLACEMENT & CONTACT
+   UNIFIED HERO SCALE SYSTEM (Fluid Typography & Spacing)
+   Refactored to replace patch-work media queries with systematic scaling
    ========================================= */
+
+:root {
+    /* Base Units */
+    --scale-unit: 8px;
+    
+    /* Fluid Typography Scale (Mobile First -> Desktop) 
+       Format: clamp(min-size, preferred-size, max-size)
+    */
+    /* H1: Name - Scale from 1.5rem (24px) to 4rem (64px) */
+    /* Update: Reduced by 60% for Tablet/Desktop as requested */
+    /* Old: clamp(1.5rem, 5vw + 1rem, 4rem) -> Max was ~64px */
+    /* New Target: ~40% of 64px = ~25.6px (approx 1.6rem) */
+    --fs-hero-name: clamp(1.45rem, 2vw + 1rem, 1.6rem);
+    
+    /* Span: Title - Scale from 12px to 16px */
+    --fs-hero-title: clamp(0.75rem, 1.5vw + 0.25rem, 1rem);
+    
+    /* P: Description - Scale from 14px to 18px -> Adjusted for Mobile to match standard P */
+    --fs-hero-desc: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
+    
+    /* Div: Slogan - Scale proportionally with P increase */
+    /* Original base: 1.75rem. New base target: ~2rem to maintain hierarchy with larger P */
+    --fs-hero-slogan: clamp(2rem, 4vw + 1rem, 6rem);
+    
+    /* A: CTA - Standardized Size (17px) for all screens */
+    --fs-hero-cta: 17px;
+    
+    /* Fluid Spacing Scale */
+    --gap-xs: clamp(4px, 1vw, 8px);
+    --gap-sm: clamp(8px, 2vw, 16px);
+    --gap-md: clamp(16px, 3vw, 32px);
+    --gap-lg: clamp(24px, 4vw, 48px);
+}
+
+/* Container Refactor */
+.hero {
+    /* Use Flexbox with standardized gap logic */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: var(--gap-lg) var(--gutter);
+    gap: var(--gap-md); /* Default gap between major elements */
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* 1. H1 (Name) */
+.hero-name-wrapper {
+    margin-bottom: calc(var(--gap-xs) * 0.6); /* Reduced by 40% per user request */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-name {
+    font-size: var(--fs-hero-name) !important;
+    line-height: 1.1;
+    letter-spacing: 0.15em;
+    margin: 0;
+    /* Remove old overrides */
+}
+
+/* 2. Span (Title) */
+.hero-title {
+    font-size: var(--fs-hero-title) !important;
+    margin-bottom: var(--gap-md);
+    letter-spacing: 0.3em;
+    width: 100%;
+    justify-content: center;
+}
+
+/* 3. Div (Slogan) */
+.hero-slogan {
+    font-size: var(--fs-hero-slogan) !important;
+    line-height: 1.1;
+    margin-bottom: var(--gap-sm);
+    width: 100%;
+    max-width: 1200px; /* Constraint for large screens */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 4. P (Description) */
+    .hero-description {
+        font-size: var(--text-body) !important; /* Unified with body text per user rule */
+        line-height: 1.6;
+        max-width: 100%; /* Changed from 600px to 100% to match slogan width */
+        margin: 0 auto;
+        padding: 0 var(--gap-md);
+    }
+
+/* 5. A (CTA) */
+.hero-cta-btn {
+    font-size: 17px !important; /* Enforce standard size */
+    margin-top: var(--gap-md);
+    padding: 16px 32px !important; /* Enforce standard padding */
+}
+
+/* Cleanup Legacy Mobile Overrides 
+   (The new Fluid system handles these automatically, but we keep the structure clean) 
+*/
+/* 1. Mobile Portrait & Landscape (Expanded to include all mobile phones up to 480px) */
+@media (max-width: 480px) {
+    /* Handled by clamp(), slightly reduced gap for small screens */
+    .hero { 
+        gap: 8px !important; /* Tightened from 12px */
+        padding-top: 20px !important; /* Reduced to minimal safe area */
+        padding-bottom: 20px !important; /* Equal to top for centering */
+        justify-content: center !important; /* Centered vertically per user request */
+        min-height: 100vh;
+    }
+    
+    /* Fine-tune H1 for small screens: reduce size and bottom margin by 30% 
+       IMPORTANT: Explicitly setting pixel value (approx 24px * 0.7 = ~17px) to ensure visual change if calc() fails 
+       Original Min was 1.5rem (24px). Target is ~17px.
+    */
+    .hero .hero-name-wrapper .hero-name {
+        font-size: 1.45rem !important; /* Increased by 30% from 1.1rem (~23px) */
+    }
+    .hero .hero-name-wrapper {
+        margin-bottom: 0px !important; /* Reset to 0px to push H2 down by ~30% (from -3px) */
+    }
+
+    /* Fine-tune Span (Title) */
+    .hero-title {
+        letter-spacing: 0.15em !important; /* Reduced by 50% from 0.3em */
+        margin-bottom: 0px !important; /* Reset negative margin as gap is tighter */
+        color: #000000 !important; /* Force black text */
+    }
+    
+    /* Fine-tune P and Div Slogan relationship */
+    .hero-description {
+        font-size: var(--text-body) !important; /* Unified with body text per user rule */
+        color: #000000 !important; /* Force black text */
+        margin-top: 12px !important; /* Reduced from 32px to 12px for tighter grouping */
+        width: 100% !important; /* Align with Slogan */
+        max-width: 100% !important; /* UNIFIED MAX WIDTH: 100% to match slogan */
+        padding-left: 0 !important; /* Ensure no extra padding */
+        padding-right: 0 !important;
+    }
+    
+    /* Increase spacing between Slogan Div and Description P by 30% + 30% = ~1.7 */
+    .hero-slogan {
+        margin-bottom: 8px !important; /* Reduced from calc to explicit 8px */
+        /* DECOUPLED: Set explicit font-size for Slogan Div to ensure independence from H1 */
+        font-size: 3.04rem !important; /* Optimized: Increased by another 15% (from 2.64rem) per user request */
+        width: 100% !important; /* Maximize width usage */
+        max-width: 100% !important; /* UNIFIED MAX WIDTH: 100% */
+        line-height: 1.2 !important; /* Tighter line height for multi-line slogan */
+    }
+
+    /* Mobile CTA: Apple Standard (Consistent 17px/Standard Padding) */
+    .hero-cta-btn {
+        font-size: 17px !important; /* Apple Mobile Standard */
+        padding: 11px 21px !important; /* Apple Mobile Standard Padding */
+        margin-top: 16px !important; /* Reduced from 24px */
+    }
+}
+
+/* 2. Mobile Landscape (Dedicated Independent Layout - Nuclear Option) */
+/* Expanded to cover all mobile devices in landscape mode (up to ~932px width and ~600px height) */
+@media (max-height: 600px) and (max-width: 932px) {
+    /* 1. Container: Absolute Zero Gap Strategy */
+    .hero { 
+        height: auto !important;
+        min-height: 100vh !important;
+        justify-content: center !important;
+        padding-top: 10px !important; /* Minimized safe area */
+        padding-bottom: 10px !important;
+        gap: 0px !important; /* Force zero gap between flex items */
+    } 
+    
+    /* 2. Header Elements: Compact Vertical Rhythm */
+    .hero-name-wrapper {
+        margin-bottom: 2px !important; /* Minimal separation */
+    }
+    
+    .hero-title {
+        letter-spacing: 0.15em !important;
+        margin-bottom: 2px !important; /* Minimal separation */
+        color: #000000 !important;
+    }
+    
+    /* 3. Wrapper Reset (Crucial fix: Control the Flex Container) */
+    .hero-slogan {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    /* 4. Slogan Text (Inner): Aggressive Tightening */
+    .slogan-inner {
+        font-size: 2.53rem !important; /* Increased by another 15% (from 2.2rem) per user request */ 
+        line-height: 1.0 !important; /* Ultra-tight to remove glyph whitespace */
+        margin-bottom: 0px !important; 
+        padding-bottom: 0px !important;
+        display: block !important;
+        width: 100% !important; /* Force full width to match parent */
+    }
+
+    /* Target specific strong tag to increase size by 10% */
+    .slogan-inner strong {
+        font-size: 110% !important;
+    }
+
+    /* 5. Description: Tightened & Pulled Up (Targeting the actual element) */
+    .hero-description {
+        font-size: var(--text-body) !important; /* Unified with body text per user rule */
+        color: #000000 !important;
+        margin-top: 2px !important; /* Explicit 2px gap (Very tight) */
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+        padding-left: 0px !important; /* Remove horizontal padding to match div width */
+        padding-right: 0px !important;
+        line-height: 1.25 !important; /* Compact body leading */
+        max-width: 100% !important; /* Unified Max-Width (100% of parent) */
+        width: 100% !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* 6. CTA: Compact & Proportional */
+    .hero-cta-btn {
+        font-size: 15px !important; /* Slightly smaller for balance */
+        padding: 6px 16px !important; /* Compact touch target */
+        margin-top: 8px !important; /* Tight spacing to description */
+    }
+}
+
+/* 3. Tablet Portrait (Standard 768px) & Desktop - Height Protected */
+/* Added min-height: 601px to prevent conflict with Mobile Landscape (max-height: 600px) */
+@media (min-width: 481px) and (min-height: 601px) {
+    /* Apply spacing reduction (Reset to 0 for cleaner alignment per user request) */
+    .hero-name-wrapper {
+        margin-bottom: 0px !important; /* Adjusted from -0.6 gap to 0 */
+    }
+    
+    /* Apply spacing increase (+60%) between Slogan and Description for Tablet & Desktop */
+    .hero-description {
+        margin-top: 50px !important; /* Increased significantly from base ~16px-32px */
+    }
+    
+    /* Apple Standard CTA for Tablet & Desktop */
+    .hero-cta-btn {
+        padding: 11px 21px !important; /* Standard Apple Padding */
+        font-size: 17px !important; /* Standard Apple Size */
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .hero-slogan {
+        max-width: 90%;
+    }
+}
+
+/* 4. Tablet Landscape (Standard 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-slogan {
+        max-width: 80%;
+    }
+}
+
+/* 5. Desktop Small (Standard 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    /* Handled by clamp() */
+}
+
+/* 6. Desktop Standard (Standard 1440px) */
+@media (min-width: 1281px) and (max-width: 1440px) {
+    /* Handled by clamp() */
+}
+
+/* 7. Desktop Large (Standard 1920px+) */
+@media (min-width: 1441px) {
+    .hero-slogan {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 430px) {
+   /* Minor tweaks only if fluid system breaks at extreme small sizes */
+   .hero { padding-left: 16px; padding-right: 16px; }
+}
+
 .slogan-replacement {
     display: flex;
     flex-direction: column;

@@ -122,20 +122,21 @@
         </h2>
         <div class="hero-slogan">
             <div class="slogan-inner">
-                <strong><span class="text-gradient">Visual</span>. <span class="text-gradient">Interface</span>. <span class="text-gradient">Motion</span>. <span class="text-gradient">Identity</span>.</strong>
+                <strong><span class="text-gradient">Visual</span>. <span class="text-gradient">Interface</span>. <span class="text-gradient">Motion</span>. <span class="text-gradient">Identity</span></strong>
             </div>
+            <p class="hero-description">Architecting premium digital brands by fusing fine arts with technical logic.</p>
+            <a href="#highlights-video" class="hero-cta-btn" onclick="document.querySelector('#highlights-video').scrollIntoView({behavior: 'smooth'}); return false;">Selected Archive</a>
         </div>
     </section>
 
     <!-- Scroll Indicator (Separated from Hero for fixed positioning) -->
     <div class="bottom-gradient-overlay"></div>
-    <a href="#main-content" class="scroll-indicator-link">
+    <a href="#main-content" class="scroll-indicator-link" style="display: none;">
         <div class="scroll-arrow">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="#00D4AA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
-        <span class="scroll-text">Swipe Up</span>
     </a>
 
     <!-- Main Content (Slides over Hero) -->
@@ -147,7 +148,7 @@
                 VIDEO EMBED PLACEHOLDER 
                 The video URL is now controlled by the configuration script at the top of the file.
             -->
-            <div id="media-wrapper" class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 20px; margin-bottom: 50px; background-color: #eee;">
+            <div id="media-wrapper" class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 20px; margin-bottom: 24px; background-color: #eee;">
                 <iframe id="expertise-video"
                         src="" 
                         title="Video Player" 
@@ -158,6 +159,11 @@
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                 </iframe>
                 <img id="expertise-image" src="" alt="Cover Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none;">
+            </div>
+
+            <div class="video-caption-container">
+                <span class="video-label">Showreel 2026</span>
+                <p class="video-description">Highlighting key projects in Creative Direction, UI/UX, and Motion Design. A glimpse into the intersection of art and technology.</p>
             </div>
 
             <script>
@@ -240,36 +246,33 @@
                 });
             </script>
 
-            <div class="section-label">I DO</div>
-            <h2 class="section-title">Hands-on Leadership & Execution</h2>
-            <p class="section-intro"><strong>Creative Leader</strong> with <strong>12 years</strong> of professional design experience, including <strong>6 years</strong> of <strong>Art Direction</strong> at agencies in the <strong>USA</strong> and <strong>Singapore</strong>. Proven track record in <strong>UI-UX design</strong> for <strong>AI Fintech</strong> firms and <strong>content production</strong> for <strong>global clients</strong>, consistently meeting the rigorous advertising standards of partners like <strong>Meta</strong> and <strong>Google</strong>.</p>
-            <div class="skills-grid">
-                <div class="skill-category highlight-green">
-                    <div class="skill-list">
-                        <span class="skill-tag">Art Direction</span>
-                        <span class="skill-tag">UI/UX Design</span>
-                        <span class="skill-tag">Motion Graphics</span>
-                        <span class="skill-tag">Video Production</span>
-                        <span class="skill-tag">Brand Incubation</span>
-                        <span class="skill-tag">Figma & Adobe Suite</span>
-                    </div>
+
+        <h2 class="section-title">The Art-Tech Creative Leader</h2>
+        <div class="section-intro">
+            <p><strong>13 years</strong> of professional impact. <strong>6 years</strong> in Senior Leadership. I operate as a 'Playing Coach'—driving strategic visions (70%) while mastering high-end technical execution (30%).</p>
+            <p style="margin-top: 1rem;">From my roots in fine arts to architecting UI/UX logic, I solve complex brand challenges with unshakable calmness and a focus on exceeding expectations. My expertise bridges the gap between pure aesthetics and technical feasibility.</p>
+            
+            <div class="skills-text-layout">
+                <div class="skill-column">
+                    <h3>Execution & Craft</h3>
+                    <p>Art Direction, UI/UX Design, Motion Graphics, Video Production, Brand Incubation, Figma & Adobe Suite.</p>
                 </div>
-                <div class="skill-category">
-                    <div class="skill-list">
-                        <span class="skill-tag">Creative Direction</span>
-                        <span class="skill-tag">Brand Strategy</span>
-                        <span class="skill-tag">Team Mentorship</span>
-                        <span class="skill-tag">Workflow Optimization</span>
-                        <span class="skill-tag">Agile & Jira</span>
-                        <span class="skill-tag">Resource Planning</span>
-                    </div>
+                <div class="skill-column">
+                    <h3>Leadership & Strategy</h3>
+                    <p>Creative Direction, Brand Strategy, Team Mentorship, Workflow Optimization, Agile & Jira, Resource Planning.</p>
                 </div>
             </div>
+
+            <a href="portfolio.html" class="contact-item" style="margin-top: 2rem; display: inline-flex; text-decoration: none;">Discover My Journey & Detailed CV &rarr;</a>
+        </div>
         </section>
 
         <!-- Recent Companies -->
         <div class="recent-companies fade-in" style="margin-bottom: 60px; margin-top: -42px;">
-            <div class="recent-companies-label">EXPERIENCE</div>
+            <h2 class="section-title" style="margin-bottom: 15px;">Key Milestones</h2>
+            <p class="section-intro" style="margin-bottom: 30px;">
+                Proud to have contributed to the success of leading global brands and high-growth startups across Fintech, AdTech, and Creative Production sectors.
+            </p>
             <div class="companies-carousel">
                 <a href="profile.html#exp-filament" class="company-item">
                     <span class="company-role">Creative Director</span>
@@ -295,7 +298,7 @@
         </div>
 
         <!-- Creative Case Study -->
-        <section class="section highlights-box-custom fade-in">
+        <section class="section highlights-box-custom fade-in" id="highlights-video">
             <div class="section-label">IMPACT</div>
             <h2 class="section-title">Creative Case Study</h2>
             <div class="highlights-list-custom masonry-grid">
@@ -303,7 +306,7 @@
                 <div class="masonry-item">
                     <div class="media-wrapper ratio-9-16">
                         <video class="media-content" autoplay loop muted playsinline>
-                            <source src="https://videos.pexels.com/video-files/5926528/5926528-hd_1080_1920_30fps.mp4" type="video/mp4">
+                            <source src="videos/5926528-hd_1080_1920_30fps.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -566,32 +569,37 @@
         };
 
         const initSloganBubbles = (gradients) => {
-            // Fixed configuration for slogan bubbles with Dramatic Contrast
-            // Range: Tiny (15-30px) to Giant (200-280px)
-            const configs = [
-                // GIANT (Foreground accents - Blur/Glass effect strong)
-                { size: 280, left: 85, top: 60, speedY: 0.45 }, // Main Giant Right
-                { size: 220, left: 10, top: 15, speedY: 0.40 }, // Main Giant Left
+            // Configuration: EXACTLY 4 SIZES
+            // 1. XL (Giant): 200px - Priority: Edges
+            // 2. L  (Large): 120px - Priority: Edges
+            // 3. M  (Medium): 60px - Priority: Distributed
+            // 4. S  (Small): 30px - Priority: Distributed
+            const bubbleSpecs = [
+                // XL (Giant) - 200px (1 bubble)
+                { size: 200, speedY: 0.45, priorityEdge: true },
 
-                // MEDIUM (Mid-ground anchors)
-                { size: 120, left: 5, top: 20, speedY: 0.15 },
-                { size: 90, left: 15, top: 80, speedY: 0.25 },
-                { size: 75, left: 40, top: 12, speedY: 0.22 },
+                // L (Large) - 120px (2 bubbles)
+                { size: 120, speedY: 0.25, priorityEdge: true },
+                { size: 120, speedY: 0.22, priorityEdge: true },
 
-                // SMALL (Background details)
-                { size: 50, left: 70, top: 35, speedY: 0.05 },
-                { size: 40, left: 55, top: 60, speedY: 0.12 },
-                
-                // TINY (Far background depth - Slower movement)
-                { size: 25, left: 35, top: 50, speedY: 0.02 },
-                { size: 20, left: 65, top: 20, speedY: 0.03 },
-                { size: 15, left: 95, top: 85, speedY: 0.01 },
-                { size: 30, left: 50, top: 90, speedY: 0.04 }
+                // M (Medium) - 60px (2 bubbles)
+                { size: 60, speedY: 0.12 },
+                { size: 60, speedY: 0.10 },
+
+                // S (Small) - 30px (3 bubbles)
+                { size: 30, speedY: 0.05 },
+                { size: 30, speedY: 0.04 },
+                { size: 30, speedY: 0.03 }
             ];
 
             const totalSequenceDuration = 2.5; // Total time for entrance sequence
+            const placedBubbles = []; // Store {x, y, radius} for collision detection
 
-            configs.forEach((conf, index) => {
+            // Helper to get viewport size safely
+            const vw = window.innerWidth || document.documentElement.clientWidth;
+            const vh = window.innerHeight || document.documentElement.clientHeight;
+
+            bubbleSpecs.forEach((spec, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.classList.add('slogan-bubble-wrapper');
 
@@ -601,25 +609,22 @@
 
                 const gradientPair = gradients[Math.floor(Math.random() * gradients.length)];
 
-                bubble.style.width = `${conf.size}px`;
-                bubble.style.height = `${conf.size}px`;
+                bubble.style.width = `${spec.size}px`;
+                bubble.style.height = `${spec.size}px`;
                 bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), ${gradientPair[0]} 60%, ${gradientPair[1]} 80%)`;
 
                 // Independent Wiggle: Randomize duration, delay, and path
-                // Base duration 6s, variation ±2s
                 const wiggleDuration = 5 + Math.random() * 5; 
                 
                 // Calculate staggered entrance delay
-                // 0s to 2.5s spread
-                const entranceDelay = (index / (configs.length - 1)) * totalSequenceDuration;
+                const entranceDelay = (index / (bubbleSpecs.length - 1)) * totalSequenceDuration;
                 
-                // Wiggle delay: Start shortly after entrance or randomize, but ensure natural feel
+                // Wiggle delay
                 const wiggleDelay = entranceDelay + Math.random() * 2;
                 
-                // Randomize wiggle path using CSS variables
-                // Range: -20px to 20px for translation, -10deg to 10deg for rotation
-                const r = () => (Math.random() - 0.5) * 40; // -20 to 20
-                const rot = () => (Math.random() - 0.5) * 20; // -10 to 10
+                // Randomize wiggle path
+                const r = () => (Math.random() - 0.5) * 40; 
+                const rot = () => (Math.random() - 0.5) * 20; 
 
                 bubble.style.setProperty('--wx1', `${r()}px`);
                 bubble.style.setProperty('--wy1', `${r()}px`);
@@ -628,15 +633,89 @@
                 bubble.style.setProperty('--wy2', `${r()}px`);
                 bubble.style.setProperty('--wr2', `${rot()}deg`);
 
-                // Set inline styles for independent animation
-                // First value: sloganBubbleEntrance (1.5s duration)
-                // Second value: floatWiggle (wiggleDuration)
                 bubble.style.animationDuration = `1.5s, ${wiggleDuration}s`;
                 bubble.style.animationDelay = `${entranceDelay}s, ${wiggleDelay}s`;
 
-                // Wrapper positions (relative to hero)
-                wrapper.style.left = `${conf.left}%`;
-                wrapper.style.top = `${conf.top}%`;
+                // --- RANDOM POSITION WITH OVERLAP PROTECTION & EDGE PRIORITY ---
+                let leftPercent, topPercent;
+                let attempts = 0;
+                const maxAttempts = 150; 
+                const safeMargin = 15; // Increased margin for better spacing
+                const radius = spec.size / 2;
+                
+                // Define safe bounds
+                const minX = 2; 
+                const maxX = 93; 
+                const minY = 5; 
+                const maxY = 85; 
+
+                while (attempts < maxAttempts) {
+                    // Generate Random Position
+                    leftPercent = minX + Math.random() * (maxX - minX);
+                    topPercent = minY + Math.random() * (maxY - minY);
+
+                    // Edge Priority Logic:
+                    // If priorityEdge is true, we REJECT positions that overlap with the Center Slogan Zone
+                    if (spec.priorityEdge) {
+                        const bubbleW = (spec.size / vw) * 100;
+                        const bubbleH = (spec.size / vh) * 100;
+                        
+                        // Define Restricted Center Zone (Slogan Area)
+                        // Approximately 20% to 80% Horizontal, 30% to 70% Vertical
+                        const dangerX1 = 15; 
+                        const dangerX2 = 85;
+                        const dangerY1 = 30; 
+                        const dangerY2 = 70;
+                        
+                        // Bubble box
+                        const bX1 = leftPercent;
+                        const bX2 = leftPercent + bubbleW;
+                        const bY1 = topPercent;
+                        const bY2 = topPercent + bubbleH;
+                        
+                        // Check if Bubble is strictly OUTSIDE the danger zone
+                        // It must be completely Left OR Right OR Above OR Below the danger box
+                        const isOutside = (bX2 < dangerX1) || (bX1 > dangerX2) || (bY2 < dangerY1) || (bY1 > dangerY2);
+                        
+                        if (!isOutside && attempts < 120) {
+                            attempts++;
+                            continue; 
+                        }
+                    }
+
+                    // Convert to pixels for distance check
+                    const x = (leftPercent / 100) * vw;
+                    const y = (topPercent / 100) * vh;
+
+                    // Overlap Check
+                    let overlap = false;
+                    for (const pb of placedBubbles) {
+                        const dx = x - pb.x;
+                        const dy = y - pb.y;
+                        const distance = Math.sqrt(dx*dx + dy*dy);
+                        // Check if distance is less than sum of radii + margin
+                        if (distance < (radius + pb.radius + safeMargin)) {
+                            overlap = true;
+                            break;
+                        }
+                    }
+
+                    if (!overlap) {
+                        placedBubbles.push({ x, y, radius });
+                        break;
+                    }
+                    attempts++;
+                }
+
+                // Fallback: If no spot found, use the last generated random position
+                if (attempts === maxAttempts) {
+                    const x = (leftPercent / 100) * vw;
+                    const y = (topPercent / 100) * vh;
+                    placedBubbles.push({ x, y, radius });
+                }
+
+                wrapper.style.left = `${leftPercent}%`;
+                wrapper.style.top = `${topPercent}%`;
 
                 wrapper.appendChild(bubble);
                 hero.appendChild(wrapper);
@@ -644,8 +723,8 @@
                 sloganBubbles.push({
                     wrapper: wrapper,
                     bubble: bubble,
-                    speedY: conf.speedY,
-                    baseTop: conf.top
+                    speedY: spec.speedY,
+                    baseTop: topPercent // Use dynamic top for parallax base
                 });
             });
         };
