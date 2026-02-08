@@ -1642,7 +1642,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     .hero-slogan {
         margin-bottom: 8px !important; /* Reduced from calc to explicit 8px */
         /* DECOUPLED: Set explicit font-size for Slogan Div to ensure independence from H1 */
-        font-size: 3.04rem !important; /* Optimized: Increased by another 15% (from 2.64rem) per user request */
+        font-size: 3.33rem !important; /* Optimized: Reduced by 5% (from 3.5rem) per user request */
         width: 100% !important; /* Maximize width usage */
         max-width: 100% !important; /* UNIFIED MAX WIDTH: 100% */
         line-height: 1.2 !important; /* Tighter line height for multi-line slogan */
@@ -1693,7 +1693,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
     /* 4. Slogan Text (Inner): Aggressive Tightening */
     .slogan-inner {
-        font-size: 2.53rem !important; /* Increased by another 15% (from 2.2rem) per user request */ 
+        font-size: 2.76rem !important; /* Reduced by 5% (from 2.91rem) per user request */ 
         line-height: 1.0 !important; /* Ultra-tight to remove glyph whitespace */
         margin-bottom: 0px !important; 
         padding-bottom: 0px !important;
