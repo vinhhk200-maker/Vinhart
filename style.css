@@ -294,6 +294,12 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0; /* Allow shrinking */
+    /* REMOVED: flex: 1; - This caused the logo container to stretch and push elements apart if justify-content was affected */
+    /* REMOVED: margin-right: 30px; - Replaced with flex-grow: 0 to keep it compact */
+    flex-grow: 0; 
+    margin-right: auto; /* Push Hamburger menu to the far right */
+    max-width: calc(100% - 40px); /* Ensure space for hamburger */
 }
 
 .header-name {
@@ -302,9 +308,10 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     font-size: 18px;
     letter-spacing: 1px;
     white-space: nowrap;
+    flex-shrink: 0; /* Always show name */
 }
 
-.header-divider { color: #ccc; }
+.header-divider { color: #ccc; flex-shrink: 0; }
 
 .header-title {
     display: flex;
@@ -313,6 +320,18 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.64px;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 0; /* Critical for flex child truncation */
+    flex-shrink: 1; /* Default: allow shrink */
+}
+
+.header-title span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    min-width: 0;
 }
 
 .hamburger-btn {
@@ -323,6 +342,27 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     cursor: pointer;
     position: relative;
     z-index: 2001;
+}
+
+/* Gradient Overlay for Menu Button (User Request) */
+.hamburger-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(-1 * var(--gutter)); /* Extend to screen right edge */
+    transform: translateY(-50%);
+    width: calc(250% + var(--gutter)); /* Compensate for right shift + original width */
+    height: 300%; /* Covers header height (~42px) */
+    background: linear-gradient(to left, rgba(255,255,255,1) calc(18.5px + var(--gutter) + 10%), rgba(255,255,255,0)); /* Solid white extended by 10% to left */
+    z-index: -1; /* Behind button lines, above text content */
+    pointer-events: none;
+    display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+    .hamburger-btn::before {
+        display: block;
+    }
 }
 
 .hamburger-line {
@@ -481,7 +521,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 .hero-title {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap !important; /* Prevent line break */
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
@@ -495,6 +535,19 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     margin-bottom: calc(var(--space-md) * 2);
     opacity: 1; /* Changed from 0 to 1 */
     /* Removed animation: slideUp */
+    
+    /* Fix for overflow */
+    max-width: calc(100% - 120px);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.hero-title span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    min-width: 0;
 }
 
 .hero-slogan {
@@ -1657,8 +1710,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 /* 2. Mobile Landscape (Dedicated Independent Layout - Nuclear Option) */
-/* Expanded to cover all mobile devices in landscape mode (up to ~932px width and ~600px height) */
-@media (max-height: 600px) and (max-width: 932px) {
+/* Expanded to cover all devices in landscape mode (short height) regardless of width */
+@media (max-height: 600px) {
     /* 1. Container: Absolute Zero Gap Strategy */
     .hero { 
         height: auto !important;
@@ -1727,6 +1780,37 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         font-size: 15px !important; /* Slightly smaller for balance */
         padding: 6px 16px !important; /* Compact touch target */
         margin-top: 8px !important; /* Tight spacing to description */
+    }
+    
+    /* FIX: Force full text display for Header Title in Mobile Landscape */
+    /* Width >= 568px (iPhone 5/SE Landscape) to 932px (iPhone 14 Pro Max Landscape) */
+    .header-title {
+        flex-shrink: 0 !important; /* Prevent shrinking */
+        overflow: visible !important; /* Show all text */
+        max-width: none !important; /* Remove constraints */
+    }
+    
+    .header-title span {
+        overflow: visible !important;
+        text-overflow: clip !important; /* Remove ellipsis */
+    }
+}
+
+/* =========================================
+   GLOBAL HEADER SAFETY RULE (User Request: "Fix toàn bộ")
+   ========================================= */
+/* Ensure text is NEVER truncated on any screen wider than 568px (Standard Mobile Landscape Min) */
+/* This covers Tablets, Desktops, and odd-sized windows like 962px */
+@media (min-width: 568px) {
+    .header-title {
+        flex-shrink: 0 !important;
+        overflow: visible !important;
+        max-width: none !important;
+    }
+    
+    .header-title span {
+        overflow: visible !important;
+        text-overflow: clip !important;
     }
 }
 
@@ -1885,3 +1969,10 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .contact-item:hover img {
     opacity: 1;
 }
+
+/* =========================================
+   HEADER CONSISTENCY FIX
+   ========================================= */
+/* Reverted to base style to ensure fluid truncation on all screens (Mobile Uniformity) */
+/* The base .header-title style (lines ~312) handles flex-shrink: 1 and overflow: hidden */
+
