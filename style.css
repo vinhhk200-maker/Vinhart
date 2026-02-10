@@ -329,7 +329,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .header-title span {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; Removed per user request (gradient overlay handles it) */
     display: block;
     min-width: 0;
 }
@@ -344,24 +344,26 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     z-index: 2001;
 }
 
-/* Gradient Overlay for Menu Button (User Request) */
+/* Gradient Overlay for Menu Button (Small Screens Only) */
 .hamburger-btn::before {
     content: '';
     position: absolute;
     top: 50%;
-    right: calc(-1 * var(--gutter)); /* Extend to screen right edge */
+    right: calc(-1 * var(--gutter)); /* Keep aligned to edge */
     transform: translateY(-50%);
-    width: calc(250% + var(--gutter)); /* Compensate for right shift + original width */
-    height: 300%; /* Covers header height (~42px) */
-    background: linear-gradient(to left, rgba(255,255,255,1) calc(18.5px + var(--gutter) + 10%), rgba(255,255,255,0)); /* Solid white extended by 10% to left */
-    z-index: -1; /* Behind button lines, above text content */
+    width: 90px; /* Fixed width regardless of screen dimensions */
+    height: 300%;
+    /* Gradient: Solid white at right (under button), fading to transparent */
+    background: linear-gradient(to left, rgba(255,255,255,1) 45px, rgba(255,255,255,0));
+    z-index: -1;
     pointer-events: none;
-    display: none; /* Hidden by default */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.5s ease; /* Smooth transition */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 360px) {
     .hamburger-btn::before {
-        display: block;
+        opacity: 1; /* Only display on screens <= 360px */
     }
 }
 
@@ -545,7 +547,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .hero-title span {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; Removed per user request */
     display: block;
     min-width: 0;
 }
@@ -636,8 +638,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     padding: 11px 21px; /* Exact Apple padding */
     border: none; /* No border for Apple primary buttons */
     border-radius: 980px; /* Apple's specific pill radius */
-    background-color: #0071e3; /* Apple Blue */
-    color: #ffffff; /* White text */
+    background-color: #000000; /* User Request: Black background */
+    color: #00D4AA; /* User Request: Bright Green (Teal) text */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* System font stack */
     font-size: 17px; /* Standard Apple Body size */
     font-weight: 400; /* Regular weight like 'Learn more' */
@@ -656,7 +658,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .hero-cta-btn:hover {
-    background-color: #0077ed; /* Lighter blue on hover */
+    background-color: #333333; /* Dark gray on hover */
+    color: #29E0B2; /* Slightly brighter teal on hover */
     transform: none;
     box-shadow: none;
 }
@@ -1043,7 +1046,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 180px;
+    height: 54px; /* Reduced to 30% of original 180px per user request */
     background: linear-gradient(to top, var(--bg-primary) 20%, rgba(253, 251, 247, 0) 100%);
     z-index: 90;
     pointer-events: none;
@@ -1707,6 +1710,26 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         padding: 11px 21px !important; /* Apple Mobile Standard Padding */
         margin-top: 16px !important; /* Reduced from 24px */
     }
+
+    /* FIX: Allow header title text to overflow naturally to the right (under gradient) */
+    /* Target: Mobile & Tablet Portrait (320px - 768px) */
+    .header-logo {
+        max-width: none !important; /* Remove width constraint to allow children to overflow */
+        margin-right: 0 !important; /* Let it take space, hamburger is absolute/fixed or separate? Check flex logic */
+        /* Wait, if margin-right: 0, it pushes hamburger? No, justify-content: space-between handles it */
+        /* But we want text to flow UNDER hamburger. Hamburger is usually z-indexed higher. */
+    }
+
+    .header-title {
+        overflow: visible !important; /* Allow spill over */
+        flex-shrink: 0 !important; /* Do not compress */
+        max-width: none !important;
+    }
+
+    .header-title span {
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
 }
 
 /* 2. Mobile Landscape (Dedicated Independent Layout - Nuclear Option) */
@@ -1757,6 +1780,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     /* Target specific strong tag to increase size by 10% */
     .slogan-inner strong {
         font-size: 110% !important;
+        display: inline-block !important; /* Ensure padding works */
+        padding-top: 5px !important; /* User Request: Increase padding top */
     }
 
     /* 5. Description: Tightened & Pulled Up (Targeting the actual element) */
@@ -1764,8 +1789,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         font-size: var(--text-body) !important; /* Unified with body text per user rule */
         color: #000000 !important;
         margin-top: 2px !important; /* Explicit 2px gap (Very tight) */
-        padding-top: 0px !important;
-        padding-bottom: 0px !important;
+        padding-top: 10px !important; /* User Request: Reduced to 10px */
+        padding-bottom: 5px !important; /* User Request: Added 5px bottom padding */
         padding-left: 0px !important; /* Remove horizontal padding to match div width */
         padding-right: 0px !important;
         line-height: 1.25 !important; /* Compact body leading */
