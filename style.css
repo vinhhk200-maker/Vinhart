@@ -468,7 +468,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding-bottom: clamp(120px, 24vh, 220px);
+    padding-bottom: 0; /* Removed bottom padding to strictly center content vertically */
     transition: opacity 0.5s ease, transform 0.5s ease;
     will-change: opacity, transform;
 }
@@ -522,26 +522,40 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 @keyframes simpleFadeIn { to { opacity: 1; } }
 
 .hero-title {
+    /* Fluid Typography & Spacing - Unified Scale 320px -> 1920px */
     display: flex;
-    flex-wrap: nowrap !important; /* Prevent line break */
+    flex-wrap: nowrap !important;
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
     font-family: 'Inter', sans-serif;
-    font-size: var(--text-body);
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
-    margin-right: -0.4em;
-    margin-bottom: calc(var(--space-md) * 2);
-    opacity: 1; /* Changed from 0 to 1 */
-    /* Removed animation: slideUp */
     
-    /* Fix for overflow */
-    max-width: calc(100% - 120px);
+    /* Fixed Scale: 14px (All Screens) - Immutable per user request */
+    font-size: 14px !important;
+    
+    font-weight: 600;
+    
+    /* Unified Color: Black */
+    color: #000000 !important;
+    
+    text-transform: uppercase;
+    
+    /* Fixed Letter Spacing: 0.25em */
+    letter-spacing: 0.25em !important;
+    
+    /* Fixed Margin Bottom: 20px */
+    margin-bottom: 20px !important;
+    
+    opacity: 1;
+    
+    /* Layout & Centering */
+    width: 100% !important;
+    max-width: 100% !important;
     overflow: hidden;
     z-index: 10;
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero-title span {
@@ -1340,12 +1354,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         position: relative;
     }
     
-    .hero-name { font-size: 1.3rem; } /* Reduced by ~20% (1.6 -> 1.3) */
-    .hero-title { 
-        font-size: 0.8rem; 
-        margin-bottom: 16px; 
-        letter-spacing: 0.28em; /* Reduced by 30% (0.4 -> 0.28) */
-    }
+    /* .hero-name override removed for fixed scale */
+    /* .hero-title override removed for fixed scale */
     .hero-slogan { 
         font-size: 14.3vw; /* Larger size for Mobile (max 770px) + 10% */
         margin-bottom: var(--space-md);
@@ -1453,8 +1463,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
 
     .hero-name-wrapper { margin-bottom: 4px; }
-    .hero-name { font-size: 1.1rem; } /* Significantly smaller */
-    .hero-title { font-size: 0.7rem; margin-bottom: 8px; }
+    /* .hero-name override removed for fixed scale */
+    /* .hero-title override removed for fixed scale */
     
     /* Slogan increased ~50% (22px -> 33px) */
     .hero-slogan { 
@@ -1559,14 +1569,11 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     /* Fluid Typography Scale (Mobile First -> Desktop) 
        Format: clamp(min-size, preferred-size, max-size)
     */
-    /* H1: Name - Scale from 1.5rem (24px) to 4rem (64px) */
-    /* Update: Reduced by 60% for Tablet/Desktop as requested */
-    /* Old: clamp(1.5rem, 5vw + 1rem, 4rem) -> Max was ~64px */
-    /* New Target: ~40% of 64px = ~25.6px (approx 1.6rem) */
-    --fs-hero-name: clamp(1.45rem, 2vw + 1rem, 1.6rem);
+    /* H1: Name - Fixed Scale 26px (All Screens) - Immutable per user request */
+    --fs-hero-name: 26px;
     
-    /* Span: Title - Scale from 12px to 16px */
-    --fs-hero-title: clamp(0.75rem, 1.5vw + 0.25rem, 1rem);
+    /* Span: Title - Fixed Scale 14px per user request */
+    --fs-hero-title: 14px;
     
     /* P: Description - Scale from 14px to 18px -> Adjusted for Mobile to match standard P */
     --fs-hero-desc: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
@@ -1594,14 +1601,14 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     align-items: center;
     text-align: center;
     padding: var(--gap-lg) var(--gutter);
-    gap: var(--gap-md); /* Default gap between major elements */
+    gap: 0 !important; /* Fixed gap to prevent fluid spacing issues */
     min-height: 100vh;
     width: 100%;
 }
 
 /* 1. H1 (Name) */
 .hero-name-wrapper {
-    margin-bottom: calc(var(--gap-xs) * 0.6); /* Reduced by 40% per user request */
+    margin-bottom: 6px !important; /* Fixed spacing */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -1618,8 +1625,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 /* 2. Span (Title) */
 .hero-title {
     font-size: var(--fs-hero-title) !important;
-    margin-bottom: var(--gap-md);
-    letter-spacing: 0.3em;
+    margin-bottom: 40px !important; /* Increased to compensate for removed gap */
+    letter-spacing: 0.25em !important;
     width: 100%;
     justify-content: center;
 }
@@ -1674,14 +1681,12 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
     .hero .hero-name-wrapper {
         margin-bottom: 0px !important; /* Reset to 0px to push H2 down by ~30% (from -3px) */
+        width: 100% !important;
+        justify-content: center !important;
     }
 
-    /* Fine-tune Span (Title) */
-    .hero-title {
-        letter-spacing: 0.15em !important; /* Reduced by 50% from 0.3em */
-        margin-bottom: 0px !important; /* Reset negative margin as gap is tighter */
-        color: #000000 !important; /* Force black text */
-    }
+    /* Fine-tune Span (Title) - Handled by Global Fluid Style */
+    /* .hero-title override removed to allow fluid scaling */
     
     /* Fine-tune P and Div Slogan relationship */
     .hero-description {
@@ -1748,13 +1753,11 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     /* 2. Header Elements: Compact Vertical Rhythm */
     .hero-name-wrapper {
         margin-bottom: 2px !important; /* Minimal separation */
+        width: 100% !important;
+        justify-content: center !important;
     }
     
-    .hero-title {
-        letter-spacing: 0.15em !important;
-        margin-bottom: 2px !important; /* Minimal separation */
-        color: #000000 !important;
-    }
+    /* .hero-title override removed to allow fluid scaling */
     
     /* 3. Wrapper Reset (Crucial fix: Control the Flex Container) */
     .hero-slogan {
@@ -1844,7 +1847,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 @media (min-width: 481px) and (min-height: 601px) {
     /* Apply spacing reduction (Reset to 0 for cleaner alignment per user request) */
     .hero-name-wrapper {
-        margin-bottom: 0px !important; /* Adjusted from -0.6 gap to 0 */
+        margin-bottom: 6px !important; /* Fixed 6px spacing */
     }
     
     /* Apply spacing increase (+60%) between Slogan and Description for Tablet & Desktop */
