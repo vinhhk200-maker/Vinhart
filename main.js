@@ -186,17 +186,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchmove', moveDrag, { passive: false });
     document.addEventListener('touchend', endDrag);
 
-    // Intercept click if dragged (Capture phase)
-    document.addEventListener('click', (e) => {
-        if (wasDragging) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
-        }
-    }, true);
-
     // Event Delegation for Bubbles
     document.addEventListener('click', (e) => {
         const clickedBubble = e.target.closest('.slogan-bubble');
+        
+        // If we were dragging, ignore the click (prevent inflation)
+        if (wasDragging) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+
         if (!clickedBubble) return;
 
         // Local tracking
@@ -326,3 +326,55 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+/* =========================================
+   Visual Bubble Effect (Continuous Flow)
+   ========================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    const visualElement = document.querySelector('.hero-slogan .text-gradient');
+    
+    // Only proceed if the element exists
+    if (!visualElement) return;
+
+    const SPAWN_INTERVAL = 600; // Time between new bubbles (ms) - Adjusted for balance
+    const LIFETIME = 4000; // Duration of animation (ms)
+
+    function spawnVisualBubble() {
+        // Get current position of the "Visual" text
+        const rect = visualElement.getBoundingClientRect();
+        
+        // Optimization: Don't spawn if element is strictly off-screen
+        // (Allow some buffer for partial visibility)
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+        // Create bubble element
+        const bubble = document.createElement('div');
+        bubble.classList.add('visual-bubble');
+
+        // Calculate center position
+        const startX = rect.left + (rect.width / 2);
+        const startY = rect.top + (rect.height / 2);
+
+        // Set fixed start position
+        bubble.style.left = `${startX}px`;
+        bubble.style.top = `${startY}px`;
+
+        // Calculate random X drift (from -100px to +100px)
+        // This makes movement look natural and less mechanical
+        const drift = (Math.random() - 0.5) * 200; 
+        bubble.style.setProperty('--tx', `${drift}px`);
+
+        // Add to DOM
+        document.body.appendChild(bubble);
+
+        // Cleanup after animation finishes
+        setTimeout(() => {
+            if (bubble && bubble.parentNode) {
+                bubble.parentNode.removeChild(bubble);
+            }
+        }, LIFETIME);
+    }
+
+    // Start the infinite loop
+    setInterval(spawnVisualBubble, SPAWN_INTERVAL);
+});

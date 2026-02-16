@@ -1,0 +1,35 @@
+
+<script>
+(function() {
+    console.log("DEBUG: Debug script loaded");
+    
+    // Log all clicks in capture phase (happens first)
+    document.addEventListener('click', function(e) {
+        console.log("DEBUG: Capture Click", {
+            target: e.target,
+            tagName: e.target.tagName,
+            classes: e.target.className,
+            path: e.composedPath(),
+            defaultPrevented: e.defaultPrevented
+        });
+        
+        // Check if something is covering the header
+        const header = document.querySelector('.header');
+        if (header) {
+            const rect = header.getBoundingClientRect();
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // If click is within header area
+            if (y <= rect.bottom) {
+                const elementFromPoint = document.elementFromPoint(x, y);
+                console.log("DEBUG: Element at point (" + x + "," + y + "):", elementFromPoint);
+                if (elementFromPoint && !header.contains(elementFromPoint) && !elementFromPoint.closest('.header')) {
+                    console.warn("DEBUG: Header is covered by:", elementFromPoint);
+                    elementFromPoint.style.border = "5px solid red"; // Visual debug
+                }
+            }
+        }
+    }, true);
+})();
+</script>

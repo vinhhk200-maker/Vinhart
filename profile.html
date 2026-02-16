@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260203-41">
+    <link rel="stylesheet" href="style.css?v=20260210-28">
     <style>
         .profile-content {
             padding-top: var(--space-xl);
@@ -17,39 +17,8 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-gradient-bar"></div>
-        <div class="header-container">
-            <a href="index.html" class="header-logo">
-                <span class="header-name">VINH</span>
-                <span class="header-divider">|</span>
-                <div class="header-title">
-                    <span>Artist Designer</span>
-                    <span class="separator">•</span>
-                    <span>Creative Director</span>
-                </div>
-            </a>
-            
-            <button class="hamburger-btn" aria-label="Menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-        </div>
-    </header>
-
-    <!-- Menu Overlay -->
-    <div class="menu-overlay">
-        <button class="menu-close-btn" aria-label="Close Menu">×</button>
-        <ul class="menu-list">
-            <li class="menu-item"><a href="index.html" class="menu-link">Index</a></li>
-            <li class="menu-item"><a href="portfolio.html" class="menu-link">Archive</a></li>
-            <li class="menu-item"><a href="knowledge-sharing.html" class="menu-link">The Lab</a></li>
-            <li class="menu-item"><a href="profile.html" class="menu-link">Identity</a></li>
-            <li class="menu-item"><a href="say-hi.html" class="menu-link">Connect</a></li>
-        </ul>
-    </div>
+    <!-- Header injected via js/header.js -->
+    <script src="js/header.js"></script>
 
     <main class="container profile-content">
         <h1 class="page-title" style="text-align: center; margin-bottom: 20px;">IDENTITY</h1>
@@ -248,46 +217,6 @@
     </main>
 
     <script>
-        // Menu Toggle Logic
-        const hamburgerBtn = document.querySelector('.hamburger-btn');
-        const menuCloseBtn = document.querySelector('.menu-close-btn');
-        const menuOverlay = document.querySelector('.menu-overlay');
-        const body = document.body;
-
-        function toggleMenu() {
-            hamburgerBtn.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
-            
-            // Prevent scrolling when menu is open
-            if (menuOverlay.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
-            }
-        }
-
-        hamburgerBtn.addEventListener('click', toggleMenu);
-        menuCloseBtn.addEventListener('click', toggleMenu);
-
-        // Close menu when clicking a link
-        const menuLinks = document.querySelectorAll('.menu-link');
-        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-
-        menuLinks.forEach(link => {
-            const linkPath = link.getAttribute('href');
-            
-            // Hide current page link (UX requirement)
-            if (linkPath === currentPath) {
-                link.closest('.menu-item').classList.add('current-page');
-            }
-
-            link.addEventListener('click', () => {
-                hamburgerBtn.classList.remove('active');
-                menuOverlay.classList.remove('active');
-                body.style.overflow = '';
-            });
-        });
-
         // Intersection Observer for fade-in animations
         const observerOptions = {
             root: null,
@@ -321,5 +250,6 @@
         `;
         document.head.appendChild(style);
     </script>
+    <script src="js/footer.js"></script>
 </body>
 </html>
