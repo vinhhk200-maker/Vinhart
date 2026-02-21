@@ -275,14 +275,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 Thank you for visiting.<br>Don't forget to reach out if you see the potential I can bring to your company.
                             </p>
                             <div class="slogan-contact-info">
-                                <a href="tel:+84988641499" class="contact-item">
+                                <div class="footer-contact-item">
                                     <img src="icons/phone.svg" alt="Phone">
-                                    <span>(+84) 988 641 499</span>
-                                </a>
-                                <a href="mailto:Vinhhk200@gmail.com" class="contact-item">
+                                    <a href="tel:+84988641499" class="footer-contact-link">(+84) 988 641 499</a>
+                                </div>
+                                <div class="footer-contact-item">
                                     <img src="icons/mail.svg" alt="Gmail">
-                                    <span>Vinhhk200@gmail.com</span>
-                                </a>
+                                    <a href="mailto:Vinhhk200@gmail.com" class="footer-contact-link">Vinhhk200@gmail.com</a>
+                                </div>
                             </div>
                         </div>
                     `;

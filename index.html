@@ -10,12 +10,19 @@
        Toggle auto-play video on scroll (true = on, false = off).
     4. Thay đổi đường dẫn trong dấu ngoặc kép để cập nhật nội dung.
        Change the URL inside the quotes to update content.
+    5. BOTTOM_GRADIENT_IS_DARK: Đổi màu dải gradient chân trang (true = đen, false = trắng).
+       Toggle bottom gradient color (true = black, false = white).
+    6. SHOW_BOTTOM_GRADIENT: Bật/tắt hoàn toàn dải gradient chân màn hình (true = bật, false = tắt).
+       Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
 <script>
     const SHOW_MEDIA_SECTION = true;
     const SHOW_IMAGE_INSTEAD = false;
     const AUTO_PLAY_VIDEO = true;
+    const BOTTOM_GRADIENT_IS_DARK = true; // true = đen, false = trắng (mặc định)
+    const SHOW_BOTTOM_GRADIENT = false;   // true = hiện, false = ẩn hẳn
+    const HERO_CTA_TEXT = ""; // Đổi nội dung nút CTA ở hero (để chuỗi rỗng "" để ẩn nút)
     
     const MAIN_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder";
     const MAIN_IMAGE_URL = "https://placehold.co/1200x675"; // Đường dẫn ảnh (Image URL) - 16:9 ratio recommended
@@ -42,24 +49,66 @@
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
-        <div class="hero-name-wrapper">
-            <!-- Removed intro-greeting as requested -->
-            <h1 class="hero-name">VINH.HK</h1>
-        </div>
-        <h2 class="hero-title">
-            <span>Art Director</span>
-        </h2>
-        <div class="hero-slogan">
-            <div class="slogan-inner">
-                <strong><span class="text-gradient">Visual</span>. <span class="text-gradient">Interface</span>. <span class="text-gradient">Motion</span>. <span class="text-gradient">Identity</span></strong>
+        <div class="hero-video-layer">
+            <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata">
+                <source src="videos/vinh_webBG.mp4" type="video/mp4">
+            </video>
+            <div class="hero-logo-anim">
+                <div class="hero-overlay-title">
+                    <div class="hero-name hero-name--overlay">VINH.HK</div>
+                    <div class="hero-title hero-title--overlay">
+                        <span>Art Director</span>
+                    </div>
+                </div>
             </div>
-            <p class="hero-description">I architect premium brands where fine arts meets high-tech logic.</p>
-            <a href="#media-wrapper" class="hero-cta-btn" onclick="smoothScrollToVideo(event)">Find me more</a>
+        </div>
+        <div class="hero-content">
+            <div class="hero-name-wrapper">
+                <h1 class="hero-name">VINH.HK</h1>
+            </div>
+            <h2 class="hero-title hero-title-main">
+                <span>Art Director</span>
+            </h2>
+            <div class="hero-slogan">
+                <div class="slogan-inner">
+                    <strong><span class="text-gradient">Visual</span>. <span class="text-gradient">Interface</span>. <span class="text-gradient">Motion</span>. <span class="text-gradient">Identity</span></strong>
+                </div>
+                <p class="hero-description">I architect premium brands where fine arts meets high-tech logic.</p>
+                <a href="#media-wrapper" class="hero-cta-btn" onclick="smoothScrollToVideo(event)">Find me more</a>
+            </div>
         </div>
     </section>
 
     <!-- Scroll Indicator (Separated from Hero for fixed positioning) -->
     <div class="bottom-gradient-overlay"></div>
+    <script>
+        (function() {
+            const bottomGradient = document.querySelector('.bottom-gradient-overlay');
+            if (!bottomGradient) return;
+            if (typeof SHOW_BOTTOM_GRADIENT !== 'undefined' && !SHOW_BOTTOM_GRADIENT) {
+                bottomGradient.style.display = 'none';
+                return;
+            }
+            if (typeof BOTTOM_GRADIENT_IS_DARK === 'undefined') return;
+            if (BOTTOM_GRADIENT_IS_DARK) {
+                bottomGradient.classList.add('bottom-gradient--dark');
+            } else {
+                bottomGradient.classList.remove('bottom-gradient--dark');
+            }
+        })();
+    </script>
+    <script>
+        (function() {
+            const cta = document.querySelector('.hero-cta-btn');
+            if (!cta) return;
+            if (typeof HERO_CTA_TEXT === 'string' && HERO_CTA_TEXT.trim().length > 0) {
+                cta.textContent = HERO_CTA_TEXT;
+                cta.style.display = "";
+            } else {
+                cta.style.display = "none";
+            }
+        })();
+    </script>
     <a href="#main-content" class="scroll-indicator-link" style="display: none;">
         <div class="scroll-arrow">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -176,7 +225,7 @@
             </script>
 
 
-        <h2 class="section-title">The Art-Tech Creative Leader</h2>
+        <h2 class="section-title text-gradient">The Art-Tech Creative Leader</h2>
         <div class="section-intro">
             <p><strong>13 years</strong> of professional impact. <strong>6 years</strong> in Senior Leadership. I operate as a 'Playing Coach'—driving strategic visions (70%) while mastering high-end technical execution (30%).</p>
             <p style="margin-top: 1rem;">From my roots in fine arts to architecting UI/UX logic, I solve complex brand challenges with unshakable calmness and a focus on exceeding expectations. My expertise bridges the gap between pure aesthetics and technical feasibility.</p>
@@ -192,13 +241,12 @@
                 </div>
             </div>
 
-            <a href="portfolio.html" class="contact-item" style="margin-top: 2rem; display: inline-flex; text-decoration: none;">Discover My Journey & Detailed CV &rarr;</a>
         </div>
         </section>
 
         <!-- Recent Companies -->
         <div class="recent-companies fade-in" style="margin-bottom: 60px; margin-top: -42px;">
-            <h2 class="section-title" style="margin-bottom: 15px;">Key Milestones</h2>
+            <h2 class="section-title text-gradient" style="margin-bottom: 15px;">Key Milestones</h2>
             <p class="section-intro" style="margin-bottom: 30px;">
                 Proud to have contributed to the success of leading global brands and high-growth startups across Fintech, AdTech, and Creative Production sectors.
             </p>
@@ -226,39 +274,42 @@
             </div>
         </div>
 
-        <!-- Creative Case Study -->
-        <section class="section highlights-box-custom fade-in" id="highlights-video">
-            <div class="section-label">IMPACT</div>
-            <h2 class="section-title">Creative Case Study</h2>
-            <div class="highlights-list-custom masonry-grid">
-                <!-- Video 1 (9:16 Vertical) - Autoplay -->
-                <div class="masonry-item">
-                    <div class="media-wrapper ratio-9-16">
-                        <video class="media-content" autoplay loop muted playsinline>
-                            <source src="videos/5926528-hd_1080_1920_30fps.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+        <section class="section impact-case fade-in" id="highlights-video">
+            <h2 class="section-title text-gradient">Creative Case Study</h2>
+            <div class="impact-card">
+                <div class="impact-card-inner">
+                    <div class="impact-copy">
+                        <p class="impact-kicker">Multi-platform brand and performance campaigns</p>
+                        <h3 class="impact-heading">From visual concept to cross-market launch.</h3>
+                        <p class="impact-body">
+                            Leading art direction and UX across key launches for AI, fintech and creative production partners,
+                            aligning motion, interface and identity into one cohesive storytelling system.
+                        </p>
+                        <dl class="impact-metrics">
+                            <div class="impact-metric">
+                                <dt>Platforms</dt>
+                                <dd>Meta, TikTok, YouTube, Display</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Deliverables</dt>
+                                <dd>Video systems, playables, social kits, landing flows</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Role</dt>
+                                <dd>Art Direction, UX, Creative Leadership</dd>
+                            </div>
+                        </dl>
                     </div>
-                    <div class="item-caption">Campaign Video Showreel</div>
+                    <div class="impact-media">
+                        <div class="impact-media-frame ratio-9-16">
+                            <video class="media-content" autoplay loop muted playsinline>
+                                <source src="videos/vinh_webBG.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <p class="impact-media-caption">Selected campaign showreel</p>
+                    </div>
                 </div>
-
-                <!-- Image 1 (Portrait) -->
-                <div class="masonry-item">
-                    <img src="https://placehold.co/600x800/333/fff?text=Vertical+Image+1" alt="Design Showcase 1" class="media-content">
-                    <div class="item-caption">Brand Identity System</div>
-                </div>
-
-                <!-- Image 2 (Tall) - REMOVED -->
-
-
-                <!-- Video 2 (9:16 Vertical) - REMOVED -->
-
-
-                <!-- Image 3 (Medium Portrait) - REMOVED -->
-
-
-                <!-- Image 4 (Short Portrait) - REMOVED -->
-
             </div>
         </section>
 
@@ -284,7 +335,7 @@
         <!-- Career Highlights -->
         <section class="section highlights-box fade-in">
             <div class="section-label">Impact & Achievements</div>
-            <h2 class="section-title">Career Highlights</h2>
+            <h2 class="section-title text-gradient">Career Highlights</h2>
             <div class="highlights-list">
                 <div class="highlight-item">
                     <strong>End-to-End Creative Production</strong> — Led creative production for diverse global brands, overseeing Art, Design, Video, and UX teams
@@ -304,7 +355,7 @@
         <!-- Experience -->
         <section class="section fade-in" id="experience-section" style="display: none;">
             <div class="section-label">Professional Journey</div>
-            <h2 class="section-title">Experience</h2>
+            <h2 class="section-title text-gradient">Experience</h2>
             
             <div class="experience-item" id="filament">
                 <div class="exp-header">
@@ -425,6 +476,7 @@
         // Bubble Effect Setup
         const bubbles = [];
         const sloganBubbles = []; // Array for slogan bubbles
+        let sloganBubblesInitialized = false;
         const sloganInner = document.querySelector('.slogan-inner');
         
         const initBubbles = () => {
@@ -649,8 +701,7 @@
             });
         };
 
-        // Initialize bubbles
-        initBubbles();
+        // Bubbles will be initialized lazily on first scroll, not at initial video screen
 
         /* 
            ==========================================================================
@@ -665,10 +716,32 @@
             const heroHeight = hero.offsetHeight;
             const triggerPoint = heroHeight * 0.3; // 30% scroll to start showing header
 
+            if (hero) {
+                if (scrollY > 50) {
+                    hero.classList.add('hero--show-content');
+                    if (!sloganBubblesInitialized) {
+                        initBubbles();
+                        sloganBubblesInitialized = true;
+                    }
+                } else {
+                    hero.classList.remove('hero--show-content');
+                    if (sloganBubblesInitialized) {
+                        sloganBubbles.forEach(data => {
+                            if (data.wrapper && data.wrapper.parentNode) {
+                                data.wrapper.parentNode.removeChild(data.wrapper);
+                            }
+                        });
+                        sloganBubbles.length = 0;
+                        sloganBubblesInitialized = false;
+                    }
+                }
+            }
+
             // Parallax Effect for all screen sizes
             const slogan = document.querySelector('.hero-slogan');
             const nameWrapper = document.querySelector('.hero-name-wrapper');
-            const heroTitle = document.querySelector('.hero-title');
+            const heroTitle = document.querySelector('.hero-title-main');
+            const heroOverlayTitle = document.querySelector('.hero-overlay-title');
             const scrollIndicator = document.querySelector('.scroll-indicator-link');
             const bottomGradient = document.querySelector('.bottom-gradient-overlay');
             
@@ -693,6 +766,10 @@
                 }
                 if (slogan) {
                     slogan.style.removeProperty('transform');
+                }
+                if (heroOverlayTitle) {
+                    heroOverlayTitle.style.removeProperty('opacity');
+                    heroOverlayTitle.style.removeProperty('transform');
                 }
             } else {
                 // Universal Parallax Logic - works everywhere since hero is now always fixed
@@ -722,6 +799,10 @@
                 if (heroTitle) {
                     heroTitle.style.setProperty('opacity', opacity, 'important');
                     heroTitle.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
+                }
+                if (heroOverlayTitle) {
+                    heroOverlayTitle.style.setProperty('opacity', opacity, 'important');
+                    heroOverlayTitle.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
                 }
                 if (scrollIndicator) {
                     scrollIndicator.style.setProperty('opacity', indicatorOpacity, 'important');
