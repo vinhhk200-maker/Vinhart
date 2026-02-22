@@ -69,6 +69,11 @@ body {
     overflow-x: hidden;
 }
 
+body.page-home {
+    background-color: #000000;
+    color-scheme: dark;
+}
+
 p strong, li strong {
     font-weight: 500;
 }
