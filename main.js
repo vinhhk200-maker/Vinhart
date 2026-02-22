@@ -1,18 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const heroElement = document.querySelector('.hero');
-    if (heroElement && typeof CSS !== 'undefined' && CSS.supports) {
-        const supportsLargeVh = CSS.supports('height', '100lvh');
-        if (!supportsLargeVh) {
-            const setDynamicVh = () => {
-                const vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
-            };
-            setDynamicVh();
-            heroElement.classList.add('hero--dynamic-vh');
-            window.addEventListener('resize', setDynamicVh);
-            window.addEventListener('orientationchange', setDynamicVh);
-        }
-    }
     /*
     const stickyLabels = document.querySelectorAll('.section-label, .recent-companies-label');
     

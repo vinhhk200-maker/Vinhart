@@ -459,10 +459,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
    ========================================= */
 .hero {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
-    height: 100vh;
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -472,16 +470,6 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     padding-bottom: 0; /* Removed bottom padding to strictly center content vertically */
     transition: opacity 0.5s ease, transform 0.5s ease;
     will-change: opacity, transform;
-}
-
-@supports (height: 100lvh) {
-    .hero {
-        height: 100lvh;
-    }
-}
-
-.hero.hero--dynamic-vh {
-    height: calc(var(--vh, 1vh) * 100);
 }
 
 .hero-video-layer {
