@@ -474,6 +474,16 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     will-change: opacity, transform;
 }
 
+@supports (height: 100lvh) {
+    .hero {
+        height: 100lvh;
+    }
+}
+
+.hero.hero--dynamic-vh {
+    height: calc(var(--vh, 1vh) * 100);
+}
+
 .hero-video-layer {
     position: absolute;
     inset: 0;
