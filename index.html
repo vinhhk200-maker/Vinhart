@@ -20,12 +20,22 @@
     const SHOW_MEDIA_SECTION = true;
     const SHOW_IMAGE_INSTEAD = false;
     const AUTO_PLAY_VIDEO = true;
-    const BOTTOM_GRADIENT_IS_DARK = true; // true = đen, false = trắng (mặc định)
-    const SHOW_BOTTOM_GRADIENT = false;   // true = hiện, false = ẩn hẳn
-    const HERO_CTA_TEXT = ""; // Đổi nội dung nút CTA ở hero (để chuỗi rỗng "" để ẩn nút)
+    const BOTTOM_GRADIENT_IS_DARK = true;
+    const SHOW_BOTTOM_GRADIENT = false;
+    const HERO_CTA_TEXT = "";
     
     const MAIN_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder";
-    const MAIN_IMAGE_URL = "https://placehold.co/1200x675"; // Đường dẫn ảnh (Image URL) - 16:9 ratio recommended
+    const MAIN_IMAGE_URL = "https://placehold.co/1200x675";
+
+    const SHOW_HEADER_GRADIENT_BAR = true;
+    const SHOW_HEADER_MARQUEE = true;
+    const HEADER_MARQUEE_GRADIENT_TEXT = "Creativity connects";
+    const HEADER_MARQUEE_PLAIN_TEXT = "—where compelling narratives meet strategic goals.";
+    const HEADER_MARQUEE_SUFFIX_TEXT = "- By VINH, 2026";
+    const HEADER_MARQUEE_LINK_URL = "";
+    const HEADER_MARQUEE_LINK_LABEL = "";
+
+    const PAGE_BACKGROUND_COLOR = "#ffffff";
 
 </script>
 <html lang="vi" class="page-home">
@@ -114,8 +124,8 @@
     </a>
 
     <!-- Main Content (Slides over Hero) -->
-    <main class="container main-content" id="main-content">
-        
+    <main class="main-content" id="main-content">
+        <div class="container">
         <!-- Expertise Section -->
         <section class="section fade-in">
             <!-- 
@@ -435,6 +445,7 @@
         <div style="text-align: center; margin: 60px 0;">
             <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" style="text-decoration: none; color: var(--text-secondary); font-size: 14px;">↑ Back to Top</a>
         </div>
+        </div>
 
     </main>
 
@@ -449,6 +460,11 @@
         const menuOverlay = document.querySelector('.menu-overlay');
         const body = document.body;
         const heroOverlayLayout = document.querySelector('.hero-overlay-layout');
+        const heroVideoLayer = document.querySelector('.hero-video-layer');
+
+        if (typeof PAGE_BACKGROUND_COLOR === 'string' && PAGE_BACKGROUND_COLOR.trim().length > 0) {
+            document.body.style.backgroundColor = PAGE_BACKGROUND_COLOR;
+        }
         let parallaxEnabled = false;
 
         const updateParallaxState = () => {
@@ -602,10 +618,18 @@
                     heroOverlayLayout.style.removeProperty('opacity');
                     heroOverlayLayout.style.removeProperty('transform');
                 }
+                if (hero) {
+                    hero.style.removeProperty('opacity');
+                    hero.style.removeProperty('pointer-events');
+                }
+                if (heroVideoLayer) {
+                    heroVideoLayer.style.removeProperty('opacity');
+                    heroVideoLayer.style.removeProperty('pointer-events');
+                }
             } else {
                 // Universal Parallax Logic - works everywhere since hero is now always fixed
                 const isMobile = window.innerWidth <= 1024;
-                const effectDistance = isMobile ? 350 : 480;
+                const effectDistance = isMobile ? 900 : 1400;
                 let progress = (scrollY - 5) / effectDistance;
                 if (progress > 1) progress = 1;
 
@@ -613,7 +637,7 @@
                 const opacity = 1 - eased;
                 
                 // Adjust movement strength based on screen size
-                const moveMultiplier = isMobile ? 180 : 240;
+                const moveMultiplier = isMobile ? 666 : 922;
                 const fastTranslateY = eased * moveMultiplier;
 
                 // Calculate faster fade out for scroll indicator (+100% speed)
@@ -657,7 +681,34 @@
                 if (slogan) {
                     slogan.style.setProperty('transform', 'translateY(0)', 'important');
                 }
-                
+            }
+
+            // Global hero video visibility:
+            // 0 → 400px: giữ nguyên 100% opacity
+            // 400 → 500px: fade từ 1 → 0
+            // >= 500px: ẩn hoàn toàn
+            const fadeStart = 400;
+            const fadeEnd = 500;
+            let heroOpacity = 1;
+
+            if (scrollY <= fadeStart) {
+                heroOpacity = 1;
+            } else if (scrollY >= fadeEnd) {
+                heroOpacity = 0;
+            } else {
+                heroOpacity = 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart);
+            }
+
+            const shouldDisableHero = scrollY >= fadeEnd;
+
+            if (hero) {
+                hero.style.setProperty('opacity', String(heroOpacity), 'important');
+                hero.style.pointerEvents = shouldDisableHero ? 'none' : 'auto';
+            }
+
+            if (heroVideoLayer) {
+                heroVideoLayer.style.setProperty('opacity', String(heroOpacity), 'important');
+                heroVideoLayer.style.pointerEvents = shouldDisableHero ? 'none' : 'auto';
             }
 
             // Smart Header Logic

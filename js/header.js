@@ -30,22 +30,7 @@ const HeaderComponent = {
     <header class="header">
         <div class="header-gradient-bar"></div>
         <div class="marquee-track">
-            <div class="marquee-content">
-                <!-- Set 1 -->
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <!-- Set 2 (Duplicate for seamless loop) -->
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-                <span class="marquee-item"><strong class="text-gradient">Creativity</strong><span class="text-thin-black"> </span><strong class="text-gradient">connects</strong><span class="text-thin-black">—where compelling narratives meet </span><strong class="text-gradient">strategic goals</strong><span class="text-thin-black">. - By </span><strong class="text-gradient">VINH, 2026</strong></span>
-            </div>
+            <div class="marquee-content"></div>
         </div>
         <div class="header-container">
             <a href="index.html" class="header-logo">
@@ -93,8 +78,51 @@ const HeaderComponent = {
         document.body.insertAdjacentHTML('afterbegin', this.html);
 
         // Initialize Logic
+        this.initHeaderToggles();
         this.initMenu();
         this.initScroll();
+    },
+
+    initHeaderToggles: function() {
+        const gradientBar = document.querySelector('.header-gradient-bar');
+        const marqueeTrack = document.querySelector('.marquee-track');
+        const marqueeContent = document.querySelector('.marquee-content');
+
+        if (typeof SHOW_HEADER_GRADIENT_BAR !== 'undefined' && !SHOW_HEADER_GRADIENT_BAR) {
+            if (gradientBar) gradientBar.style.display = 'none';
+        }
+
+        if (!marqueeTrack || !marqueeContent) return;
+
+        if (typeof SHOW_HEADER_MARQUEE !== 'undefined' && !SHOW_HEADER_MARQUEE) {
+            marqueeTrack.style.display = 'none';
+            return;
+        }
+
+        const gradientText = typeof HEADER_MARQUEE_GRADIENT_TEXT === 'string' ? HEADER_MARQUEE_GRADIENT_TEXT : '';
+        const plainText = typeof HEADER_MARQUEE_PLAIN_TEXT === 'string' ? HEADER_MARQUEE_PLAIN_TEXT : '';
+        const suffixText = typeof HEADER_MARQUEE_SUFFIX_TEXT === 'string' ? HEADER_MARQUEE_SUFFIX_TEXT : '';
+        const linkUrl = typeof HEADER_MARQUEE_LINK_URL === 'string' ? HEADER_MARQUEE_LINK_URL : '';
+        const linkLabel = typeof HEADER_MARQUEE_LINK_LABEL === 'string' ? HEADER_MARQUEE_LINK_LABEL : '';
+
+        const hasLink = linkUrl.trim().length > 0 && linkLabel.trim().length > 0;
+
+        const baseHtml = `
+            <span class="marquee-item">
+                <strong class="text-gradient">${gradientText}</strong>
+                <span class="text-thin-black"> </span>
+                <span class="text-thin-black">${plainText}</span>
+                <span class="text-thin-black"> </span>
+                <span class="text-thin-black">${suffixText}</span>
+                ${hasLink ? `<span class="text-thin-black"> </span><a href="${linkUrl}" class="marquee-link" target="_blank" rel="noopener noreferrer">${linkLabel}</a>` : ''}
+            </span>
+        `;
+
+        const items = [];
+        for (let i = 0; i < 12; i++) {
+            items.push(baseHtml);
+        }
+        marqueeContent.innerHTML = items.join('');
     },
 
     initMenu: function() {
