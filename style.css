@@ -5,6 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
     /* Prevent font scaling in landscape mode on WebKit browsers (iOS Safari) */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -507,8 +508,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.05);
-    transform-origin: center center;
+    transform: none;
 }
 
 .hero-video-layer::after {
@@ -517,14 +517,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     left: 0;
     right: 0;
     bottom: 0;
-    height: 18vh;
+    height: 0;
     pointer-events: none;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.4) 45%,
-        rgba(0, 0, 0, 0.75) 100%
-    );
+    background: transparent;
 }
 
 .hero-logo-anim {
@@ -563,25 +558,147 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .hero-content {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
 }
 
 .hero--show-content .hero-video-layer {
-    opacity: 0;
-    pointer-events: none;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.hero--show-content {
+    background-color: transparent;
 }
 
 .hero--show-content .hero-content {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.hero--show-content .hero-name-wrapper,
+.hero--show-content .hero-title-main {
+    display: none;
+}
+
+.hero-overlay-layout {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 6vw, 80px) clamp(40px, 7vh, 96px);
+}
+
+.hero-overlay-left {
+    max-width: 480px;
+    text-align: left;
+}
+
+.hero-overlay-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 14px;
+}
+
+.hero-overlay-description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.84);
+    font-weight: 400;
+}
+
+.hero-overlay-accent {
+    color: #CCFF00;
+}
+
+.hero-overlay-right {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+}
+
+.hero-overlay-divider {
+    width: 1px;
+    height: auto;
+    align-self: stretch;
+    background-color: rgba(255, 255, 255, 0.28);
+}
+
+.hero-overlay-keywords {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    color: #CCFF00;
+    text-transform: uppercase;
+    align-items: flex-start;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .hero-overlay-layout {
+        align-items: flex-start;
+        justify-content: flex-end;
+        flex-direction: column;
+        padding: 0 24px clamp(32px, 8vh, 64px);
+        gap: 32px;
+    }
+
+    .hero-overlay-left {
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .hero-overlay-name {
+        font-size: 21px;
+    }
+
+    .hero-overlay-description {
+        max-width: 320px;
+    }
+
+    .hero-overlay-right {
+        align-items: stretch;
+    }
+
+    .hero-overlay-keywords {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-overlay-layout {
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-direction: row;
+        padding: 0 32px clamp(28px, 7vh, 56px);
+    }
+
+    .hero-overlay-left {
+        max-width: 360px;
+        text-align: left;
+    }
+
+    .hero-overlay-description {
+        max-width: 360px;
+    }
+
+    .hero-overlay-keywords {
+        font-size: 34px;
+        text-align: left;
+        align-items: flex-start;
+    }
 }
 
 .hero-name-wrapper {
@@ -692,6 +809,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     text-align: center; /* Ensure center alignment on all screens */
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
     /* text-transform: uppercase; Removed per user request */
 }
 
@@ -721,11 +839,75 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     animation-duration: 8.4s;
 }
 
+.hero-overlay-keywords .text-gradient:nth-of-type(1) {
+    animation-delay: 0s;
+    animation-duration: 7s;
+}
+
+.hero-overlay-keywords .text-gradient:nth-of-type(2) {
+    animation-delay: -1.5s;
+    animation-duration: 8.5s;
+}
+
+.hero-overlay-keywords .text-gradient:nth-of-type(3) {
+    animation-delay: -3.2s;
+    animation-duration: 6.8s;
+}
+
+.hero-overlay-keywords .text-gradient:nth-of-type(4) {
+    animation-delay: -0.9s;
+    animation-duration: 9s;
+}
+
+.hero-overlay-keywords .text-gradient {
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: #ffffff;
+    color: #ffffff;
+    animation: none;
+}
+
 .slogan-inner {
     opacity: 1; /* Changed from 0 to 1 */
     /* Removed animation: slideUp */
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 12px;
+}
+
+.slogan-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0);
+    transition: none;
+    will-change: transform, opacity;
+}
+
+.slogan-word.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slogan-dot {
+    display: inline-block;
+    opacity: 1;
+}
+
+.hero-slogan.is-support-visible .hero-description,
+.hero-slogan.is-support-visible .hero-cta-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero-slogan.is-scroll-driven .slogan-word,
+.hero-slogan.is-scroll-driven .hero-description,
+.hero-slogan.is-scroll-driven .hero-cta-btn {
+    transition: none;
 }
 
 .hero-description {
@@ -741,7 +923,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     position: relative;
     z-index: 2;
     opacity: 0;
-    animation: fadeIn 1s ease-out 0.8s forwards; /* Slight delay after slogan */
+    transform: translateY(20px);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
     letter-spacing: normal; /* Reset inherited tracking from parent */
 }
 
@@ -765,7 +948,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     border-radius: 980px; /* Apple's specific pill radius */
     background-color: #000000; /* User Request: Black background */
     color: #00D4AA; /* User Request: Bright Green (Teal) text */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* System font stack */
+    font-family: 'Inter', sans-serif;
     font-size: 17px; /* Standard Apple Body size */
     font-weight: 400; /* Regular weight like 'Learn more' */
     text-transform: none; /* Apple buttons are Sentence case, not Uppercase */
@@ -777,7 +960,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     
     /* Animation similar to description */
     opacity: 0;
-    animation: fadeIn 1s ease-out 1.2s forwards; /* Delayed after description */
+    transform: translateY(20px);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
     position: relative;
     z-index: 2;
 }
@@ -1120,7 +1304,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (orientation: portrait) {
     .clients-grid {
         gap: 15px;
     }
@@ -1229,112 +1413,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 /* =========================================
-   BUBBLE EFFECTS
+   BUBBLE EFFECTS (REMOVED)
    ========================================= */
-.bubble-particle {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Shake / Explode Animation */
-@keyframes explodeShake {
-    0% { transform: scale(1) translate(0, 0) rotate(0deg); }
-    10% { transform: scale(1.1) translate(-3px, -3px) rotate(-3deg); }
-    20% { transform: scale(1.2) translate(3px, 3px) rotate(3deg); }
-    30% { transform: scale(1.3) translate(-5px, 5px) rotate(-5deg); }
-    40% { transform: scale(1.4) translate(5px, -5px) rotate(5deg); }
-    50% { transform: scale(1.5) translate(-7px, 0px) rotate(-7deg); filter: brightness(1.2); }
-    60% { transform: scale(1.4) translate(5px, 5px) rotate(5deg); }
-    70% { transform: scale(1.3) translate(-5px, -5px) rotate(-5deg); }
-    80% { transform: scale(1.2) translate(3px, 3px) rotate(3deg); }
-    90% { transform: scale(1.1) translate(-2px, -2px) rotate(-3deg); }
-    100% { transform: scale(1) translate(0, 0) rotate(0deg); }
-}
-
-.about-to-explode {
-    animation: explodeShake 0.8s ease-in-out forwards !important; /* Override wiggle */
-    z-index: 100;
-}
-
-.slogan-bubble-wrapper {
-    position: absolute;
-    z-index: 0;
-    pointer-events: none;
-    will-change: transform;
-    /* Smooth transition for position changes */
-    transition: top 1.5s cubic-bezier(0.25, 1, 0.5, 1), left 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.slogan-bubble {
-    border-radius: 50%;
-    opacity: 0;
-    /* Removed floatWiggle from here to handle it via JS for independence */
-    animation-name: sloganBubbleEntrance;
-    animation-duration: 1.5s;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-    animation-delay: 2.1s;
-    animation-fill-mode: forwards;
-    
-    /* Interactive props */
-    pointer-events: auto;
-    cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy transition */
-
-    /* Apple Glass Effect - Enhanced */
-    backdrop-filter: blur(12px) saturate(180%) brightness(1.1); /* Increased blur & saturation for stronger distortion */
-    -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1);
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Stronger border */
-    box-shadow: 
-        0 8px 32px 0 rgba(31, 38, 135, 0.2),
-        inset 0 0 15px rgba(255, 255, 255, 0.3); /* Added inner glow for volume */
-}
-
-/* Pop Effect Class */
-.slogan-bubble.bubble-pop {
-    transform: scale(1.3) !important;
-    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 
-        0 15px 40px 0 rgba(31, 38, 135, 0.3),
-        inset 0 0 20px rgba(255, 255, 255, 0.5); /* Enhanced glow on pop */
-}
-
-/* New class for wiggle animation to be added via JS */
-.slogan-bubble.animate-wiggle {
-    animation-name: sloganBubbleEntrance, floatWiggle;
-    animation-iteration-count: 1, infinite;
-    animation-fill-mode: forwards, none;
-}
-
-@keyframes sloganBubbleEntrance {
-    from { opacity: 0; transform: scale(0); }
-    to { opacity: 0.7; transform: scale(1); }
-}
-
-@keyframes floatWiggle {
-    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    33% { transform: translate(var(--wx1, 10px), var(--wy1, -15px)) rotate(var(--wr1, 5deg)) scale(1.05); }
-    66% { transform: translate(var(--wx2, -5px), var(--wy2, 10px)) rotate(var(--wr2, -3deg)) scale(0.95); }
-    100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-}
-
-/* Bubble Toggle Button (Hidden) */
-.bubble-toggle-btn {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background: transparent;
-    border: none;
-    cursor: default;
-    z-index: 9999;
-    outline: none;
-}
-.bubble-toggle-btn:active { background: rgba(0,0,0,0.05); }
 
 /* =========================================
    RESPONSIVE
@@ -1623,116 +1703,13 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
 }
 
-/* =========================================
-   INTERACTION MESSAGE BUBBLE
-   ========================================= */
-.interaction-message-bubble {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #ffffff;
-    color: #0CB8FF; /* Blue text */
-    padding: 16px 24px;
-    border-radius: 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: var(--text-body); /* Use body text size */
-    font-weight: 500; /* Slightly bolder for colored text */
-    line-height: 1.5;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Softer shadow for white bg */
-    z-index: 9999;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-    max-width: 85%; /* Reduced max-width for more bubble-like feel */
-    width: max-content;
-    pointer-events: none;
-}
-
-.interaction-message-bubble.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* Chat bubble tail */
-.interaction-message-bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0; 
-    height: 0; 
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid #ffffff; /* Matches white background */
-}
-
 @media screen and (orientation: landscape) and (max-height: 600px) {
-    :root {
-        /* Desktop-like proportions but scaled down */
-        --base-size: 14px; /* Smaller body text */
-        --text-body: 14px;
-        --h1: 32px; /* Much smaller headers */
-        --h2: 33px; /* Matched to Slogan size (was 24px) */
-        --h3: 20px;
-        --gutter: 40px; /* More breathing room on sides like desktop */
-        --space-xl: 30px;
-        --space-md: 16px;
-    }
-
     .hero {
         padding: 10px var(--gutter);
         justify-content: center;
-        min-height: 150vh; /* Increased by 50% from 100vh */
+        min-height: 100vh;
     }
 
-    .hero-name-wrapper { margin-bottom: 4px; }
-    /* .hero-name override removed for fixed scale */
-    /* .hero-title override removed for fixed scale */
-    
-    /* Slogan increased ~50% (22px -> 33px) */
-    .hero-slogan { 
-        font-size: var(--h2); /* Unified with H2 */
-        max-width: 95% !important; /* Increased width */
-        width: 100%;
-        margin-bottom: 0px !important; /* Tightened spacing */
-        line-height: 1.2;
-    }
-
-    /* Standardize Body Text to match Span (14px) */
-    .section-intro,
-    .company-role,
-    .company-type,
-    .skill-tag,
-    .highlight-item,
-    .exp-description,
-    .responsibility,
-    .skill-list,
-    .slogan-new-text, /* Explicitly include slogan new text */
-    p, 
-    span:not(.text-gradient) {
-        font-size: var(--text-body) !important;
-        line-height: 1.5;
-        max-width: 95% !important; /* Matched to Slogan width for alignment */
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /* Restore Slogan Sizes */
-    .hero-slogan span, .hero-slogan strong {
-        font-size: inherit !important;
-        line-height: inherit !important;
-    }
-
-    /* Exceptions for very small text if needed, but user asked to standardize */
-    .section-label, .recent-companies-label {
-        font-size: 11px !important; /* Keep labels smaller as per design */
-    }
-
-    /* Layout adjustments - Desktop feel */
     .main-content {
         padding-top: 80px;
         padding-bottom: 40px;
@@ -1740,14 +1717,13 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     
     .section { margin-bottom: 50px; }
     
-    /* Dense Grids (Desktop-like) */
     .companies-carousel {
-        grid-template-columns: repeat(4, 1fr); /* Match 4 items exactly to fill width */
+        grid-template-columns: repeat(4, 1fr);
         gap: 12px;
     }
     
     .skills-grid {
-        grid-template-columns: repeat(2, 1fr); /* Match 2 items exactly to fill width */
+        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
     }
     
@@ -1756,28 +1732,25 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         column-gap: 16px;
     }
 
-    /* Smaller section labels */
-    .section-label, .recent-companies-label {
+    .section-label,
+    .recent-companies-label {
         font-size: 11px;
         padding: 3px 10px;
-        /* top: 60px; REMOVED to fix layout drop (since position is relative now) */
     }
 
-    /* Clients Grid Optimization */
     .clients-grid {
-        grid-template-columns: repeat(6, 1fr); /* 6 cols for 12 items = 2 neat rows */
+        grid-template-columns: repeat(6, 1fr);
         gap: 15px;
         padding: 10px 0;
     }
 
     .client-logo-img {
-        height: 50px; /* Significantly reduced from 130px */
+        height: 50px;
         width: auto;
         max-width: 100%;
         margin: 0 auto;
     }
     
-    /* Menu adjustments */
     .menu-link { font-size: 1.4rem; }
     .menu-item { margin-bottom: 4px; }
     .menu-close-btn { top: 10px; right: 20px; font-size: 24px; }
@@ -1928,12 +1901,15 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     
     /* Increase spacing between Slogan Div and Description P by 30% + 30% = ~1.7 */
     .hero-slogan {
-        margin-bottom: 8px !important; /* Reduced from calc to explicit 8px */
-        /* DECOUPLED: Set explicit font-size for Slogan Div to ensure independence from H1 */
-        font-size: 3.33rem !important; /* Optimized: Reduced by 5% (from 3.5rem) per user request */
-        width: 100% !important; /* Maximize width usage */
-        max-width: 100% !important; /* UNIFIED MAX WIDTH: 100% */
-        line-height: 1.2 !important; /* Tighter line height for multi-line slogan */
+        margin-bottom: 8px !important;
+        font-size: 4.33rem !important; /* Increased ~30% from 3.33rem for mobile portrait */
+        width: 100% !important;
+        max-width: 100% !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-overlay-keywords {
+        font-size: 34px; /* Increased ~30% from 26px mobile base */
     }
 
     /* Mobile CTA: Apple Standard (Consistent 17px/Standard Padding) */
@@ -1961,93 +1937,6 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     .header-title span {
         overflow: visible !important;
         text-overflow: clip !important;
-    }
-}
-
-/* 2. Mobile Landscape (Dedicated Independent Layout - Nuclear Option) */
-/* Expanded to cover all devices in landscape mode (short height) regardless of width */
-@media (max-height: 600px) {
-    /* 1. Container: Absolute Zero Gap Strategy */
-    .hero { 
-        height: auto !important;
-        min-height: 100vh !important;
-        justify-content: center !important;
-        padding-top: 10px !important; /* Minimized safe area */
-        padding-bottom: 10px !important;
-        gap: 0px !important; /* Force zero gap between flex items */
-    } 
-    
-    /* 2. Header Elements: Compact Vertical Rhythm */
-    .hero-name-wrapper {
-        margin-bottom: 2px !important; /* Minimal separation */
-        width: 100% !important;
-        justify-content: center !important;
-    }
-    
-    /* .hero-title override removed to allow fluid scaling */
-    
-    /* 3. Wrapper Reset (Crucial fix: Control the Flex Container) */
-    .hero-slogan {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 0px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100% !important;
-    }
-
-    /* 4. Slogan Text (Inner): Aggressive Tightening */
-    .slogan-inner {
-        font-size: 2.76rem !important; /* Reduced by 5% (from 2.91rem) per user request */ 
-        line-height: 1.0 !important; /* Ultra-tight to remove glyph whitespace */
-        margin-bottom: 0px !important; 
-        padding-bottom: 0px !important;
-        display: block !important;
-        width: 100% !important; /* Force full width to match parent */
-    }
-
-    /* Target specific strong tag to increase size by 10% */
-    .slogan-inner strong {
-        font-size: 110% !important;
-        display: inline-block !important; /* Ensure padding works */
-        padding-top: 5px !important; /* User Request: Increase padding top */
-    }
-
-    /* 5. Description: Tightened & Pulled Up (Targeting the actual element) */
-    .hero-description {
-        font-size: var(--text-body) !important; /* Unified with body text per user rule */
-        color: #000000 !important;
-        margin-top: 2px !important; /* Explicit 2px gap (Very tight) */
-        padding-top: 10px !important; /* User Request: Reduced to 10px */
-        padding-bottom: 5px !important; /* User Request: Added 5px bottom padding */
-        padding-left: 0px !important; /* Remove horizontal padding to match div width */
-        padding-right: 0px !important;
-        line-height: 1.25 !important; /* Compact body leading */
-        max-width: 100% !important; /* Unified Max-Width (100% of parent) */
-        width: 100% !important;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /* 6. CTA: Compact & Proportional */
-    .hero-cta-btn {
-        font-size: 15px !important; /* Slightly smaller for balance */
-        padding: 6px 16px !important; /* Compact touch target */
-        margin-top: 8px !important; /* Tight spacing to description */
-    }
-    
-    /* FIX: Force full text display for Header Title in Mobile Landscape */
-    /* Width >= 568px (iPhone 5/SE Landscape) to 932px (iPhone 14 Pro Max Landscape) */
-    .header-title {
-        flex-shrink: 0 !important; /* Prevent shrinking */
-        overflow: visible !important; /* Show all text */
-        max-width: none !important; /* Remove constraints */
-    }
-    
-    .header-title span {
-        overflow: visible !important;
-        text-overflow: clip !important; /* Remove ellipsis */
     }
 }
 

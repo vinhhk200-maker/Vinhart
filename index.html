@@ -27,10 +27,6 @@
     const MAIN_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder";
     const MAIN_IMAGE_URL = "https://placehold.co/1200x675"; // Đường dẫn ảnh (Image URL) - 16:9 ratio recommended
 
-    // CẤU HÌNH BONG BÓNG TƯƠNG TÁC (INTERACTION BUBBLE CONFIGURATION)
-    // Nội dung tin nhắn hiển thị khi click vào bong bóng lần thứ 4
-    // Message content shown when clicking bubbles for the 4th time
-    const INTERACTION_MESSAGE_TEXT = "I hope the upcoming content intrigues you more. Let's keep exploring!";
 </script>
 <html lang="vi" class="page-home">
 <head>
@@ -58,28 +54,23 @@
             <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata">
                 <source src="videos/vinh_webBG.mp4" type="video/mp4">
             </video>
-            <div class="hero-logo-anim">
-                <div class="hero-overlay-title">
-                    <div class="hero-name hero-name--overlay">VINH.HK</div>
-                    <div class="hero-title hero-title--overlay">
-                        <span>Art Director</span>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="hero-content">
-            <div class="hero-name-wrapper">
-                <h1 class="hero-name">VINH.HK</h1>
+        <div class="hero-overlay-layout">
+            <div class="hero-overlay-left">
+                <div class="hero-overlay-name">VINH.HK</div>
+                <p class="hero-overlay-description">
+                    I architect <span class="hero-overlay-accent">premium brands</span> where
+                    fine arts meets high-tech logic.
+                </p>
             </div>
-            <h2 class="hero-title hero-title-main">
-                <span>Art Director</span>
-            </h2>
-            <div class="hero-slogan">
-                <div class="slogan-inner">
-                    <strong><span class="text-gradient">Visual</span>. <span class="text-gradient">Interface</span>. <span class="text-gradient">Motion</span>. <span class="text-gradient">Identity</span></strong>
+            <div class="hero-overlay-right">
+                <div class="hero-overlay-divider"></div>
+                <div class="hero-overlay-keywords">
+                    <span class="text-gradient">VISUAL</span>
+                    <span class="text-gradient">INTERFACE</span>
+                    <span class="text-gradient">MOTION</span>
+                    <span class="text-gradient">IDENTITY</span>
                 </div>
-                <p class="hero-description">I architect premium brands where fine arts meets high-tech logic.</p>
-                <a href="#media-wrapper" class="hero-cta-btn" onclick="smoothScrollToVideo(event)">Find me more</a>
             </div>
         </div>
     </section>
@@ -447,17 +438,8 @@
 
     </main>
 
-    <!-- Hidden Toggle Button for Bubbles -->
-    <button class="bubble-toggle-btn" id="bubbleToggleBtn" aria-label="Toggle Bubble Effect"></button>
-
     <script src="main.js"></script>
     <script>
-        // Global Config
-        const SITE_CONFIG = {
-            ENABLE_BUBBLES_BY_DEFAULT: true
-        };
-        let isBubblesEnabled = SITE_CONFIG.ENABLE_BUBBLES_BY_DEFAULT;
-
         // DOM Elements
         const hero = document.querySelector('.hero');
         const header = document.querySelector('.header');
@@ -466,6 +448,7 @@
         const menuCloseBtn = document.querySelector('.menu-close-btn');
         const menuOverlay = document.querySelector('.menu-overlay');
         const body = document.body;
+        const heroOverlayLayout = document.querySelector('.hero-overlay-layout');
         let parallaxEnabled = false;
 
         const updateParallaxState = () => {
@@ -478,236 +461,6 @@
 
         updateParallaxState();
 
-        // Bubble Effect Setup
-        const bubbles = [];
-        const sloganBubbles = []; // Array for slogan bubbles
-        let sloganBubblesInitialized = false;
-        const sloganInner = document.querySelector('.slogan-inner');
-        
-        const initBubbles = () => {
-            if (!sloganInner) return;
-            // Respect Global Config if called initially
-            if (!isBubblesEnabled && bubbles.length === 0) return;
-            
-            // Colorful Bubble Gradients (with opacity)
-            // Format: [color1, color2] for radial gradient
-            // Modified for Apple Glass Effect: Increased opacity to 0.525 (+50% from 0.35)
-            const bubbleGradients = [
-                // Yellow-ish
-                ['rgba(255, 212, 6, 0.53)', 'rgba(255, 212, 6, 0)'],
-                // Blue-ish
-                ['rgba(12, 184, 255, 0.53)', 'rgba(12, 184, 255, 0)'],
-                // Teal-ish (Green)
-                ['rgba(41, 224, 178, 0.53)', 'rgba(41, 224, 178, 0)']
-            ];
-
-            // Disable background bubbles as requested
-            /*
-            for (let i = 0; i < 20; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble-particle');
-                
-                // Random 3 distinct sizes (approx 3x larger than original leaves)
-                // Small: 30px, Medium: 45px, Large: 60px
-                const sizes = [30, 45, 60];
-                const size = sizes[Math.floor(Math.random() * sizes.length)];
-                
-                const gradientPair = bubbleGradients[Math.floor(Math.random() * bubbleGradients.length)];
-                
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                // Radial gradient for bubble look
-                bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), ${gradientPair[0]} 60%, ${gradientPair[1]} 80%)`;
-                
-                // Position logic: Bias towards the center horizontally to align better with text
-                bubble.style.left = `${10 + Math.random() * 80}%`;
-                bubble.style.top = `${10 + Math.random() * 80}%`;
-                
-                // Random movement factors - Explode in all directions
-                const data = {
-                    element: bubble,
-                    speedX: (Math.random() - 0.5) * 8, 
-                    speedY: (Math.random() - 0.5) * 6, // Balanced vertical movement (was biased -0.6)
-                    rotation: (Math.random() - 0.5) * 25,
-                    delay: Math.random() * 2000
-                };
-                
-                bubbles.push(data);
-                sloganInner.appendChild(bubble);
-                
-                // Initialize state: hidden and small
-                bubble.style.opacity = '0';
-                bubble.style.transform = 'scale(0)';
-            }
-            */
-
-            // Initialize Slogan Bubbles (Fixed positions)
-            initSloganBubbles(bubbleGradients);
-        };
-
-        const initSloganBubbles = (gradients) => {
-            // Configuration: EXACTLY 4 SIZES
-            // 1. XL (Giant): 200px - Priority: Edges
-            // 2. L  (Large): 120px - Priority: Edges
-            // 3. M  (Medium): 60px - Priority: Distributed
-            // 4. S  (Small): 30px - Priority: Distributed
-            const bubbleSpecs = [
-                // XL (Giant) - 200px (1 bubble)
-                { size: 200, speedY: 0.45, priorityEdge: true },
-
-                // L (Large) - 120px (2 bubbles)
-                { size: 120, speedY: 0.25, priorityEdge: true },
-                { size: 120, speedY: 0.22, priorityEdge: true },
-
-                // M (Medium) - 60px (2 bubbles)
-                { size: 60, speedY: 0.12 },
-                { size: 60, speedY: 0.10 },
-
-                // S (Small) - 30px (3 bubbles)
-                { size: 30, speedY: 0.05 },
-                { size: 30, speedY: 0.04 },
-                { size: 30, speedY: 0.03 }
-            ];
-
-            const totalSequenceDuration = 2.5; // Total time for entrance sequence
-            const placedBubbles = []; // Store {x, y, radius} for collision detection
-
-            // Helper to get viewport size safely
-            const vw = window.innerWidth || document.documentElement.clientWidth;
-            const vh = window.innerHeight || document.documentElement.clientHeight;
-
-            bubbleSpecs.forEach((spec, index) => {
-                const wrapper = document.createElement('div');
-                wrapper.classList.add('slogan-bubble-wrapper');
-
-                const bubble = document.createElement('div');
-                bubble.classList.add('slogan-bubble');
-                bubble.classList.add('animate-wiggle'); // Add wiggle class
-
-                const gradientPair = gradients[Math.floor(Math.random() * gradients.length)];
-
-                bubble.style.width = `${spec.size}px`;
-                bubble.style.height = `${spec.size}px`;
-                bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), ${gradientPair[0]} 60%, ${gradientPair[1]} 80%)`;
-
-                // Independent Wiggle: Randomize duration, delay, and path
-                const wiggleDuration = 5 + Math.random() * 5; 
-                
-                // Calculate staggered entrance delay
-                const entranceDelay = (index / (bubbleSpecs.length - 1)) * totalSequenceDuration;
-                
-                // Wiggle delay
-                const wiggleDelay = entranceDelay + Math.random() * 2;
-                
-                // Randomize wiggle path
-                const r = () => (Math.random() - 0.5) * 40; 
-                const rot = () => (Math.random() - 0.5) * 20; 
-
-                bubble.style.setProperty('--wx1', `${r()}px`);
-                bubble.style.setProperty('--wy1', `${r()}px`);
-                bubble.style.setProperty('--wr1', `${rot()}deg`);
-                bubble.style.setProperty('--wx2', `${r()}px`);
-                bubble.style.setProperty('--wy2', `${r()}px`);
-                bubble.style.setProperty('--wr2', `${rot()}deg`);
-
-                bubble.style.animationDuration = `1.5s, ${wiggleDuration}s`;
-                bubble.style.animationDelay = `${entranceDelay}s, ${wiggleDelay}s`;
-
-                // --- RANDOM POSITION WITH OVERLAP PROTECTION & EDGE PRIORITY ---
-                let leftPercent, topPercent;
-                let attempts = 0;
-                const maxAttempts = 150; 
-                const safeMargin = 15; // Increased margin for better spacing
-                const radius = spec.size / 2;
-                
-                // Define safe bounds
-                const minX = 2; 
-                const maxX = 93; 
-                const minY = 5; 
-                const maxY = 85; 
-
-                while (attempts < maxAttempts) {
-                    // Generate Random Position
-                    leftPercent = minX + Math.random() * (maxX - minX);
-                    topPercent = minY + Math.random() * (maxY - minY);
-
-                    // Edge Priority Logic:
-                    // If priorityEdge is true, we REJECT positions that overlap with the Center Slogan Zone
-                    if (spec.priorityEdge) {
-                        const bubbleW = (spec.size / vw) * 100;
-                        const bubbleH = (spec.size / vh) * 100;
-                        
-                        // Define Restricted Center Zone (Slogan Area)
-                        // Approximately 20% to 80% Horizontal, 30% to 70% Vertical
-                        const dangerX1 = 15; 
-                        const dangerX2 = 85;
-                        const dangerY1 = 30; 
-                        const dangerY2 = 70;
-                        
-                        // Bubble box
-                        const bX1 = leftPercent;
-                        const bX2 = leftPercent + bubbleW;
-                        const bY1 = topPercent;
-                        const bY2 = topPercent + bubbleH;
-                        
-                        // Check if Bubble is strictly OUTSIDE the danger zone
-                        // It must be completely Left OR Right OR Above OR Below the danger box
-                        const isOutside = (bX2 < dangerX1) || (bX1 > dangerX2) || (bY2 < dangerY1) || (bY1 > dangerY2);
-                        
-                        if (!isOutside && attempts < 120) {
-                            attempts++;
-                            continue; 
-                        }
-                    }
-
-                    // Convert to pixels for distance check
-                    const x = (leftPercent / 100) * vw;
-                    const y = (topPercent / 100) * vh;
-
-                    // Overlap Check
-                    let overlap = false;
-                    for (const pb of placedBubbles) {
-                        const dx = x - pb.x;
-                        const dy = y - pb.y;
-                        const distance = Math.sqrt(dx*dx + dy*dy);
-                        // Check if distance is less than sum of radii + margin
-                        if (distance < (radius + pb.radius + safeMargin)) {
-                            overlap = true;
-                            break;
-                        }
-                    }
-
-                    if (!overlap) {
-                        placedBubbles.push({ x, y, radius });
-                        break;
-                    }
-                    attempts++;
-                }
-
-                // Fallback: If no spot found, use the last generated random position
-                if (attempts === maxAttempts) {
-                    const x = (leftPercent / 100) * vw;
-                    const y = (topPercent / 100) * vh;
-                    placedBubbles.push({ x, y, radius });
-                }
-
-                wrapper.style.left = `${leftPercent}%`;
-                wrapper.style.top = `${topPercent}%`;
-
-                wrapper.appendChild(bubble);
-                hero.appendChild(wrapper);
-
-                sloganBubbles.push({
-                    wrapper: wrapper,
-                    bubble: bubble,
-                    speedY: spec.speedY,
-                    baseTop: topPercent // Use dynamic top for parallax base
-                });
-            });
-        };
-
-        // Bubbles will be initialized lazily on first scroll, not at initial video screen
-
         /* 
            ==========================================================================
            FINAL PARALLAX LOGIC - DO NOT MODIFY
@@ -716,42 +469,115 @@
            ==========================================================================
         */
         let lastScrollTop = 0;
+        const sloganSection = document.querySelector('.hero-slogan');
+        const sloganWords = Array.from(document.querySelectorAll('.slogan-word'));
+        const sloganSupport = document.querySelector('.hero-description');
+        const sloganCta = document.querySelector('.hero-cta-btn');
+        let sloganSequenceStart = null;
+        let sloganSequenceEnabled = false;
+        let sloganLockActive = false;
+        const wordInterval = 80;
+        const supportOffset = wordInterval * sloganWords.length;
+        const bufferDistance = 200;
+        const getWordTravel = () => Math.min(window.innerHeight * 0.4, 260);
+        const smoothStep = (t) => {
+            const x = Math.max(0, Math.min(1, t));
+            return x * x * (3 - 2 * x);
+        };
+
+        const resetSloganSequence = () => {
+            sloganSequenceStart = null;
+            sloganLockActive = false;
+            const travel = getWordTravel();
+            sloganWords.forEach(word => {
+                word.style.opacity = '0';
+                word.style.transform = `translate3d(0, ${travel}px, 0)`;
+            });
+            if (sloganSection) {
+                sloganSection.classList.remove('is-support-visible');
+            }
+            if (sloganSupport) {
+                sloganSupport.style.opacity = '0';
+                sloganSupport.style.transform = 'translate3d(0, 20px, 0)';
+            }
+            if (sloganCta) {
+                sloganCta.style.opacity = '0';
+                sloganCta.style.transform = 'translate3d(0, 20px, 0)';
+            }
+        };
+
+        const updateSloganSequence = (scrollY) => {
+            if (!sloganSection || sloganWords.length === 0 || !sloganSequenceEnabled) return false;
+            if (sloganSequenceStart === null) {
+                sloganSequenceStart = scrollY;
+            }
+            const delta = scrollY - sloganSequenceStart;
+            if (delta < 0) {
+                resetSloganSequence();
+                return false;
+            }
+            const travel = getWordTravel();
+            sloganWords.forEach((word, index) => {
+                const start = index * wordInterval;
+                const segment = wordInterval * 2;
+                const raw = (delta - start) / segment;
+                const eased = smoothStep(raw);
+                const translate = (1 - eased) * travel;
+                word.style.opacity = String(eased);
+                word.style.transform = `translate3d(0, ${translate}px, 0)`;
+            });
+            const supportSegment = wordInterval * 2;
+            const supportRaw = (delta - supportOffset) / supportSegment;
+            const supportProgress = smoothStep(supportRaw);
+            const supportTranslate = (1 - supportProgress) * 20;
+            if (sloganSupport) {
+                sloganSupport.style.opacity = String(supportProgress);
+                sloganSupport.style.transform = `translate3d(0, ${supportTranslate}px, 0)`;
+            }
+            if (sloganCta) {
+                sloganCta.style.opacity = String(supportProgress);
+                sloganCta.style.transform = `translate3d(0, ${supportTranslate}px, 0)`;
+            }
+            const lockEnd = supportOffset + bufferDistance;
+            sloganLockActive = delta <= lockEnd;
+            return sloganLockActive;
+        };
+
+        if (sloganSection) {
+            sloganSection.classList.add('is-scroll-driven');
+            if (!('IntersectionObserver' in window)) {
+                sloganSequenceEnabled = true;
+            } else {
+                const sloganObserver = new IntersectionObserver((entries) => {
+                    const entry = entries[0];
+                    if (!entry) return;
+                    sloganSequenceEnabled = entry.isIntersecting;
+                }, { threshold: 0.6 });
+                sloganObserver.observe(sloganSection);
+            }
+        }
+
         const handleScroll = () => {
             const scrollY = window.scrollY;
             const heroHeight = hero.offsetHeight;
             const triggerPoint = heroHeight * 0.3; // 30% scroll to start showing header
 
-            if (hero) {
-                if (scrollY > 50) {
-                    hero.classList.add('hero--show-content');
-                    if (!sloganBubblesInitialized) {
-                        initBubbles();
-                        sloganBubblesInitialized = true;
-                    }
-                } else {
-                    hero.classList.remove('hero--show-content');
-                    if (sloganBubblesInitialized) {
-                        sloganBubbles.forEach(data => {
-                            if (data.wrapper && data.wrapper.parentNode) {
-                                data.wrapper.parentNode.removeChild(data.wrapper);
-                            }
-                        });
-                        sloganBubbles.length = 0;
-                        sloganBubblesInitialized = false;
-                    }
-                }
+            if (hero && scrollY > 50) {
+                hero.classList.add('hero--show-content');
+            } else if (hero) {
+                hero.classList.remove('hero--show-content');
             }
 
             // Parallax Effect for all screen sizes
             const slogan = document.querySelector('.hero-slogan');
             const nameWrapper = document.querySelector('.hero-name-wrapper');
             const heroTitle = document.querySelector('.hero-title-main');
-            const heroOverlayTitle = document.querySelector('.hero-overlay-title');
             const scrollIndicator = document.querySelector('.scroll-indicator-link');
             const bottomGradient = document.querySelector('.bottom-gradient-overlay');
             
             // Reset styles if at the very top to let CSS animations show clearly
             if (scrollY < 5) {
+                resetSloganSequence();
                 if (nameWrapper) {
                     nameWrapper.style.removeProperty('opacity');
                     nameWrapper.style.removeProperty('transform');
@@ -772,9 +598,9 @@
                 if (slogan) {
                     slogan.style.removeProperty('transform');
                 }
-                if (heroOverlayTitle) {
-                    heroOverlayTitle.style.removeProperty('opacity');
-                    heroOverlayTitle.style.removeProperty('transform');
+                if (heroOverlayLayout) {
+                    heroOverlayLayout.style.removeProperty('opacity');
+                    heroOverlayLayout.style.removeProperty('transform');
                 }
             } else {
                 // Universal Parallax Logic - works everywhere since hero is now always fixed
@@ -805,9 +631,10 @@
                     heroTitle.style.setProperty('opacity', opacity, 'important');
                     heroTitle.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
                 }
-                if (heroOverlayTitle) {
-                    heroOverlayTitle.style.setProperty('opacity', opacity, 'important');
-                    heroOverlayTitle.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
+                if (heroOverlayLayout) {
+                    const overlayTranslate = eased * (moveMultiplier * 0.6);
+                    heroOverlayLayout.style.setProperty('opacity', opacity, 'important');
+                    heroOverlayLayout.style.setProperty('transform', `translateY(-${overlayTranslate}px)`, 'important');
                 }
                 if (scrollIndicator) {
                     scrollIndicator.style.setProperty('opacity', indicatorOpacity, 'important');
@@ -826,71 +653,39 @@
                     bottomGradient.classList.add('fade-out');
                 }
                 
-                // Continuous Parallax for Slogan
-                // Move slowly and continuously without fading out or stopping early
-                const parallaxSpeed = isMobile ? 0.45 : 0.30; // 45% speed on mobile, 30% on desktop
-                const sloganTranslateY = scrollY * parallaxSpeed;
+                const lockActive = updateSloganSequence(scrollY);
                 if (slogan) {
-                    slogan.style.setProperty('transform', `translateY(-${sloganTranslateY}px)`, 'important');
+                    slogan.style.setProperty('transform', 'translateY(0)', 'important');
                 }
                 
             }
-
-            // Bubble Particles Parallax (Always run)
-            // Background bubbles disabled - skipping loop
-            /*
-            bubbles.forEach(data => {
-                const isMobile = window.innerWidth <= 1024;
-                
-                // Growth phase: 0 to 150px scroll
-                const growthRange = 150;
-                let growthProgress = scrollY / growthRange;
-                if (growthProgress > 1) growthProgress = 1;
-                
-                // Scale: 0 -> 1 based on scroll
-                // Opacity: 0 -> 0.8 based on scroll
-                const scale = growthProgress;
-                const opacity = growthProgress * 0.8;
-                
-                // Movement phase: starts immediately but scales with scroll
-                const moveFactor = isMobile ? 0.5 : 1;
-                
-                // Apply easing to movement so they start slow and accelerate
-                // We use scrollY directly but only effectively visible after growth starts
-                const x = scrollY * data.speedX * moveFactor;
-                const y = scrollY * data.speedY * moveFactor;
-                const r = scrollY * data.rotation * 0.1;
-                
-                data.element.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${r}deg) scale(${scale})`;
-                data.element.style.opacity = opacity;
-            });
-            */
-
-            // Slogan Bubbles Parallax (New Effect)
-            sloganBubbles.forEach(data => {
-                // Move based on scroll to create depth relative to fixed hero
-                // Increased speed multiplier from -3.0 to -5.0 for very clear parallax
-                const y = scrollY * data.speedY * -5.0; 
-                data.wrapper.style.transform = `translate3d(0, ${y}px, 0)`;
-            });
 
             // Smart Header Logic
             // Logic handled by js/header.js HeaderComponent
             lastScrollTop = scrollY <= 0 ? 0 : scrollY;
 
             // Main Content Background Logic (Independent of Header)
-            if (scrollY > triggerPoint) {
+            if (sloganLockActive) {
+                mainContent.classList.remove('visible');
+            } else if (scrollY > triggerPoint) {
+                mainContent.classList.add('visible');
+            } else if (scrollY > 100) {
                 mainContent.classList.add('visible');
             } else {
-                if (scrollY > 100) {
-                     mainContent.classList.add('visible');
-                } else {
-                     mainContent.classList.remove('visible');
-                }
+                mainContent.classList.remove('visible');
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
+        let scrollTicking = false;
+        const onScroll = () => {
+            if (scrollTicking) return;
+            scrollTicking = true;
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                scrollTicking = false;
+            });
+        };
+        window.addEventListener('scroll', onScroll);
         // Initialize state on load
         handleScroll();
 
@@ -1001,72 +796,6 @@
                 introGreeting.classList.add('finished');
             });
         }
-
-        // Toggle Bubble Effect Logic (Long Press 3s)
-        const bubbleToggleBtn = document.getElementById('bubbleToggleBtn');
-        let bubblePressTimer;
-        // isBubblesEnabled is now defined at the top
-
-        if (bubbleToggleBtn) {
-            const toggleBubbles = () => {
-                isBubblesEnabled = !isBubblesEnabled;
-                console.log('Bubble effect toggled:', isBubblesEnabled);
-                
-                if (isBubblesEnabled) {
-                    // Turn On
-                    if (bubbles.length === 0) {
-                        initBubbles();
-                        // Trigger a scroll update to set positions
-                        handleScroll();
-                    }
-                } else {
-                    // Turn Off
-                    bubbles.forEach(b => {
-                        if (b.element && b.element.parentNode) {
-                            b.element.parentNode.removeChild(b.element);
-                        }
-                    });
-                    bubbles.length = 0; // Clear array
-
-                    // Clear Slogan Bubbles
-                    sloganBubbles.forEach(b => {
-                        if (b.wrapper && b.wrapper.parentNode) {
-                            b.wrapper.parentNode.removeChild(b.wrapper);
-                        }
-                    });
-                    sloganBubbles.length = 0;
-                }
-            };
-
-            const startPress = (e) => {
-                // Prevent default context menu on long press if necessary
-                // e.preventDefault(); 
-                
-                bubblePressTimer = setTimeout(() => {
-                    toggleBubbles();
-                    // Optional: Visual feedback that action occurred
-                    // alert('Bubble effect ' + (isBubblesEnabled ? 'enabled' : 'disabled'));
-                }, 3000);
-            };
-
-            const cancelPress = () => {
-                if (bubblePressTimer) {
-                    clearTimeout(bubblePressTimer);
-                    bubblePressTimer = null;
-                }
-            };
-
-            // Mouse events
-            bubbleToggleBtn.addEventListener('mousedown', startPress);
-            bubbleToggleBtn.addEventListener('mouseup', cancelPress);
-            bubbleToggleBtn.addEventListener('mouseleave', cancelPress);
-
-            // Touch events
-            bubbleToggleBtn.addEventListener('touchstart', startPress, {passive: true});
-            bubbleToggleBtn.addEventListener('touchend', cancelPress);
-            bubbleToggleBtn.addEventListener('touchcancel', cancelPress);
-        }
-
     </script>
     <script>
         // Custom Smooth Scroll Function
