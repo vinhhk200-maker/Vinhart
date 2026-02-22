@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const userAgent = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+    const isiOSDevice = /iP(hone|od|ad)/.test(platform) || /iP(hone|od|ad)/.test(userAgent);
+    const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(userAgent);
+    if (isiOSDevice && isSafari) {
+        setTimeout(() => {
+            if (window.scrollY === 0) {
+                window.scrollTo(0, 1);
+            }
+        }, 80);
+    }
     /*
     const stickyLabels = document.querySelectorAll('.section-label, .recent-companies-label');
     
