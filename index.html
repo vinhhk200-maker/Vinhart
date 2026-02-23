@@ -27,15 +27,15 @@
     const MAIN_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder";
     const MAIN_IMAGE_URL = "https://placehold.co/1200x675";
 
-    const SHOW_HEADER_GRADIENT_BAR = true;
-    const SHOW_HEADER_MARQUEE = true;
+    const SHOW_HEADER_GRADIENT_BAR = false;
+    const SHOW_HEADER_MARQUEE = false;
     const HEADER_MARQUEE_GRADIENT_TEXT = "Creativity connects";
     const HEADER_MARQUEE_PLAIN_TEXT = "—where compelling narratives meet strategic goals.";
     const HEADER_MARQUEE_SUFFIX_TEXT = "- By VINH, 2026";
     const HEADER_MARQUEE_LINK_URL = "";
     const HEADER_MARQUEE_LINK_LABEL = "";
 
-    const PAGE_BACKGROUND_COLOR = "#ffffff";
+    const PAGE_BACKGROUND_COLOR = "#000000";
 
 </script>
 <html lang="vi" class="page-home">
@@ -70,7 +70,7 @@
                 <div class="hero-overlay-name">VINH.HK</div>
                 <p class="hero-overlay-description">
                     I architect <span class="hero-overlay-accent">premium brands</span> where
-                    fine arts meets high-tech logic.
+                    fine arts meets high-tech logic, with 6 years in senior leadership at multinational creative agencies.
                 </p>
             </div>
             <div class="hero-overlay-right">
@@ -577,6 +577,22 @@
             const scrollY = window.scrollY;
             const heroHeight = hero.offsetHeight;
             const triggerPoint = heroHeight * 0.3; // 30% scroll to start showing header
+
+            if (mainContent) {
+                const maxRadius = 30;
+                const radiusFadeEnd = 670;   // Kết thúc fade tại 670px
+                const radiusFadeStart = 300;
+                let radius = maxRadius;
+                if (scrollY <= radiusFadeStart) {
+                    radius = maxRadius;
+                } else if (scrollY >= radiusFadeEnd) {
+                    radius = 0;
+                } else {
+                    const t = (scrollY - radiusFadeStart) / (radiusFadeEnd - radiusFadeStart);
+                    radius = maxRadius * (1 - t);
+                }
+                mainContent.style.setProperty('--main-radius', `${radius}px`);
+            }
 
             if (hero && scrollY > 50) {
                 hero.classList.add('hero--show-content');

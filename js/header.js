@@ -181,27 +181,24 @@ const HeaderComponent = {
         const header = document.querySelector('.header');
         if (!header) return;
 
-        let lastScrollTop = 0;
-        const triggerPoint = 50; 
         let ticking = false;
+        let lastScrollY = window.scrollY || 0;
+        const getTriggerPoint = () => {
+            return 700; // Header chỉ xuất hiện sau khi scrollY đạt 700px
+        };
 
         const updateHeader = () => {
             const scrollY = window.scrollY;
-            
-            // Smart Header Logic (Copied from index.html)
-            if (scrollY > triggerPoint) {
-                if (scrollY > lastScrollTop) {
-                    // Scrolling Down (Content moves Up) -> Show Header
-                    header.classList.add('visible');
-                } else {
-                    // Scrolling Up (Content moves Down) -> Hide Header
-                    header.classList.remove('visible');
-                }
+            const triggerPoint = getTriggerPoint();
+            const isScrollingUp = scrollY < lastScrollY;
+
+            if (scrollY >= triggerPoint && !isScrollingUp) {
+                header.classList.add('visible');
             } else {
-                // At Hero (Top) -> Always Hide Header
                 header.classList.remove('visible');
             }
-            lastScrollTop = scrollY <= 0 ? 0 : scrollY;
+
+            lastScrollY = scrollY;
             ticking = false;
         };
 

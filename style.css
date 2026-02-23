@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Specific Heading Overrides */
 h1 { font-size: var(--h1); }
-h2 { font-size: var(--h2); }
+h2 { font-size: var(--h2); font-weight: 700; }
 h3 { font-size: var(--h3); line-height: var(--leading-snug); }
 h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var(--tracking-normal); }
 
@@ -250,9 +250,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     z-index: 1000;
     transition: transform 0.4s ease;
     transform: translateY(-100%);
-    background: rgba(253, 251, 247, 0.9);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: #ffffff;
+    color: var(--text-primary);
 }
 
 .header.visible {
@@ -269,8 +268,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     white-space: nowrap;
     overflow: hidden;
     padding: 4px 0;
-    background: #fff;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    background: transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .marquee-content {
@@ -319,15 +318,16 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     letter-spacing: 1px;
     white-space: nowrap;
     flex-shrink: 0; /* Always show name */
+    color: var(--text-primary);
 }
 
-.header-divider { color: #ccc; flex-shrink: 0; }
+.header-divider { color: var(--text-primary); flex-shrink: 0; }
 
 .header-title {
     display: flex;
     gap: 6px;
     font-size: var(--text-body);
-    color: var(--text-secondary);
+    color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.64px;
     white-space: nowrap;
@@ -517,9 +517,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     left: 0;
     right: 0;
     bottom: 0;
-    height: 0;
+    height: 50%;
     pointer-events: none;
-    background: transparent;
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .hero-logo-anim {
@@ -986,6 +986,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     z-index: 2;
     margin-top: 100vh;
     padding-top: 150px;
+    border-radius: var(--main-radius, 30px) var(--main-radius, 30px) 0 0;
+    overflow: hidden;
     /* Removed opacity: 0 to fix "cannot scroll" perception */
     transition: opacity 0.5s ease;
 }
@@ -1005,6 +1007,22 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .main-content.visible { opacity: 1; }
 
 .section { margin-bottom: 120px; }
+
+/* Video Wrapper (iframe container) */
+.video-wrapper {
+    margin-top: 15px;
+}
+
+.video-wrapper::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50%;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 100%);
+}
 
 /* Video Caption Styles */
 .video-caption-container {
@@ -1661,6 +1679,12 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         --h4: 20px;
         --gutter: 24px;
         --space-xl: 50px;
+    }
+    .main-content {
+        padding-top: 40px;
+    }
+    .main-content::before {
+        height: 40px;
     }
     .hero {
         justify-content: center; /* Changed from flex-start to center per user request */
