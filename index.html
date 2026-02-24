@@ -19,7 +19,7 @@
 <script>
     const SHOW_MEDIA_SECTION = true;
     const SHOW_IMAGE_INSTEAD = false;
-    const AUTO_PLAY_VIDEO = true;
+    const AUTO_PLAY_VIDEO = false;
     const BOTTOM_GRADIENT_IS_DARK = true;
     const SHOW_BOTTOM_GRADIENT = false;
     const HERO_CTA_TEXT = "";
@@ -33,7 +33,9 @@
     const HEADER_MARQUEE_PLAIN_TEXT = "—where compelling narratives meet strategic goals.";
     const HEADER_MARQUEE_SUFFIX_TEXT = "- By VINH, 2026";
     const HEADER_MARQUEE_LINK_URL = "";
-    const HEADER_MARQUEE_LINK_LABEL = "";
+    const SHOW_HEADER_MARQUEE_LINK_LABEL = "";
+
+    const SHOW_CV_MENU = false;
 
     const PAGE_BACKGROUND_COLOR = "#000000";
 
@@ -69,8 +71,7 @@
             <div class="hero-overlay-left">
                 <div class="hero-overlay-name">VINH.HK</div>
                 <p class="hero-overlay-description">
-                    I architect <span class="hero-overlay-accent">premium brands</span> where
-                    fine arts meets high-tech logic, with 6 years in senior leadership at multinational creative agencies.
+                    With 6 years of senior leadership in global agencies and AI fintech, I architect breakthrough experiences for <span class="hero-overlay-accent">premium brands</span> by bridging <span class="hero-overlay-accent">fine arts</span> with <span class="hero-overlay-accent">high-tech logic</span>.
                 </p>
             </div>
             <div class="hero-overlay-right">
@@ -79,7 +80,7 @@
                     <span class="text-gradient">VISUAL</span>
                     <span class="text-gradient">INTERFACE</span>
                     <span class="text-gradient">MOTION</span>
-                    <span class="text-gradient">IDENTITY</span>
+                    <span class="text-gradient">AI AGENT</span>
                 </div>
             </div>
         </div>
@@ -142,6 +143,7 @@
                         allowfullscreen
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                 </iframe>
+                <div class="video-gradient-overlay"></div>
                 <img id="expertise-image" src="" alt="Cover Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none;">
             </div>
 
@@ -151,139 +153,150 @@
             </div>
 
             <script>
-                // Apply the video/image configuration
-                document.addEventListener('DOMContentLoaded', function() {
-                    const mediaWrapper = document.getElementById('media-wrapper');
-                    const videoFrame = document.getElementById('expertise-video');
-                    const imageElement = document.getElementById('expertise-image');
-                    
-                    // 1. Check if we should show the media section at all
-                    if (typeof SHOW_MEDIA_SECTION !== 'undefined' && !SHOW_MEDIA_SECTION) {
-                        if (mediaWrapper) mediaWrapper.style.display = 'none';
-                        return; // Stop here if hidden
-                    }
+                // Load YouTube Iframe API
+                var tag = document.createElement('script');
+                tag.src = "https://www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-                    // 2. Check if we should show image instead of video
-                    if (typeof SHOW_IMAGE_INSTEAD !== 'undefined' && SHOW_IMAGE_INSTEAD) {
-                        // Show Image, Hide Video
-                        if (videoFrame) videoFrame.style.display = 'none';
-                        if (imageElement && typeof MAIN_IMAGE_URL !== 'undefined') {
-                            imageElement.src = MAIN_IMAGE_URL;
-                            imageElement.style.display = 'block';
+                // IIFE to scope variables
+                (function() {
+                    let player;
+                    let hasUserStarted = false;
+                    let videoObserver;
+
+                    // Make function global for API callback
+                    window.onYouTubeIframeAPIReady = function() {
+                        const mediaWrapper = document.getElementById('media-wrapper');
+                        const imageElement = document.getElementById('expertise-image');
+                        const videoFrame = document.getElementById('expertise-video');
+
+                        // 1. Check visibility
+                        if (typeof SHOW_MEDIA_SECTION !== 'undefined' && !SHOW_MEDIA_SECTION) {
+                            if (mediaWrapper) mediaWrapper.style.display = 'none';
+                            return;
                         }
-                    } else {
-                        // Show Video, Hide Image
+
+                        // 2. Check Image Mode
+                        if (typeof SHOW_IMAGE_INSTEAD !== 'undefined' && SHOW_IMAGE_INSTEAD) {
+                            if (videoFrame) videoFrame.style.display = 'none';
+                            if (imageElement && typeof MAIN_IMAGE_URL !== 'undefined') {
+                                imageElement.src = MAIN_IMAGE_URL;
+                                imageElement.style.display = 'block';
+                            }
+                            return;
+                        }
+
+                        // 3. Video Mode
                         if (imageElement) imageElement.style.display = 'none';
-                        
-                        if (videoFrame && typeof MAIN_VIDEO_URL !== 'undefined') {
-                            videoFrame.style.display = 'block';
-                            // Ensure URL has enablejsapi=1 and mute=1 for autoplay
-                            let videoUrl = MAIN_VIDEO_URL;
-                            const hasQuery = videoUrl.indexOf('?') !== -1;
-                            const separator = hasQuery ? '&' : '?';
-                            
-                            // Add enablejsapi=1 if missing (always useful for API control)
-                            if (videoUrl.indexOf('enablejsapi=1') === -1) {
-                                videoUrl += separator + 'enablejsapi=1';
-                            }
+                        if (videoFrame) videoFrame.style.display = 'block';
 
-                            // Check if Auto Play is enabled
-                            const isAutoPlay = (typeof AUTO_PLAY_VIDEO !== 'undefined') ? AUTO_PLAY_VIDEO : true;
-
-                            // Add mute=1 if missing (required for autoplay) AND autoplay is enabled
-                            if (isAutoPlay && videoUrl.indexOf('mute=1') === -1) {
-                                videoUrl += '&mute=1';
-                            }
-                            
-                            videoFrame.src = videoUrl;
-
-                            // Only setup Intersection Observer if Auto Play is enabled
-                            if (isAutoPlay) {
-                                // Intersection Observer for Auto Play/Pause
-                                const observerOptions = {
-                                    root: null,
-                                    rootMargin: '0px',
-                                    threshold: 0.25 // Trigger when 25% of video is visible
-                                };
-
-                                const observer = new IntersectionObserver((entries) => {
-                                    entries.forEach(entry => {
-                                        // Send command to YouTube player
-                                        const command = entry.isIntersecting ? 'playVideo' : 'pauseVideo';
-                                        if (videoFrame.contentWindow) {
-                                            videoFrame.contentWindow.postMessage(JSON.stringify({
-                                                'event': 'command',
-                                                'func': command,
-                                                'args': []
-                                            }), '*');
-                                        }
-                                    });
-                                }, observerOptions);
-
-                                // Observe the media wrapper
-                                if (mediaWrapper) {
-                                    observer.observe(mediaWrapper);
-                                }
+                        // Parse Video ID
+                        let videoId = 'dQw4w9WgXcQ';
+                        if (typeof MAIN_VIDEO_URL !== 'undefined') {
+                            const match = MAIN_VIDEO_URL.match(/\/embed\/([^?]+)/);
+                            if (match && match[1]) {
+                                videoId = match[1];
                             }
                         }
+
+                        const isAutoPlay = (typeof AUTO_PLAY_VIDEO !== 'undefined') ? AUTO_PLAY_VIDEO : false;
+
+                        player = new YT.Player('expertise-video', {
+                            height: '100%',
+                            width: '100%',
+                            videoId: videoId,
+                            playerVars: {
+                                'playsinline': 1,
+                                'rel': 0,
+                                'controls': 1,
+                                'autoplay': isAutoPlay ? 1 : 0,
+                                'mute': isAutoPlay ? 1 : 0,
+                                'enablejsapi': 1,
+                                'origin': window.location.origin
+                            },
+                            events: {
+                                'onReady': onPlayerReady,
+                                'onStateChange': onPlayerStateChange
+                            }
+                        });
+                    };
+
+                    function onPlayerReady(event) {
+                        // Enforce styles to ensure it fills the container
+                        const iframe = event.target.getIframe();
+                        iframe.style.position = 'absolute';
+                        iframe.style.top = '0';
+                        iframe.style.left = '0';
+                        iframe.style.width = '100%';
+                        iframe.style.height = '100%';
+
+                        const isAutoPlay = (typeof AUTO_PLAY_VIDEO !== 'undefined') ? AUTO_PLAY_VIDEO : false;
+                        if (isAutoPlay) {
+                            hasUserStarted = true;
+                            setupIntersectionObserver();
+                        }
                     }
-                });
+
+                    function onPlayerStateChange(event) {
+                        // YT.PlayerState.PLAYING = 1
+                        // YT.PlayerState.ENDED = 0
+                        
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            if (!hasUserStarted) {
+                                hasUserStarted = true;
+                                setupIntersectionObserver();
+                            }
+                        }
+                        
+                        if (event.data === YT.PlayerState.ENDED) {
+                            event.target.playVideo(); // Loop
+                        }
+                    }
+
+                    function setupIntersectionObserver() {
+                        if (videoObserver) return;
+                        
+                        const mediaWrapper = document.getElementById('media-wrapper');
+                        
+                        const observerOptions = {
+                            root: null,
+                            rootMargin: '0px',
+                            threshold: 0.25
+                        };
+
+                        videoObserver = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    if (player && player.playVideo) player.playVideo();
+                                } else {
+                                    if (player && player.pauseVideo) player.pauseVideo();
+                                }
+                            });
+                        }, observerOptions);
+
+                        if (mediaWrapper) videoObserver.observe(mediaWrapper);
+                    }
+                })();
             </script>
 
 
-        <h2 class="section-title text-gradient">The Art-Tech Creative Leader</h2>
-        <div class="section-intro">
-            <p><strong>13 years</strong> of professional impact. <strong>6 years</strong> in Senior Leadership. I operate as a 'Playing Coach'—driving strategic visions (70%) while mastering high-end technical execution (30%).</p>
-            <p style="margin-top: 1rem;">From my roots in fine arts to architecting UI/UX logic, I solve complex brand challenges with unshakable calmness and a focus on exceeding expectations. My expertise bridges the gap between pure aesthetics and technical feasibility.</p>
-            
-            <div class="skills-text-layout">
-                <div class="skill-column">
-                    <h3>Execution & Craft</h3>
-                    <p>Art Direction, UI/UX Design, Motion Graphics, Video Production, Brand Incubation, Figma & Adobe Suite.</p>
-                </div>
-                <div class="skill-column">
-                    <h3>Leadership & Strategy</h3>
-                    <p>Creative Direction, Brand Strategy, Team Mentorship, Workflow Optimization, Agile & Jira, Resource Planning.</p>
-                </div>
-            </div>
-
-        </div>
         </section>
 
-        <!-- Recent Companies -->
-        <div class="recent-companies fade-in" style="margin-bottom: 60px; margin-top: -42px;">
-            <h2 class="section-title text-gradient" style="margin-bottom: 15px;">Key Milestones</h2>
-            <p class="section-intro" style="margin-bottom: 30px;">
-                Proud to have contributed to the success of leading global brands and high-growth startups across Fintech, AdTech, and Creative Production sectors.
-            </p>
-            <div class="companies-carousel">
-                <a href="profile.html#exp-filament" class="company-item">
-                    <span class="company-role">Creative Director</span>
-                    <img src="logos/1.png" alt="Filament" class="company-logo" width="140" height="60">
-                    <span class="company-type">Agency (Singapore)</span>
-                </a>
-                <a href="profile.html#exp-trusting-social" class="company-item">
-                    <span class="company-role">UI/UX Manager</span>
-                    <img src="logos/2.png" alt="Trusting Social" class="company-logo" width="140" height="60">
-                    <span class="company-type">AI-Bigdata Fintech</span>
-                </a>
-                <a href="profile.html#exp-shuttlerock" class="company-item">
-                    <span class="company-role">Art Director</span>
-                    <img src="logos/3.png" alt="Shuttlerock" class="company-logo" width="140" height="60">
-                    <span class="company-type">Creative Production</span>
-                </a>
-                <a href="profile.html#exp-gobear" class="company-item">
-                    <span class="company-role">Design Manager</span>
-                    <img src="logos/4.png" alt="GoBear" class="company-logo" width="140" height="60">
-                    <span class="company-type">Fintech (Vietnam)</span>
-                </a>
-            </div>
-        </div>
 
         <section class="section impact-case fade-in" id="highlights-video">
             <h2 class="section-title text-gradient">Creative Case Study</h2>
+            
+            <!-- Tabs Navigation -->
+            <div class="case-study-tabs">
+                <button class="case-tab active" onclick="switchCase(0)">Global Launch</button>
+                <button class="case-tab" onclick="switchCase(1)">Brand Identity</button>
+                <button class="case-tab" onclick="switchCase(2)">UX/UI System</button>
+            </div>
+
             <div class="impact-card">
-                <div class="impact-card-inner">
+                <!-- Project 1 -->
+                <div class="impact-card-inner case-slide active" id="case-0">
                     <div class="impact-copy">
                         <p class="impact-kicker">Multi-platform brand and performance campaigns</p>
                         <h3 class="impact-heading">From visual concept to cross-market launch.</h3>
@@ -316,8 +329,130 @@
                         <p class="impact-media-caption">Selected campaign showreel</p>
                     </div>
                 </div>
+
+                <!-- Project 2 -->
+                <div class="impact-card-inner case-slide" id="case-1">
+                    <div class="impact-copy">
+                        <p class="impact-kicker">Brand Identity & Design System</p>
+                        <h3 class="impact-heading">Redefining Fintech Visual Language.</h3>
+                        <p class="impact-body">
+                            Established a scalable design system for a leading AI Fintech, ensuring consistency across product interfaces, marketing assets, and corporate communications.
+                        </p>
+                        <dl class="impact-metrics">
+                            <div class="impact-metric">
+                                <dt>Scope</dt>
+                                <dd>Brand Guidelines, Design System, UI Kit</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Impact</dt>
+                                <dd>Reduced design time by 40%, Unified brand voice</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Role</dt>
+                                <dd>Brand Strategy, Design Lead</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="impact-media">
+                        <div class="impact-media-frame ratio-9-16">
+                            <!-- Placeholder image/video for Project 2 -->
+                            <img src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=Brand+Identity" alt="Brand Identity Project" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <p class="impact-media-caption">Brand Identity Showcase</p>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="impact-card-inner case-slide" id="case-2">
+                    <div class="impact-copy">
+                        <p class="impact-kicker">User Experience & Interface</p>
+                        <h3 class="impact-heading">Optimizing Conversion through Data-Driven UX.</h3>
+                        <p class="impact-body">
+                            Revamped the core user journey for a high-traffic financial platform, utilizing heatmaps and A/B testing to significantly improve conversion rates and user retention.
+                        </p>
+                        <dl class="impact-metrics">
+                            <div class="impact-metric">
+                                <dt>Tools</dt>
+                                <dd>Figma, Hotjar, Google Optimize</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Results</dt>
+                                <dd>+25% Conversion Rate, -15% Bounce Rate</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Role</dt>
+                                <dd>UX Research, UI Design</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="impact-media">
+                        <div class="impact-media-frame ratio-9-16">
+                             <!-- Placeholder image/video for Project 3 -->
+                             <img src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=UX+System" alt="UX System Project" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <p class="impact-media-caption">UX/UI Optimization</p>
+                    </div>
+                </div>
             </div>
+            
+            <script>
+                function switchCase(index) {
+                    // Update Tabs
+                    document.querySelectorAll('.case-tab').forEach((tab, i) => {
+                        if (i === index) tab.classList.add('active');
+                        else tab.classList.remove('active');
+                    });
+                    
+                    // Update Content
+                    document.querySelectorAll('.case-slide').forEach((slide, i) => {
+                        if (i === index) {
+                            slide.classList.add('active');
+                            // Restart video if present
+                            const video = slide.querySelector('video');
+                            if (video) {
+                                video.currentTime = 0;
+                                video.play();
+                            }
+                        } else {
+                            slide.classList.remove('active');
+                            // Pause video if present
+                            const video = slide.querySelector('video');
+                            if (video) video.pause();
+                        }
+                    });
+                }
+            </script>
         </section>
+
+        <!-- Recent Companies -->
+        <div class="recent-companies fade-in" style="margin-bottom: 60px; margin-top: 40px;">
+            <h2 class="section-title text-gradient" style="margin-bottom: 15px;">Key Milestones</h2>
+            <p class="section-intro" style="margin-bottom: 30px;">
+                Proud to have contributed to the success of leading global brands and high-growth startups across Fintech, AdTech, and Creative Production sectors.
+            </p>
+            <div class="companies-carousel">
+                <a href="profile.html#exp-filament" class="company-item">
+                    <span class="company-role">Creative Director</span>
+                    <img src="logos/1.png" alt="Filament" class="company-logo" width="140" height="60">
+                    <span class="company-type">Agency (Singapore)</span>
+                </a>
+                <a href="profile.html#exp-trusting-social" class="company-item">
+                    <span class="company-role">UI/UX Manager</span>
+                    <img src="logos/2.png" alt="Trusting Social" class="company-logo" width="140" height="60">
+                    <span class="company-type">AI-Bigdata Fintech</span>
+                </a>
+                <a href="profile.html#exp-shuttlerock" class="company-item">
+                    <span class="company-role">Art Director</span>
+                    <img src="logos/3.png" alt="Shuttlerock" class="company-logo" width="140" height="60">
+                    <span class="company-type">Creative Production</span>
+                </a>
+                <a href="profile.html#exp-gobear" class="company-item">
+                    <span class="company-role">Design Manager</span>
+                    <img src="logos/4.png" alt="GoBear" class="company-logo" width="140" height="60">
+                    <span class="company-type">Fintech (Vietnam)</span>
+                </a>
+            </div>
+        </div>
 
         <!-- Clients Marquee -->
         <div class="recent-companies-label">Notable Brands & Clients</div>
@@ -338,25 +473,7 @@
             </div>
         </div>
 
-        <!-- Career Highlights -->
-        <section class="section highlights-box fade-in">
-            <div class="section-label">Impact & Achievements</div>
-            <h2 class="section-title text-gradient">Career Highlights</h2>
-            <div class="highlights-list">
-                <div class="highlight-item">
-                    <strong>End-to-End Creative Production</strong> — Led creative production for diverse global brands, overseeing Art, Design, Video, and UX teams
-                </div>
-                <div class="highlight-item">
-                    <strong>Operational Excellence</strong> — Improved production speed by ~20% and reduced redundancies by ~10% while maintaining ~70% pitch win rate
-                </div>
-                <div class="highlight-item">
-                    <strong>R&D & Innovation</strong> — Directed high-impact R&D initiatives including Playable Ads, AR experiences, and motion optimization
-                </div>
-                <div class="highlight-item">
-                    <strong>Team Building & Scaling</strong> — Built and scaled creative teams from early-stage to 50+ personnel in fast-paced agency settings
-                </div>
-            </div>
-        </section>
+
 
         <!-- Experience -->
         <section class="section fade-in" id="experience-section" style="display: none;">
@@ -578,22 +695,6 @@
             const heroHeight = hero.offsetHeight;
             const triggerPoint = heroHeight * 0.3; // 30% scroll to start showing header
 
-            if (mainContent) {
-                const maxRadius = 30;
-                const radiusFadeEnd = 670;   // Kết thúc fade tại 670px
-                const radiusFadeStart = 300;
-                let radius = maxRadius;
-                if (scrollY <= radiusFadeStart) {
-                    radius = maxRadius;
-                } else if (scrollY >= radiusFadeEnd) {
-                    radius = 0;
-                } else {
-                    const t = (scrollY - radiusFadeStart) / (radiusFadeEnd - radiusFadeStart);
-                    radius = maxRadius * (1 - t);
-                }
-                mainContent.style.setProperty('--main-radius', `${radius}px`);
-            }
-
             if (hero && scrollY > 50) {
                 hero.classList.add('hero--show-content');
             } else if (hero) {
@@ -663,6 +764,23 @@
                 const indicatorEased = 1 - Math.pow(1 - indicatorProgress, 2);
                 const indicatorOpacity = 1 - indicatorEased;
 
+                // Blur hero video starting from scrollY = 100
+                if (heroVideoLayer) {
+                    const blurStart = 100;
+                    const blurEnd = 500;
+                    const maxBlur = 9.5; // px - reduced by another 50% from 19px
+                    let blurAmount = 0;
+                    if (scrollY <= blurStart) {
+                        blurAmount = 0;
+                    } else if (scrollY >= blurEnd) {
+                        blurAmount = maxBlur;
+                    } else {
+                        const blurT = (scrollY - blurStart) / (blurEnd - blurStart);
+                        blurAmount = maxBlur * blurT;
+                    }
+                    heroVideoLayer.style.setProperty('--hero-blur', `${blurAmount}px`);
+                }
+
                 if (nameWrapper) {
                     nameWrapper.style.setProperty('opacity', opacity, 'important');
                     nameWrapper.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
@@ -672,8 +790,16 @@
                     heroTitle.style.setProperty('transform', `translateY(-${fastTranslateY}px)`, 'important');
                 }
                 if (heroOverlayLayout) {
-                    const overlayTranslate = eased * (moveMultiplier * 0.6);
-                    heroOverlayLayout.style.setProperty('opacity', opacity, 'important');
+                    // Custom Parallax for Hero Overlay: "Slip" effect with extended visibility
+                    // 1. Slow Opacity Fade: Extend distance by 3x to keep it visible longer
+                    const slowProgress = Math.min(1, Math.max(0, (scrollY - 5) / (effectDistance * 3)));
+                    const slowEased = 1 - Math.pow(1 - slowProgress, 2);
+                    const slowOpacity = 1 - slowEased;
+                    
+                    // 2. Subtle Movement: Move at 15% of scroll speed (creating a small "slip")
+                    const overlayTranslate = scrollY * 0.15;
+
+                    heroOverlayLayout.style.setProperty('opacity', slowOpacity, 'important');
                     heroOverlayLayout.style.setProperty('transform', `translateY(-${overlayTranslate}px)`, 'important');
                 }
                 if (scrollIndicator) {
@@ -725,6 +851,50 @@
             if (heroVideoLayer) {
                 heroVideoLayer.style.setProperty('opacity', String(heroOpacity), 'important');
                 heroVideoLayer.style.pointerEvents = shouldDisableHero ? 'none' : 'auto';
+
+                // Scale Effect Logic
+                const scaleEnd = 500;
+                let currentScale = 1;
+                
+                // Only apply zoom out effect on screens where video is wider than viewport (Mobile/Portrait)
+                // This prevents side gaps on Desktop where video fits perfectly
+                const videoAspect = 16/9;
+                const screenAspect = window.innerWidth / window.innerHeight;
+                const isPortrait = screenAspect < videoAspect;
+
+                if (scrollY > 0 && isPortrait) {
+                     const scaleProgress = Math.min(1, scrollY / scaleEnd);
+                     // Increase zoom out effect: Scale down to 0.75 (from 0.85)
+                     currentScale = 1 - (scaleProgress * 0.25); 
+                }
+
+                const heroVideo = document.querySelector('.hero-bg-video');
+                if (heroVideo && isPortrait) {
+                    // Force video to cover height, allow width to overflow
+                    heroVideo.style.width = '177.78vh'; // 16:9 aspect
+                    heroVideo.style.height = '100vh';
+                    heroVideo.style.maxWidth = 'none';
+                    heroVideo.style.position = 'absolute';
+                    heroVideo.style.left = '50%';
+                    heroVideo.style.top = '0';
+                    heroVideo.style.transformOrigin = 'top center';
+                    // Combine centering with scale
+                    heroVideo.style.transform = `translateX(-50%) scale(${currentScale})`;
+                } else if (heroVideo) {
+                    // Desktop: Reset to default CSS behavior (object-fit: cover)
+                    heroVideo.style.width = '100%';
+                    heroVideo.style.height = '100%';
+                    heroVideo.style.maxWidth = '';
+                    heroVideo.style.position = '';
+                    heroVideo.style.left = '';
+                    heroVideo.style.top = '';
+                    heroVideo.style.transform = '';
+                    // Reset transform origin
+                    heroVideo.style.transformOrigin = '';
+                }
+
+                // Reset layer transform (removed previous logic)
+                heroVideoLayer.style.transform = 'none';
             }
 
             // Smart Header Logic
@@ -825,24 +995,24 @@
         */
 
         // Intersection Observer for Content Animation
-        const observerOptions = {
+        const contentObserverOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
+        const contentObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+                    contentObserver.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, contentObserverOptions);
 
         document.querySelectorAll('.section, .experience-item, .recent-companies, .clients-marquee').forEach(el => {
             // Check if fade-in class already exists or add style manually if needed
             // The css for .fade-in needs to be in style.css
-            observer.observe(el);
+            contentObserver.observe(el);
         });
 
         window.addEventListener('resize', () => {
@@ -861,6 +1031,18 @@
         if (introGreeting) {
             introGreeting.addEventListener('animationend', () => {
                 introGreeting.classList.add('finished');
+            });
+        }
+
+        // Video Gradient Overlay Logic
+        const videoGradientOverlay = document.querySelector('.video-gradient-overlay');
+        if (videoGradientOverlay) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 150) {
+                    videoGradientOverlay.classList.add('visible');
+                } else {
+                    videoGradientOverlay.classList.remove('visible');
+                }
             });
         }
     </script>

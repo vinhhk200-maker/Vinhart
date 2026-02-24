@@ -483,6 +483,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     padding-bottom: 0; /* Removed bottom padding to strictly center content vertically */
     transition: opacity 0.5s ease, transform 0.5s ease;
     will-change: opacity, transform;
+    overflow: hidden; /* Prevent horizontal scroll when video scales > 1 */
 }
 
 @supports (height: 100lvh) {
@@ -502,6 +503,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     z-index: 0;
     opacity: 1;
     transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity; /* Optimize for scale/fade animation */
 }
 
 .hero-bg-video {
@@ -509,6 +511,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     height: 100%;
     object-fit: cover;
     transform: none;
+    filter: blur(var(--hero-blur, 0px));
 }
 
 .hero-video-layer::after {
@@ -517,7 +520,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     left: 0;
     right: 0;
     bottom: 0;
-    height: 50%;
+    height: 80%;
     pointer-events: none;
     background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
 }
@@ -981,12 +984,11 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     width: 100%;
     /* max-width: 100%; Removed to respect container max-width */
     margin: 0 auto;
-    padding: var(--space-xl) var(--gutter);
+    padding: 0 var(--gutter) var(--space-xl);
     position: relative;
     z-index: 2;
     margin-top: 100vh;
-    padding-top: 150px;
-    border-radius: var(--main-radius, 30px) var(--main-radius, 30px) 0 0;
+    border-radius: 0;
     overflow: hidden;
     /* Removed opacity: 0 to fix "cannot scroll" perception */
     transition: opacity 0.5s ease;
@@ -998,8 +1000,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     top: 0;
     left: 0;
     right: 0;
-    height: 150px;
-    background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    height: 0;
+    background: transparent;
     pointer-events: none;
     z-index: 0;
 }
@@ -1010,31 +1012,67 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 /* Video Wrapper (iframe container) */
 .video-wrapper {
-    margin-top: 15px;
+    margin-top: 0;
+    margin-bottom: 0 !important; /* Force remove bottom margin to stick to caption */
+    position: relative;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    border-radius: 0 !important;
+    background-color: #000 !important; /* Black background to show placeholder */
+}
+
+.video-wrapper iframe {
+    display: block;
+    vertical-align: bottom;
+    z-index: 1; /* Ensure iframe is above background but below overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .video-wrapper::after {
-    content: "";
+    display: none;
+}
+
+/* Video Gradient Overlay */
+.video-gradient-overlay {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 50%;
+    height: 150px; /* Fade area height */
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
     pointer-events: none;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: 2; /* Ensure it overlays the iframe */
+}
+
+.video-gradient-overlay.visible {
+    opacity: 1;
 }
 
 /* Video Caption Styles */
 .video-caption-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding-top: 10px;
-    border-top: 1px solid #eee;
-    margin-top: -10px; /* Pull closer to video wrapper */
-    margin-bottom: 50px;
+    align-items: center; /* Center align vertically */
+    padding: 20px clamp(24px, 6vw, 80px); /* Match container padding */
+    margin-top: -1px; /* Remove gap with iframe/video wrapper */
+    margin-bottom: 20px; /* Reduced from 50px to tighten space with next section */
     flex-wrap: wrap;
     gap: 15px;
+    background: #000; /* Black background */
+    width: 100vw; /* Full viewport width */
+    margin-left: calc(-50vw + 50%); /* Pull left to edge */
+    margin-right: calc(-50vw + 50%); /* Pull right to edge */
+    box-sizing: border-box; /* Include padding in width */
 }
 
 .video-label {
@@ -1043,13 +1081,13 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--text-primary);
+    color: #fff; /* White text */
 }
 
 .video-description {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.8); /* White text with opacity */
     max-width: 500px;
     line-height: 1.5;
     text-align: right;
@@ -1101,6 +1139,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 .section-title {
     font-size: var(--h2);
+    margin-top: 0; /* User Request: Reduce margin top to 0 */
+    padding-top: 0; /* User Request: Reduce padding top to 0 */
     margin-bottom: 30px; /* Reduced from 60px (-50%) */
     line-height: 1.1; /* Tightened line spacing (-50% leading) */
 }
@@ -1316,7 +1356,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     transition: all 0.3s ease; /* Transition for filter and transform */
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - Reduced by 30% per user request */
 @media (max-width: 768px) {
     .clients-grid {
         display: grid;
@@ -1327,9 +1367,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
 
     .client-logo-img {
-        height: 130px; /* Increased size x2 (65px * 2) */
-        width: 100%;
-        max-width: 160px; /* Constraint width to keep it looking good */
+        height: 54px; /* Reduced to ~70% of 78px */
+        width: auto; /* Maintain aspect ratio */
+        max-width: 112px; /* Reduced max-width accordingly */
         margin: 0;
     }
 }
@@ -1340,8 +1380,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
 
     .client-logo-img {
-        height: 104px; /* Increased size x2 (52px * 2) */
-        max-width: 140px;
+        height: 54px; /* Kept same as tablet for consistency */
+        max-width: 100px;
     }
 }
 
@@ -1459,7 +1499,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
     .main-content {
         margin-top: 100vh;
-        padding-top: 150px;
+        padding-top: 0;
     }
 }
 
@@ -1471,27 +1511,103 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .impact-case {
-    padding-top: 40px;
+    padding-top: 0; /* User Request: Remove top padding to eliminate gap with h2 */
 }
 
 .impact-card {
     position: relative;
     margin-top: 28px;
     border-radius: 24px;
-    padding: 1px;
-    background: radial-gradient(circle at top left, rgba(255, 212, 6, 0.6), transparent 55%), radial-gradient(circle at bottom right, rgba(12, 184, 255, 0.55), transparent 55%), linear-gradient(135deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.04));
+    padding: 0; /* Removed padding for outline */
+    background: transparent; /* Removed gradient outline */
 }
 
 .impact-card-inner {
     position: relative;
     z-index: 1;
-    display: flex;
-    gap: 40px;
+    /* display: flex; Removed for tabs support */
+    /* gap: 40px; Moved to .case-slide */
     padding: 28px 32px;
     border-radius: 23px;
     background: rgba(250, 248, 243, 0.92);
     backdrop-filter: blur(18px);
     box-shadow: 0 18px 55px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   CASE STUDY TABS
+   ========================================= */
+.case-study-tabs {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 24px;
+    /* border-bottom: 1px solid rgba(0,0,0,0.06); Removed outline per user request */
+    padding-bottom: 16px;
+}
+
+.case-tab {
+    background: transparent;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.5px; /* Increased letter spacing */
+    color: var(--text-secondary); /* #666 */
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+}
+
+.case-tab:hover {
+    color: var(--text-primary);
+    background: rgba(0,0,0,0.04);
+}
+
+.case-tab.active {
+    color: #fff;
+    background: #000;
+    font-weight: 600;
+    position: relative; /* Enable absolute positioning for pseudo-element */
+}
+
+/* Connecting line for active tab */
+.case-tab.active::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px; /* Decreased to 1px per user request */
+    height: 48px; /* Adjusted to bridge gap perfectly */
+    background: #000; /* Matching active tab color */
+    opacity: 1; /* Changed to 100% opacity */
+    top: 100%;
+    pointer-events: none;
+}
+
+.case-slide {
+    display: none;
+    width: 100%;
+}
+
+.case-slide.active {
+    display: flex;
+    gap: 40px; /* Inherited from original impact-card-inner */
+    animation: slideFadeIn 0.4s ease forwards;
+}
+
+@keyframes slideFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile adjustments for slides */
+@media (max-width: 900px) {
+    .case-slide.active {
+        flex-direction: column;
+        gap: 30px;
+    }
 }
 
 .impact-copy {
@@ -1526,7 +1642,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     font-size: var(--text-small);
     line-height: 1.6;
     color: var(--text-secondary);
-    max-width: 480px;
+    max-width: 100%; /* Allow full width to match heading */
 }
 
 .impact-metrics {
@@ -1559,6 +1675,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .impact-media-caption {
     font-size: 12px;
     color: var(--text-secondary);
+    display: none; /* Removed per user request */
 }
 
 .masonry-grid {
@@ -1599,6 +1716,21 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     aspect-ratio: 16 / 9;
 }
 
+/* Desktop/Big Screen Scale Reduction (-45% total: 70% * 0.85 = ~60%) */
+@media (min-width: 1025px) {
+    .impact-media {
+        flex: 0.6; /* Reduced further from 0.8 to 0.6 to tighten gap significantly */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Align children to the right */
+    }
+
+    .impact-media-frame.ratio-9-16 {
+        width: 100%; /* Frame now takes full width of the narrowed parent */
+        margin: 0; 
+    }
+}
+
 .ratio-9-16 {
     aspect-ratio: 9 / 16;
 }
@@ -1637,14 +1769,17 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 @media (max-width: 1024px) {
     .impact-card-inner {
-        gap: 28px;
+        /* gap: 28px; Moved to .case-slide */
         padding: 24px 20px;
+    }
+    .case-slide.active {
+        gap: 28px;
     }
 }
 
 @media (max-width: 900px) {
     .impact-card-inner {
-        flex-direction: column;
+        /* flex-direction: column; Handled by .case-slide */
     }
 
     .impact-media {
@@ -1654,6 +1789,51 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     .impact-metrics {
         grid-template-columns: 1fr;
     }
+}
+
+/* Mobile Landscape Optimization & Square-ish Screens (min-width: 550px) */
+@media (min-width: 550px) and (max-width: 900px) {
+    .case-slide.active {
+        flex-direction: row !important; /* Force 2 columns */
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .impact-copy {
+        flex: 1;
+    }
+    
+    .impact-media {
+        flex: 0.8; /* Reduce media width slightly */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Align right */
+    }
+    
+    .impact-media-frame.ratio-9-16 {
+        width: 100%; /* Full width within the column */
+        max-width: 250px; /* Limit max width */
+        margin: 0;
+    }
+
+    .impact-heading {
+        font-size: 20px; /* Reduce heading size */
+        margin-bottom: 8px;
+    }
+    
+    .impact-body {
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+    
+    .impact-metrics {
+        grid-template-columns: 1fr 1fr; /* 2 columns for metrics */
+        gap: 10px;
+        margin-top: 12px;
+    }
+    
+    .impact-metric dt { font-size: 10px; }
+    .impact-metric dd { font-size: 12px; }
 }
 
 @media (max-width: 768px) {
@@ -1681,10 +1861,10 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         --space-xl: 50px;
     }
     .main-content {
-        padding-top: 40px;
+        padding-top: 0;
     }
     .main-content::before {
-        height: 40px;
+        height: 0;
     }
     .hero {
         justify-content: center; /* Changed from flex-start to center per user request */
@@ -1747,7 +1927,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
 
     .main-content {
-        padding-top: 80px;
+        padding-top: 0;
         padding-bottom: 40px;
     }
     

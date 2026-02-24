@@ -53,6 +53,7 @@ const HeaderComponent = {
     <div class="menu-overlay">
         <button class="menu-close-btn" aria-label="Close Menu">×</button>
         <ul class="menu-list">
+            <li class="menu-item" id="cv-menu-item" style="display: none;"><a href="cv.html" class="menu-link">CV</a></li>
             <li class="menu-item"><a href="portfolio.html" class="menu-link">Archive</a></li>
             <li class="menu-item"><a href="knowledge-sharing.html" class="menu-link">The Lab</a></li>
             <li class="menu-item"><a href="profile.html" class="menu-link">Identity</a></li>
@@ -76,6 +77,12 @@ const HeaderComponent = {
         if (existingMarquee) existingMarquee.remove();
 
         document.body.insertAdjacentHTML('afterbegin', this.html);
+
+        // Check if SHOW_CV_MENU is defined and true
+        if (typeof SHOW_CV_MENU !== 'undefined' && SHOW_CV_MENU) {
+            const cvItem = document.getElementById('cv-menu-item');
+            if (cvItem) cvItem.style.display = 'block';
+        }
 
         // Initialize Logic
         this.initHeaderToggles();

@@ -59,4 +59,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     */
+
+    if (document.getElementById('video-placeholder')) {
+        document.getElementById('video-placeholder').addEventListener('click', function() {
+            var iframe = document.getElementById('expertise-video');
+            iframe.src += "&autoplay=1"; 
+            this.style.display = 'none';
+        });
+    }
+
+    // Video Gradient Overlay Logic
+    const videoGradientOverlay = document.querySelector('.video-gradient-overlay');
+    if (videoGradientOverlay) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 150) {
+                videoGradientOverlay.classList.add('visible');
+            } else {
+                videoGradientOverlay.classList.remove('visible');
+            }
+        });
+    }
 });
