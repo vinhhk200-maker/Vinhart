@@ -662,11 +662,16 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 @media (max-width: 768px) {
+    .hero {
+        height: 100svh; /* Stable height on mobile to avoid toolbar resize jumps */
+        min-height: 100svh;
+    }
+
     .hero-overlay-layout {
         align-items: flex-start;
         justify-content: flex-end;
         flex-direction: column;
-        padding: 0 24px clamp(32px, 8vh, 64px);
+        padding: 0 24px 24px; /* Bottom padding (24px) equals Left padding (24px) */
         gap: 32px;
     }
 
@@ -2543,3 +2548,35 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
    ========================================= */
 /* Reverted to base style to ensure fluid truncation on all screens (Mobile Uniformity) */
 /* The base .header-title style (lines ~312) handles flex-shrink: 1 and overflow: hidden */
+/* Hero CTA Button */
+.hero-cta {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 12px 32px;
+    border: 1px solid #ffffff; /* Reduced to 1px */
+    border-radius: 999px;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    background: transparent;
+    cursor: pointer;
+}
+
+.hero-cta:hover {
+    background: rgba(255, 255, 255, 0.6); /* White background with 60% opacity */
+    color: #000000;
+    border-color: transparent; /* Optional: hide border on hover for cleaner look */
+}
+
+/* Ensure CTA doesn't conflict on mobile */
+@media (max-width: 768px) {
+    .hero-cta {
+        margin-top: 24px;
+        padding: 10px 28px;
+        font-size: 15px;
+    }
+}

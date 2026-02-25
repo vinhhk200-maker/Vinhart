@@ -79,4 +79,54 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Custom Smooth Scroll for Hero CTA
+    const heroCta = document.querySelector('.hero-cta');
+    if (heroCta) {
+        heroCta.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                // Calculate target position: Center the iframe vertically if possible, or top of section
+                // The user wants to "stop gently at iframe"
+                // Let's find the iframe or the video container within the section
+                const videoContainer = targetSection.querySelector('.impact-media-frame') || targetSection.querySelector('iframe') || targetSection;
+                
+                const targetPosition = videoContainer.getBoundingClientRect().top + window.scrollY;
+                const startPosition = window.scrollY;
+                
+                // Calculate destination to center the video if possible, or give top breathing room
+                // "Stop gently at iframe" -> aim for iframe top with some padding
+                // Let's target the video container top minus a small offset (e.g., 60px for header)
+                const offset = 60; 
+                const distance = targetPosition - startPosition - offset;
+                const finalDestination = startPosition + distance;
+                
+                const duration = 2500; // Increased to 2.5s for slower, more cinematic feel
+                let start = null;
+
+                function step(timestamp) {
+                    if (!start) start = timestamp;
+                    const elapsed = timestamp - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Custom Cubic Bezier-like easing for "Slow Start -> Fast Middle -> Slow End"
+                    // easeInOutCubic: t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+                    const ease = progress < 0.5 
+                        ? 4 * progress * progress * progress 
+                        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                    
+                    window.scrollTo(0, startPosition + distance * ease);
+
+                    if (elapsed < duration) {
+                        window.requestAnimationFrame(step);
+                    }
+                }
+
+                window.requestAnimationFrame(step);
+            }
+        });
+    }
 });
