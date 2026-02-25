@@ -525,7 +525,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 @media (max-width: 768px) {
     .hero {
         /* Add padding-bottom on mobile to prevent content from being cut off by browser toolbars */
-        padding-bottom: env(safe-area-inset-bottom, 20px);
+        /* Removed padding-bottom here as we use svh on overlay instead */
     }
 }
 
@@ -622,14 +622,23 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 .hero-overlay-layout {
     position: absolute;
+    top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    height: 100vh; /* Fallback */
+    height: 100svh; /* Stable visible height */
     z-index: 2;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     padding: 0 clamp(24px, 6vw, 80px) clamp(40px, 7vh, 96px);
+    pointer-events: none; /* Let clicks pass through to video/bg */
+}
+
+.hero-overlay-left,
+.hero-overlay-right,
+.hero-cta {
+    pointer-events: auto; /* Re-enable clicks for content */
 }
 
 .hero-overlay-left {
@@ -704,16 +713,14 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 @media (max-width: 768px) {
-    .hero {
-        height: 100svh; /* Stable height on mobile to avoid toolbar resize jumps */
-        min-height: 100svh;
-    }
+    /* .hero height kept at 100vh (native) from main rule */
 
     .hero-overlay-layout {
         align-items: flex-start;
         justify-content: flex-end;
         flex-direction: column;
-        padding: 0 24px 24px; /* Bottom padding (24px) equals Left padding (24px) */
+        /* Ensure bottom padding accounts for Home Indicator */
+        padding: 0 24px max(24px, env(safe-area-inset-bottom)); 
         gap: 32px;
     }
 
