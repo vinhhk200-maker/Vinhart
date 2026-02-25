@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     /* Prevent font scaling in landscape mode on WebKit browsers (iOS Safari) */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -63,7 +63,7 @@ body {
     padding: 0;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: var(--text-body);
     font-weight: 300; /* Light for slender body text */
     line-height: var(--leading-normal);
@@ -91,7 +91,7 @@ a {
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
 h1, h2, h3, h4, h5, h6 { 
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
     font-weight: 200; /* Extra Light for Apple-like elegance */
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
@@ -149,7 +149,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .skill-column h3 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
@@ -159,7 +159,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .skill-column p {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: var(--text-body);
     line-height: 1.6;
     color: var(--text-secondary);
@@ -238,7 +238,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .bg-marquee-text {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 50vh; /* Increased to fill screen height (approx 45% height each with line-height) */
     font-weight: 100; /* Thin */
     color: rgba(0, 0, 0, 0.03); /* Very subtle */
@@ -332,7 +332,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .header-name {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-weight: 700;
     font-size: 18px;
     letter-spacing: 1px;
@@ -447,7 +447,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 .menu-link {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: clamp(1.4rem, 2.8vw, 2.45rem); /* Reduced -30% from clamp(2rem, 4vw, 3.5rem) */
     font-weight: 300;
     color: var(--text-primary);
@@ -622,15 +622,30 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .hero-overlay-name {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     /* Deem Journal inspired: Large, tight, neo-grotesque style */
     font-size: clamp(3.5rem, 7vw, 6rem);
     font-weight: 400;
     letter-spacing: -0.04em;
     line-height: 0.95;
     text-transform: none; /* Changed from uppercase to none per user request */
-    color: #ffffff;
+    
+    /* Hover Gradient Effect (Left-to-Right Wipe) */
+    background-image: linear-gradient(to right, transparent 50%, #ffffff 50%), 
+                      linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
+    background-size: 200% 100%, 300% 300%;
+    background-position: 100% 0%, 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #ffffff; /* Fallback */
+    transition: background-position 0.8s ease;
+    
     margin-bottom: 24px;
+}
+
+.hero-overlay-name:hover {
+    background-position: 0% 0%, 100% 50%;
 }
 
 .hero-overlay-description {
