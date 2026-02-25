@@ -1964,6 +1964,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
+        padding: 0;
+        margin: 0;
     }
     .company-item { width: auto; }
     /* Mobile Logo Constraints */
