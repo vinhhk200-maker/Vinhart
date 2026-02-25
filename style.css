@@ -508,7 +508,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     left: 0;
     right: 0;
     width: 100%;
-    height: 100vh;
+    height: 100vh; /* Native height */
     min-height: 100vh;
     z-index: 1;
     display: flex;
@@ -522,10 +522,10 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     overflow: hidden; /* Prevent horizontal scroll when video scales > 1 */
 }
 
-@supports (height: 100lvh) {
+@media (max-width: 768px) {
     .hero {
-        height: 100lvh;
-        min-height: 100lvh;
+        /* Add padding-bottom on mobile to prevent content from being cut off by browser toolbars */
+        padding-bottom: env(safe-area-inset-bottom, 20px);
     }
 }
 
