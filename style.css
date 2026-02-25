@@ -652,11 +652,11 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     flex-direction: column;
     font-family: 'Inter', sans-serif;
     font-size: 29px;
-    font-weight: 800;
-    letter-spacing: 0.06em;
+    font-weight: 400;
+    letter-spacing: normal;
     line-height: 1.1;
     color: #CCFF00;
-    text-transform: uppercase;
+    text-transform: none;
     align-items: flex-start;
     text-align: left;
 }
@@ -676,7 +676,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     }
 
     .hero-overlay-name {
-        font-size: 21px;
+        /* font-size: 21px; Removed to allow main clamp size to work */
     }
 
     .hero-overlay-description {
