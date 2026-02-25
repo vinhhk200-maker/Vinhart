@@ -1304,6 +1304,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     align-items: center;
+    padding: 0;
+    margin: 0;
 }
 .company-item {
     display: flex;
