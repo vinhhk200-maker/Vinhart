@@ -720,7 +720,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         justify-content: flex-end;
         flex-direction: column;
         /* Ensure bottom padding accounts for Home Indicator */
-        padding: 0 24px max(24px, env(safe-area-inset-bottom)); 
+        padding: 0 24px max(56px, calc(env(safe-area-inset-bottom) + 32px)); 
         gap: 32px;
     }
 
