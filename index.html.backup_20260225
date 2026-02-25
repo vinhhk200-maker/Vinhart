@@ -69,11 +69,7 @@
         </div>
         <div class="hero-overlay-layout">
             <div class="hero-overlay-left">
-                <div class="hero-overlay-name">
-                    <span style="color: #ffffff; opacity: 1;">VINH</span>
-                    <span style="color: #ffffff; opacity: 1;">H</span><span style="color: #ffffff; opacity: 0.5;">uynh</span>
-                    <span style="color: #ffffff; opacity: 1;">K</span><span style="color: #ffffff; opacity: 0.5;">hac</span>
-                </div>
+                <div class="hero-overlay-name">VINH.HK</div>
                 <p class="hero-overlay-description">
                     With 6 years of senior leadership in global agencies and AI fintech, I architect breakthrough experiences for <span class="hero-overlay-accent">premium brands</span> by bridging <span class="hero-overlay-accent">fine arts</span> with <span class="hero-overlay-accent">high-tech logic</span>.
                 </p>
