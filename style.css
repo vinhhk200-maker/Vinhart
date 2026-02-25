@@ -638,7 +638,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     font-size: 15px;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.84);
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .hero-overlay-accent {
