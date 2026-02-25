@@ -1399,7 +1399,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     justify-content: space-between; /* Distribute items evenly */
     align-items: center; /* Vertically center */
     gap: 40px; /* Increased gap for cleaner look */
-    padding: 20px var(--gutter); /* Added gutter padding */
+    padding: 0; /* Removed gutter padding as requested */
     width: 100%;
     max-width: 1400px; /* Limit max width to match container */
     margin: 0 auto 60px auto; /* Centered with bottom margin */
@@ -1432,7 +1432,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         align-items: center;
         justify-items: center;
         width: 100%;
-        padding: 0 20px;
+        padding: 0;
     }
 
     .client-logo-img {
