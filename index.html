@@ -53,12 +53,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260222-01">
+    <link rel="stylesheet" href="style.css?v=20260225-01">
 </head>
 <body class="page-home">
     
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260222-01"></script>
+    <script src="js/header.js?v=20260225-01"></script>
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
@@ -750,10 +750,14 @@
             const heroTitle = document.querySelector('.hero-title-main');
             const scrollIndicator = document.querySelector('.scroll-indicator-link');
             const bottomGradient = document.querySelector('.bottom-gradient-overlay');
+            const heroCta = document.querySelector('.hero-cta');
             
             // Reset styles if at the very top to let CSS animations show clearly
             if (scrollY < 5) {
                 resetSloganSequence();
+                if (heroCta) {
+                    heroCta.classList.remove('hero-cta-hidden');
+                }
                 if (nameWrapper) {
                     nameWrapper.style.removeProperty('opacity');
                     nameWrapper.style.removeProperty('transform');
@@ -845,6 +849,15 @@
                     heroOverlayLayout.style.setProperty('opacity', slowOpacity, 'important');
                     heroOverlayLayout.style.setProperty('transform', `translateY(-${overlayTranslate}px)`, 'important');
                 }
+                
+                if (heroCta) {
+                    if (scrollY > 50) {
+                        heroCta.classList.add('hero-cta-hidden');
+                    } else {
+                        heroCta.classList.remove('hero-cta-hidden');
+                    }
+                }
+
                 if (scrollIndicator) {
                     scrollIndicator.style.setProperty('opacity', indicatorOpacity, 'important');
                     // Completely disable interaction when invisible

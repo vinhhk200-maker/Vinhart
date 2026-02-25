@@ -281,6 +281,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .header-gradient-bar {
     height: 4px;
     background: linear-gradient(90deg, #FFD406, #FF506A, #0CB8FF, #29E0B2, #9D26D0);
+    display: none; /* Hidden per user request */
 }
 
 .marquee-track {
@@ -290,6 +291,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     padding: 4px 0;
     background: transparent;
     border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: none; /* Hidden per user request */
 }
 
 .marquee-content {
@@ -339,6 +341,20 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     white-space: nowrap;
     flex-shrink: 0; /* Always show name */
     color: var(--text-primary);
+
+    /* Hover Gradient Effect (Left-to-Right Wipe) */
+    background-image: linear-gradient(to right, transparent 50%, var(--text-primary) 50%), 
+                      linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
+    background-size: 200% 100%, 300% 300%;
+    background-position: 100% 0%, 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.8s ease;
+}
+
+.header-name:hover {
+    background-position: 0% 0%, 100% 50%;
 }
 
 .header-divider { color: var(--text-primary); flex-shrink: 0; }
@@ -657,7 +673,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .hero-overlay-accent {
-    color: #CCFF00;
+    color: #ffffff; /* Changed to white per user request */
 }
 
 .hero-overlay-right {
@@ -1651,16 +1667,27 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     cursor: pointer;
     border-radius: 10px; /* Adjusted to 10px per user request */
     transition: all 0.2s ease;
+
+    /* Hover Gradient Effect (Left-to-Right Wipe) */
+    background-image: linear-gradient(to right, transparent 50%, var(--text-secondary) 50%), 
+                      linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
+    background-size: 200% 100%, 300% 300%;
+    background-position: 100% 0%, 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Makes text transparent to show background */
+    /* Note: color is set above as fallback, but text-fill-color overrides it */
 }
 
 .case-tab:hover {
-    color: var(--text-primary);
-    background: rgba(0,0,0,0.04);
+    background-position: 0% 0%, 100% 50%;
+    background-color: rgba(0,0,0,0.04); /* Keep background hover */
 }
 
 .case-tab.active {
     color: #fff;
-    background: #000;
+    -webkit-text-fill-color: #fff; /* Override transparent text for active state */
+    background: #000; /* Solid black background for active state */
     font-weight: 400; /* Match inactive state (regular) */
     position: relative; /* Enable absolute positioning for pseudo-element */
 }
@@ -2605,7 +2632,13 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #ffffff; /* Fallback */
-    transition: background-position 0.8s ease;
+    transition: background-position 0.8s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+}
+
+.hero-cta.hero-cta-hidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Border Gradient Logic (Pseudo-element Mask Trick) */
@@ -2647,4 +2680,45 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         padding: 10px 28px;
         font-size: 15px;
     }
+}
+/* =========================================
+   PAGE TITLES (SUBPAGES)
+   ========================================= */
+.page-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(3.5rem, 7vw, 6rem); /* Matches .hero-overlay-name */
+    font-weight: 400; /* Matches .hero-overlay-name */
+    letter-spacing: -0.04em; /* Matches .hero-overlay-name */
+    line-height: 0.95; /* Matches .hero-overlay-name */
+    text-transform: none !important; /* Force no all-caps per user request */
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    text-align: center; /* Subpages usually center title */
+}
+
+.page-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: var(--h3);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 60px auto;
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+/* =========================================
+   PAGE CONTENT (SUBPAGES)
+   ========================================= */
+.page-content {
+    padding: var(--space-xl) var(--gutter);
+    padding-top: 140px; /* Increased to prevent header overlap */
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
 }
