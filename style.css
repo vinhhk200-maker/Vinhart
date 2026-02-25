@@ -110,6 +110,16 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     padding: 0 var(--gutter);
 }
 
+/* Expanded Container for Specific Sections */
+.container-expanded {
+    max-width: 100vw; /* Full viewport width */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding: 0 var(--gutter); /* Maintain consistent padding */
+    box-sizing: border-box;
+}
+
 .text-gradient {
     background: linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
     background-size: 300% 300%;
@@ -1063,7 +1073,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     display: flex;
     justify-content: space-between;
     align-items: center; /* Center align vertically */
-    padding: 20px clamp(24px, 6vw, 80px); /* Match container padding */
+    padding: 20px var(--gutter); /* Use gutter variable for consistent horizontal padding */
     margin-top: -1px; /* Remove gap with iframe/video wrapper */
     margin-bottom: 20px; /* Reduced from 50px to tighten space with next section */
     flex-wrap: wrap;
@@ -1139,6 +1149,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 .section-title {
     font-size: var(--h2);
+    font-weight: 400; /* Regular weight per user request */
     margin-top: 0; /* User Request: Reduce margin top to 0 */
     padding-top: 0; /* User Request: Reduce padding top to 0 */
     margin-bottom: 30px; /* Reduced from 60px (-50%) */
@@ -1284,25 +1295,61 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 20px 1px; /* Reduced side padding to 1px */
-    border: 1px solid #eee;
+    padding: 20px 1px;
+    position: relative;
     border-radius: 12px;
-    width: 100%; /* Full width within grid cell */
+    width: 100%;
     transition: transform 0.3s ease;
+    
+    /* Gradient Border Trick using pseudo-element to support border-radius */
+    background: transparent;
+    border: 1px solid transparent; /* Reserve space */
+}
+
+/* Pseudo-element for gradient border */
+.company-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px; 
+    padding: 1px; /* Width of the border */
+    /* Gradient: Top #eee, Center Transparent (Expanded gap), Bottom #eee */
+    background: linear-gradient(to bottom, #eee 0%, rgba(238, 238, 238, 0) calc(50% - 30px), rgba(238, 238, 238, 0) calc(50% + 30px), #eee 100%); 
+    -webkit-mask: 
+       linear-gradient(#fff 0 0) content-box, 
+       linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude; 
+    pointer-events: none; /* Let clicks pass through */
 }
 .company-item:hover { transform: translateY(-5px); }
 .company-logo { 
     margin-bottom: 10px;
-    width: 100%;
-    height: 60px;
-    object-fit: cover;
+    width: 100%; /* Full width of container */
+    max-width: 100%; /* Ensure it fills available space */
+    min-width: 140px; /* Minimum width set to 140px per user request */
+    height: auto; /* Allow natural height based on width */
+    object-fit: contain; /* Ensure logo is fully visible */
     object-position: center;
 }
-.company-type { font-size: var(--text-small); color: var(--text-tertiary); text-transform: none; }
+.company-type { 
+    font-size: var(--text-small); 
+    color: var(--text-tertiary); 
+    text-transform: none; 
+    display: block; /* Force new line */
+    width: 100%; /* Ensure full width */
+    max-width: 100px; /* Force wrap at space by constraining width */
+    margin: 0 auto; /* Center alignment */
+}
 .company-role { 
-    font-weight: 500; 
+    font-weight: 400; /* Regular per user request */
     font-size: var(--text-body); 
     margin-bottom: 10px;
+    display: block; /* Ensure block level */
+    width: 100%; /* Force new line */
+    max-width: min-content; /* Force wrap at space tightly */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Experience */
@@ -1327,60 +1374,68 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .responsibility strong { color: var(--text-primary); font-weight: 500; }
 .responsibility { color: var(--text-secondary); font-size: 15px; }
 
-/* Marquee */
-.clients-marquee { overflow: hidden; margin-bottom: 60px; }
-/* Clients Grid (replaces marquee) */
+
+/* Clients Grid */
 .clients-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px; /* Reduced gap -30% (from 15px) */
-    padding: 20px 0;
+    justify-content: space-between; /* Distribute items evenly */
+    align-items: center; /* Vertically center */
+    gap: 40px; /* Increased gap for cleaner look */
+    padding: 20px var(--gutter); /* Added gutter padding */
     width: 100%;
-    max-width: 100%; /* Changed from 1000px to 100% for full width */
-    margin: 0 auto;
-}
-
-/* Override existing marquee animation */
-.marquee-content.clients-grid {
-    animation: none;
+    max-width: 1400px; /* Limit max width to match container */
+    margin: 0 auto 60px auto; /* Centered with bottom margin */
+    box-sizing: border-box;
 }
 
 .client-logo-img {
-    height: 78px; /* Increased +30% from 60px */
+    height: 70px; /* Restored to more prominent size */
+    min-width: 100px; /* Minimum width to ensure visibility */
     width: auto;
+    max-width: 150px; /* Constraint width to prevent overly wide logos */
     object-fit: contain;
-    margin: 3px; /* Reduced margin -30% (from 5px) */
-    opacity: 1;
+    margin: 0;
+    opacity: 0.6; /* Subtle opacity */
     filter: grayscale(100%); /* Default to grayscale */
     transition: all 0.3s ease; /* Transition for filter and transform */
+}
+
+.client-logo-img:hover {
+    opacity: 1;
+    filter: grayscale(0%);
 }
 
 /* Responsive adjustments - Reduced by 30% per user request */
 @media (max-width: 768px) {
     .clients-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on tablet */
+        gap: 30px;
         align-items: center;
         justify-items: center;
+        width: 100%;
+        padding: 0 20px;
     }
 
     .client-logo-img {
-        height: 54px; /* Reduced to ~70% of 78px */
-        width: auto; /* Maintain aspect ratio */
-        max-width: 112px; /* Reduced max-width accordingly */
+        height: 50px; /* Adjusted for tablet */
+        width: auto;
+        min-width: 80px;
+        max-width: 120px;
         margin: 0;
     }
 }
 
 @media (max-width: 480px) and (orientation: portrait) {
     .clients-grid {
-        gap: 15px;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+        gap: 20px;
     }
 
     .client-logo-img {
-        height: 54px; /* Kept same as tablet for consistency */
+        height: 40px; /* Adjusted for mobile */
+        min-width: 90px;
         max-width: 100px;
     }
 }
@@ -1540,7 +1595,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .case-study-tabs {
     display: flex;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 2px; /* Reduced gap from 8px to 2px */
     margin-bottom: 24px;
     /* border-bottom: 1px solid rgba(0,0,0,0.06); Removed outline per user request */
     padding-bottom: 16px;
@@ -1551,12 +1606,12 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     border: none;
     font-family: 'Inter', sans-serif;
     font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.5px; /* Increased letter spacing */
+    font-weight: 400; /* Changed to regular per user request */
+    letter-spacing: normal; /* Default letter spacing */
     color: var(--text-secondary); /* #666 */
     padding: 6px 14px;
     cursor: pointer;
-    border-radius: 100px;
+    border-radius: 10px; /* Adjusted to 10px per user request */
     transition: all 0.2s ease;
 }
 
@@ -1568,7 +1623,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .case-tab.active {
     color: #fff;
     background: #000;
-    font-weight: 600;
+    font-weight: 400; /* Match inactive state (regular) */
     position: relative; /* Enable absolute positioning for pseudo-element */
 }
 
@@ -1854,7 +1909,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     :root {
         /* Professional Mobile Type Scale */
         --h1: 40px;
-        --h2: 32px; /* Restored to reasonable size for mobile */
+        --h2: 45px; /* Increased ~40% from 32px per user request */
         --h3: 24px;
         --h4: 20px;
         --gutter: 24px;
@@ -1891,6 +1946,11 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
         gap: 16px;
     }
     .company-item { width: auto; }
+    /* Mobile Logo Constraints */
+    .company-logo {
+        min-width: 120px; /* Slightly smaller for mobile to fit 2 columns */
+        max-width: 100%;
+    }
     .skills-grid { grid-template-columns: 1fr; gap: 20px; }
     .skill-category { width: 100%; }
     
@@ -2334,8 +2394,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
    FOOTER
    ========================================= */
 .site-footer {
-    margin-top: 80px;
-    padding: 40px 0 30px 0;
+    margin-top: 0; /* Removed margin to prevent black gap */
+    padding: 80px 0 30px 0; /* Increased top padding to compensate */
     border-top: 1px solid rgba(0, 0, 0, 0.06);
     background: #fdfbf7;
     color: var(--text-secondary);

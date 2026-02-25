@@ -284,19 +284,21 @@
         </section>
 
 
-        <section class="section impact-case fade-in" id="highlights-video">
-            <h2 class="section-title text-gradient">Creative Case Study</h2>
-            
-            <!-- Tabs Navigation -->
-            <div class="case-study-tabs">
-                <button class="case-tab active" onclick="switchCase(0)">Global Launch</button>
-                <button class="case-tab" onclick="switchCase(1)">Brand Identity</button>
-                <button class="case-tab" onclick="switchCase(2)">UX/UI System</button>
-            </div>
+        <section class="section impact-case fade-in container-expanded" id="highlights-video">
+            <div style="max-width: 1400px; margin: 0 auto; padding: 0 var(--gutter); width: 100%; box-sizing: border-box;">
+                <h2 class="section-title text-gradient">Creative Case Study</h2>
+                
+                <!-- Tabs Navigation -->
+                <div class="case-study-tabs">
+                    <button class="case-tab active" onclick="switchCase(0)">Global Launch</button>
+                    <button class="case-tab" onclick="switchCase(1)">Brand Identity</button>
+                    <button class="case-tab" onclick="switchCase(2)">UX/UI System</button>
+                    <button class="case-tab" onclick="switchCase(3)">Motion Design</button>
+                </div>
 
-            <div class="impact-card">
-                <!-- Project 1 -->
-                <div class="impact-card-inner case-slide active" id="case-0">
+                <div class="impact-card">
+                    <!-- Project 1 -->
+                    <div class="impact-card-inner case-slide active" id="case-0">
                     <div class="impact-copy">
                         <p class="impact-kicker">Multi-platform brand and performance campaigns</p>
                         <h3 class="impact-heading">From visual concept to cross-market launch.</h3>
@@ -393,10 +395,42 @@
                         <p class="impact-media-caption">UX/UI Optimization</p>
                     </div>
                 </div>
+
+                <!-- Project 4: Motion Design -->
+                <div class="impact-card-inner case-slide" id="case-3">
+                    <div class="impact-copy">
+                        <p class="impact-kicker">Motion Graphics & Animation</p>
+                        <h3 class="impact-heading">Bringing Stories to Life.</h3>
+                        <p class="impact-body">
+                            Creating dynamic motion systems that enhance user engagement and communicate complex ideas through fluid animation and visual storytelling.
+                        </p>
+                        <dl class="impact-metrics">
+                            <div class="impact-metric">
+                                <dt>Focus</dt>
+                                <dd>2D/3D Animation, Micro-interactions</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Tools</dt>
+                                <dd>After Effects, Cinema 4D, Lottie</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Role</dt>
+                                <dd>Motion Designer, Art Director</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="impact-media">
+                        <div class="impact-media-frame ratio-9-16">
+                             <!-- Placeholder image/video for Project 4 -->
+                             <img src="https://placehold.co/1080x1920/000000/00D4AA?text=Motion+Design" alt="Motion Design Project" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <p class="impact-media-caption">Motion Graphics Showcase</p>
+                    </div>
+                </div>
             </div>
-            
-            <script>
-                function switchCase(index) {
+        </section>
+        <script>
+            function switchCase(index) {
                     // Update Tabs
                     document.querySelectorAll('.case-tab').forEach((tab, i) => {
                         if (i === index) tab.classList.add('active');
@@ -426,9 +460,9 @@
 
         <!-- Recent Companies -->
         <div class="recent-companies fade-in" style="margin-bottom: 60px; margin-top: 40px;">
-            <h2 class="section-title text-gradient" style="margin-bottom: 15px;">Key Milestones</h2>
+            <h2 class="section-title text-gradient" style="margin-bottom: 15px;">Professional Experience</h2>
             <p class="section-intro" style="margin-bottom: 30px;">
-                Proud to have contributed to the success of leading global brands and high-growth startups across Fintech, AdTech, and Creative Production sectors.
+                Strategic contributions to leading global brands and high-growth startups across Fintech, AdTech, and Creative Production sectors.
             </p>
             <div class="companies-carousel">
                 <a href="profile.html#exp-filament" class="company-item">
@@ -454,23 +488,25 @@
             </div>
         </div>
 
-        <!-- Clients Marquee -->
-        <div class="recent-companies-label">Notable Brands & Clients</div>
-        <div class="clients-marquee fade-in">
-            <div class="marquee-content clients-grid">
-                <img src="Clients/1.png" alt="Client 1" class="client-logo-img">
-                <img src="Clients/2.png" alt="Client 2" class="client-logo-img">
-                <img src="Clients/3.png" alt="Client 3" class="client-logo-img">
-                <img src="Clients/4.png" alt="Client 4" class="client-logo-img">
-                <img src="Clients/5.png" alt="Client 5" class="client-logo-img">
-                <img src="Clients/6.png" alt="Client 6" class="client-logo-img">
-                <img src="Clients/7.png" alt="Client 7" class="client-logo-img">
-                <img src="Clients/8.png" alt="Client 8" class="client-logo-img">
-                <img src="Clients/9.png" alt="Client 9" class="client-logo-img">
-                <img src="Clients/10.png" alt="Client 10" class="client-logo-img">
-                <img src="Clients/11.png" alt="Client 11" class="client-logo-img">
-                <img src="Clients/12.png" alt="Client 12" class="client-logo-img">
-            </div>
+        <!-- Clients Grid -->
+        <div class="brand-experience-section fade-in" style="margin-top: 60px; margin-bottom: 60px;">
+            <h2 class="brand-experience-heading" style="margin-bottom: 0; font-size: 16px; color: #000; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; text-align: center;">
+                <div style="display: inline-block; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px; width: 100%;">Brand Experience</div>
+                <div class="clients-grid" style="margin-top: 30px; -webkit-text-fill-color: initial; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--text-primary); font-weight: normal; font-size: 1rem; text-transform: none; letter-spacing: normal; text-align: left;">
+                    <img src="Clients/1.png" alt="Client 1" class="client-logo-img">
+                    <img src="Clients/2.png" alt="Client 2" class="client-logo-img">
+                    <img src="Clients/3.png" alt="Client 3" class="client-logo-img">
+                    <img src="Clients/4.png" alt="Client 4" class="client-logo-img">
+                    <img src="Clients/5.png" alt="Client 5" class="client-logo-img">
+                    <img src="Clients/6.png" alt="Client 6" class="client-logo-img">
+                    <img src="Clients/7.png" alt="Client 7" class="client-logo-img">
+                    <img src="Clients/8.png" alt="Client 8" class="client-logo-img">
+                    <img src="Clients/9.png" alt="Client 9" class="client-logo-img">
+                    <img src="Clients/10.png" alt="Client 10" class="client-logo-img">
+                    <img src="Clients/11.png" alt="Client 11" class="client-logo-img">
+                    <img src="Clients/12.png" alt="Client 12" class="client-logo-img">
+                </div>
+            </h2>
         </div>
 
 
@@ -796,8 +832,8 @@
                     const slowEased = 1 - Math.pow(1 - slowProgress, 2);
                     const slowOpacity = 1 - slowEased;
                     
-                    // 2. Subtle Movement: Move at 15% of scroll speed (creating a small "slip")
-                    const overlayTranslate = scrollY * 0.15;
+                    // 2. Subtle Movement: Move at 22.5% of scroll speed (+50% from 0.15)
+                    const overlayTranslate = scrollY * 0.225;
 
                     heroOverlayLayout.style.setProperty('opacity', slowOpacity, 'important');
                     heroOverlayLayout.style.setProperty('transform', `translateY(-${overlayTranslate}px)`, 'important');
