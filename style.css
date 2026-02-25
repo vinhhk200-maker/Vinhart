@@ -2581,26 +2581,63 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 /* The base .header-title style (lines ~312) handles flex-shrink: 1 and overflow: hidden */
 /* Hero CTA Button */
 .hero-cta {
+    position: relative;
     display: inline-block;
     margin-top: 32px;
     padding: 12px 32px;
-    border: 1px solid #ffffff; /* Reduced to 1px */
+    border: 1px solid transparent; /* Hide real border but keep layout space */
     border-radius: 999px;
-    color: #ffffff;
     text-decoration: none;
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif; /* Updated to DM Sans per global request */
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.02em;
-    transition: all 0.3s ease;
-    background: transparent;
     cursor: pointer;
+    z-index: 1;
+    background: transparent;
+
+    /* Text Gradient Logic (Same as .hero-overlay-name) */
+    background-image: linear-gradient(to right, transparent 50%, #ffffff 50%), 
+                      linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
+    background-size: 200% 100%, 300% 300%;
+    background-position: 100% 0%, 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #ffffff; /* Fallback */
+    transition: background-position 0.8s ease;
+}
+
+/* Border Gradient Logic (Pseudo-element Mask Trick) */
+.hero-cta::before {
+    content: "";
+    position: absolute;
+    inset: -1px; /* Cover the 1px transparent border area */
+    border-radius: 999px; 
+    padding: 1px; /* Thickness of the visual border */
+    
+    background-image: linear-gradient(to right, transparent 50%, #ffffff 50%), 
+                      linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
+    background-size: 200% 100%, 300% 300%;
+    background-position: 100% 0%, 0% 50%;
+    
+    /* Mask to create border shape */
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
+    transition: background-position 0.8s ease;
+    pointer-events: none;
+    z-index: -1; /* Behind text */
 }
 
 .hero-cta:hover {
-    background: rgba(255, 255, 255, 0.6); /* White background with 60% opacity */
-    color: #000000;
-    border-color: transparent; /* Optional: hide border on hover for cleaner look */
+    background-position: 0% 0%, 100% 50%;
+    /* No background change needed as we rely on text/border gradients */
+}
+
+.hero-cta:hover::before {
+    background-position: 0% 0%, 100% 50%;
 }
 
 /* Ensure CTA doesn't conflict on mobile */
