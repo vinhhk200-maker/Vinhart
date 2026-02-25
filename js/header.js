@@ -188,6 +188,17 @@ const HeaderComponent = {
         const header = document.querySelector('.header');
         if (!header) return;
 
+        // Check if current page is Home (by class or filename)
+        // If NOT homepage, force header to be visible immediately and skip scroll logic
+        const isHomePage = document.body.classList.contains('page-home') || 
+                          window.location.pathname.endsWith('index.html') || 
+                          window.location.pathname.endsWith('/');
+        
+        if (!isHomePage) {
+            header.classList.add('visible');
+            return; // Exit, do not add scroll listener
+        }
+
         let ticking = false;
         let lastScrollY = window.scrollY || 0;
         const getTriggerPoint = () => {
