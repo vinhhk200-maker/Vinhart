@@ -110,6 +110,14 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     padding: 0 var(--gutter);
 }
 
+.section-content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* Expanded Container for Specific Sections */
 .container-expanded {
     max-width: 100vw; /* Full viewport width */
