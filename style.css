@@ -111,7 +111,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .section-content-wrapper {
-    max-width: 1400px;
+    max-width: 100%;
     margin: 0;
     padding: 0;
     width: 100%;
