@@ -129,4 +129,90 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    /* =========================================
+       PROJECT CAROUSEL LOGIC
+       ========================================= */
+    const carousel = document.querySelector('.impact-hero-carousel');
+    if (carousel) {
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const dots = carousel.querySelectorAll('.carousel-dot');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        const intervalTime = 3000; // 3 seconds
+        let slideInterval;
+
+        // Function to move to specific slide
+        function goToSlide(index) {
+            // Remove active class from current
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            // Update current index
+            currentSlide = (index + totalSlides) % totalSlides;
+            
+            // Add active class to new
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Auto play function
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                goToSlide(currentSlide + 1);
+            }, intervalTime);
+        }
+
+        // Stop auto play
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        // Event listeners for dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopSlideShow(); // Stop auto play on interaction
+                goToSlide(index);
+                startSlideShow(); // Restart auto play
+            });
+        });
+
+        // Initialize
+        startSlideShow();
+
+        // Optional: Pause on hover
+        carousel.addEventListener('mouseenter', stopSlideShow);
+        carousel.addEventListener('mouseleave', startSlideShow);
+
+        // Swipe Support for Mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            stopSlideShow(); // Stop auto play on touch start
+        }, { passive: true });
+
+        carousel.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            // Check if swipe is horizontal and significant enough
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Swiped Left -> Next Slide
+                    goToSlide(currentSlide + 1);
+                } else {
+                    // Swiped Right -> Previous Slide
+                    goToSlide(currentSlide - 1);
+                }
+            }
+            
+            startSlideShow(); // Restart auto play
+        }, { passive: true });
+    }
 });

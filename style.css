@@ -1668,18 +1668,18 @@ h2.text-gradient, h2.section-title.text-gradient {
     
     /* Ensure content stays within the central column */
     /* Content constrained to layout grid, Background full width */
-    padding-top: 60px;
+    padding-top: 0; /* Removed top padding for hero carousel */
     padding-bottom: 60px;
     padding-left: 0; 
     padding-right: 0;
     
     box-sizing: border-box; /* Explicitly ensure border-box */
 
-    background: rgba(250, 248, 243, 0.92);
+    background: #ffffff;
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px); /* Safari support */
     box-shadow: 0 18px 55px rgba(0, 0, 0, 0.12);
-    border-top: 1px solid rgba(255, 255, 255, 0.8); /* Apple Glass white outline */
+    border-top: none; /* Remove top border for edge-to-edge look */
     border-bottom: 1px solid rgba(255, 255, 255, 0.8);
 }
 
@@ -1692,12 +1692,17 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .impact-content-wrapper {
     display: flex;
+    align-items: flex-start; /* Ensure children (including video) align to the top */
+    position: relative; /* Ensure z-index works */
+    z-index: 2; /* Content sits on top of sticky carousel */
     width: 100%;
-    max-width: 1400px;
+    max-width: 100% !important; /* Full width to match Header/Fluid layout */
     margin: 0 auto !important;
-    padding-left: var(--gutter) !important;
-    padding-right: var(--gutter) !important;
+    padding-top: 15px; /* Reduced from 30px (-50%) to decrease top spacing */
+    padding-left: var(--gutter) !important; /* Restore padding to match layout alignment */
+    padding-right: var(--gutter) !important; /* Restore padding to match layout alignment */
     gap: 40px;
+    background: #ffffff; /* Add background to cover image when scrolling */
 }
 
 /* =========================================
@@ -1839,6 +1844,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     line-height: 1.2;
     letter-spacing: -0.02em;
     margin-bottom: 14px;
+    margin-top: 0; /* Ensure no top margin for alignment */
 }
 
 .impact-body {
@@ -1930,12 +1936,21 @@ h2.text-gradient, h2.section-title.text-gradient {
 
     .impact-media-frame.ratio-9-16 {
         width: 100%; /* Frame now takes full width of the narrowed parent */
-        margin: 0; 
+        margin: 0;
+        height: auto; /* Allow height to adjust naturally based on video aspect ratio */
+        aspect-ratio: auto; /* Remove fixed aspect ratio constraint */
+    }
+    
+    .impact-media-frame.ratio-9-16 video {
+        width: 100%;
+        height: auto; /* Video maintains natural height */
+        object-fit: contain; /* Ensure full video is visible */
     }
 }
 
 .ratio-9-16 {
-    aspect-ratio: 9 / 16;
+    /* aspect-ratio: 9 / 16; Removed to allow flexible height */
+    width: 100%;
 }
 
 .play-icon {
@@ -2791,4 +2806,99 @@ h2.text-gradient, h2.section-title.text-gradient {
     text-align: center;
     opacity: 0;
     animation: fadeIn 1s ease forwards;
+}
+
+/* =========================================
+   CAROUSEL STYLES
+   ========================================= */
+.impact-hero-carousel {
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Keep it below content if we want parallax, but above background */
+    width: 100%;
+    overflow: hidden;
+    /* Maintain aspect ratio of 21:9 like the original image */
+    aspect-ratio: 21 / 9;
+}
+
+.carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out; /* Smooth fade effect as fallback/base */
+    z-index: 1;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center; /* Anchor to top, center horizontally */
+    display: block;
+}
+
+/* Dots Navigation */
+.carousel-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+/* Gradient Overlay at Bottom of Carousel */
+.impact-hero-carousel::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%; /* Height of the gradient fade */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    z-index: 5; /* Above slides (z-index 1-2), below dots (z-index 10) */
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    background: #ffffff;
+    transform: scale(1.2);
+}
+
+.carousel-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+    .impact-hero-carousel {
+        aspect-ratio: 3 / 2; /* Expand height ~20% more for mobile vertical */
+    }
 }
