@@ -69,7 +69,7 @@ body {
     line-height: var(--leading-normal);
     -webkit-font-smoothing: antialiased;
     min-width: 320px;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll from 100vw elements */
 }
 
 html.page-home,
@@ -1695,8 +1695,8 @@ h2.text-gradient, h2.section-title.text-gradient {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: var(--gutter) !important;
+    padding-right: var(--gutter) !important;
     gap: 40px;
 }
 
@@ -1785,8 +1785,9 @@ h2.text-gradient, h2.section-title.text-gradient {
         gap: 30px;
         max-width: 100%;
         margin: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
+        /* Restore padding for mobile */
+        padding-left: var(--gutter) !important;
+        padding-right: var(--gutter) !important;
     }
 }
 
@@ -1800,8 +1801,9 @@ h2.text-gradient, h2.section-title.text-gradient {
         gap: 24px; /* Reduce gap between columns */
         max-width: 100%;
         margin: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
+        /* Restore padding for tablet/mobile to prevent edge collision */
+        padding-left: var(--gutter) !important;
+        padding-right: var(--gutter) !important;
     }
     
     .impact-metrics {
@@ -1968,21 +1970,9 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
 }
 
-@media (max-width: 1024px) {
-    .impact-card-inner {
-        /* gap: 28px; Moved to .case-slide */
-        padding: 40px 20px;
-    }
-    .case-slide.active {
-        gap: 28px;
-    }
-}
+/* Removed legacy .impact-card-inner padding block to prevent double padding */
 
 @media (max-width: 900px) {
-    .impact-card-inner {
-        /* flex-direction: column; Handled by .case-slide */
-    }
-
     .impact-media {
         align-items: flex-start;
     }
