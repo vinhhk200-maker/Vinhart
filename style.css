@@ -1055,7 +1055,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     z-index: 2;
     margin-top: 100vh;
     border-radius: 0;
-    /* overflow: hidden; Removed to allow gradient pseudo-element to extend upwards */
+    overflow: hidden;
     /* Removed opacity: 0 to fix "cannot scroll" perception */
     transition: opacity 0.5s ease;
 }
@@ -1063,14 +1063,13 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .main-content::before {
     content: "";
     position: absolute;
-    /* Gradient Layer above content */
-    top: -40vh; /* Extend upwards to cover hero text */
+    top: 0;
     left: 0;
     right: 0;
-    height: 40vh; /* Match the top offset */
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000000 100%);
+    height: 0;
+    background: transparent;
     pointer-events: none;
-    z-index: 3; /* Above main content to ensure smooth blend */
+    z-index: 0;
 }
 
 .main-content.visible { opacity: 1; }
@@ -1148,7 +1147,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .video-label {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
@@ -1157,7 +1156,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 }
 
 .video-description {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.8); /* White text with opacity */
     max-width: 500px;
