@@ -1984,9 +1984,9 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 /* Mobile Landscape Optimization & Square-ish Screens (min-width: 550px) */
 @media (min-width: 550px) and (max-width: 900px) {
-    .case-slide.active {
+    .impact-content-wrapper {
         flex-direction: row !important; /* Force 2 columns */
-        align-items: flex-start;
+        align-items: center; /* Center vertically for balanced look */
         gap: 20px;
     }
     
