@@ -1854,6 +1854,10 @@ h2.text-gradient, h2.section-title.text-gradient {
     max-width: 100%; /* Allow full width to match heading */
 }
 
+.impact-body strong {
+    color: #000000; /* Highlight text black 100% */
+}
+
 .impact-metrics {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
