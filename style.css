@@ -139,6 +139,16 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     animation: gradientTextAnim 8s ease infinite;
 }
 
+/* Override for h2 to be black per user request */
+h2.text-gradient, h2.section-title.text-gradient {
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: #000000;
+    color: #000000;
+    animation: none;
+}
+
 /* New Skills Text Layout */
 .skills-text-layout {
     display: grid;
@@ -1633,18 +1643,6 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     padding-top: 0; /* User Request: Remove top padding to eliminate gap with h2 */
 }
 
-/* Ensure full width for carousel section */
-#highlights-video.container-expanded {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-/* Restore padding for title since section padding is removed */
-#highlights-video .section-title {
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
-}
-
 .impact-card {
     position: relative;
     margin-top: 28px;
@@ -1656,56 +1654,101 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .impact-card-inner {
     position: relative;
     z-index: 1;
-    display: flex; /* Restored flex layout */
-    gap: 40px; /* Space between text and media */
-    padding: 60px 5vw; /* Responsive horizontal padding */
-    width: 100%;
-    min-height: 80vh; /* Occupy significant screen height */
-    align-items: center; /* Vertically center content */
-    
-    /* Full screen / Edge-to-Edge Styling */
-    border-radius: 0;
-    background: rgba(250, 248, 243, 0.95); /* Slightly more opaque */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: none;
-    box-shadow: none;
+    /* display: flex; Removed for tabs support */
+    /* gap: 40px; Moved to .case-slide */
+    padding: 60px 40px;
+    border-radius: 40px; /* Increased by additional 8px to 40px */
+    background: rgba(250, 248, 243, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px); /* Safari support */
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.8); /* Apple Glass white outline */
 }
 
 /* =========================================
-   IMPACT CAROUSEL (Full Screen Layout)
+   CASE STUDY TABS
    ========================================= */
-.impact-carousel {
+.case-study-tabs {
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-    scrollbar-width: none;
-    gap: 0;
+    justify-content: flex-start;
+    gap: 2px; /* Reduced gap from 8px to 2px */
+    margin-bottom: 24px;
+    /* border-bottom: 1px solid rgba(0,0,0,0.06); Removed outline per user request */
+    padding-bottom: 16px;
 }
 
-.impact-carousel::-webkit-scrollbar {
-    display: none;
+.case-tab {
+    background: transparent;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 400; /* Changed to regular per user request */
+    letter-spacing: normal; /* Default letter spacing */
+    color: var(--text-secondary); /* #666 */
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 10px; /* Adjusted to 10px per user request */
+    transition: all 0.2s ease;
+
+    /* Hover Gradient Effect (Left-to-Right Wipe) */
+    background-image: linear-gradient(to right, transparent 50%, var(--text-secondary) 50%), 
+                      linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
+    background-size: 200% 100%, 300% 300%;
+    background-position: 100% 0%, 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Makes text transparent to show background */
+    /* Note: color is set above as fallback, but text-fill-color overrides it */
+}
+
+.case-tab:hover {
+    background-position: 0% 0%, 100% 50%;
+    background-color: rgba(0,0,0,0.04); /* Keep background hover */
+}
+
+.case-tab.active {
+    color: #fff;
+    -webkit-text-fill-color: #fff; /* Override transparent text for active state */
+    background: #000; /* Solid black background for active state */
+    font-weight: 400; /* Match inactive state (regular) */
+    position: relative; /* Enable absolute positioning for pseudo-element */
+}
+
+/* Connecting line for active tab */
+.case-tab.active::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px; /* Decreased to 1px per user request */
+    height: 48px; /* Adjusted to bridge gap perfectly */
+    background: #000; /* Matching active tab color */
+    opacity: 1; /* Changed to 100% opacity */
+    top: 100%;
+    pointer-events: none;
 }
 
 .case-slide {
-    flex: 0 0 100vw;
-    width: 100vw;
-    scroll-snap-align: start;
-    position: relative;
-    display: block; /* Inner content handles layout */
+    display: none;
+    width: 100%;
+}
+
+.case-slide.active {
+    display: flex;
+    gap: 40px; /* Inherited from original impact-card-inner */
+    animation: slideFadeIn 0.4s ease forwards;
+}
+
+@keyframes slideFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Mobile adjustments for slides */
 @media (max-width: 900px) {
-    .impact-card-inner {
+    .case-slide.active {
         flex-direction: column;
-        padding: 40px 20px;
         gap: 30px;
-        height: auto;
-        min-height: 100dvh; /* Full mobile viewport height */
-        justify-content: center;
     }
 }
 
