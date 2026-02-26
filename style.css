@@ -1055,7 +1055,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     z-index: 2;
     margin-top: 100vh;
     border-radius: 0;
-    overflow: hidden;
+    /* overflow: hidden; Removed to allow gradient pseudo-element to extend upwards */
     /* Removed opacity: 0 to fix "cannot scroll" perception */
     transition: opacity 0.5s ease;
 }
@@ -1063,13 +1063,14 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 .main-content::before {
     content: "";
     position: absolute;
-    top: 0;
+    /* Gradient Layer above content */
+    top: -40vh; /* Extend upwards to cover hero text */
     left: 0;
     right: 0;
-    height: 0;
-    background: transparent;
+    height: 40vh; /* Match the top offset */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000000 100%);
     pointer-events: none;
-    z-index: 0;
+    z-index: 3; /* Above main content to ensure smooth blend */
 }
 
 .main-content.visible { opacity: 1; }
