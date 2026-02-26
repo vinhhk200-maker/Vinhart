@@ -1078,7 +1078,7 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
 
 /* Video Wrapper (iframe container) */
 .video-wrapper {
-    margin-top: 0;
+    margin-top: -1px; /* Pull up slightly to cover any sub-pixel white gap from parent */
     margin-bottom: 0 !important; /* Force remove bottom margin to stick to caption */
     position: relative;
     width: 100vw !important;
@@ -1089,6 +1089,9 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     margin-right: -50vw;
     border-radius: 0 !important;
     background-color: #000 !important; /* Black background to show placeholder */
+    outline: none;
+    border: none;
+    box-shadow: none;
 }
 
 .video-wrapper iframe {
@@ -1100,6 +1103,8 @@ h4 { font-size: var(--h4); line-height: var(--leading-snug); letter-spacing: var
     left: 0;
     width: 100%;
     height: 100%;
+    border: none !important;
+    outline: none !important;
 }
 
 .video-wrapper::after {
