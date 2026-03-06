@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap');
-
 /* =========================================
    BASE & VARIABLES
    ========================================= */
@@ -7,7 +5,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'DM Sans', sans-serif;
     /* Prevent font scaling in landscape mode on WebKit browsers (iOS Safari) */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -56,6 +53,31 @@
     /* Fluid Gutter: 16px (Mobile) -> 60px (Desktop) */
     --gutter: clamp(16px, 5vw, 60px); 
     --space-2xl: 100px;
+
+    /* Case Tabs */
+    --case-tab-gap: 2px;
+    --case-tab-font: 15px;
+    --case-tab-pad-y: 6px;
+    --case-tab-pad-x: 14px;
+    --case-tab-radius: 100px;
+    --case-tab-active-bg: #000;
+    --case-tab-active-color: #fff;
+    --case-tab-hover-bg: rgba(0,0,0,0.04);
+    --case-tab-connector-w: 1px;
+    --case-tab-connector-h: 56px;
+    --case-tabs-gradient-w: 8vw;
+    --case-tabs-gap-to-card: 8px;
+    --case-tabs-inset: var(--gutter);
+    /* Match hero-cta sizing for active tab */
+    --case-tab-active-pad-y: 12px;
+    --case-tab-active-pad-x: 32px;
+    --case-tab-active-font: 16px;
+    --case-tab-active-radius: 999px;
+    --case-tabs-trim: 15px;
+
+    /* Media */
+    --media-radius: 20px;
+    --media-fit: cover;
 }
 
 body {
@@ -91,7 +113,7 @@ a {
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
 h1, h2, h3, h4, h5, h6 { 
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+    /* Inherit font-family from body */
     font-weight: 200; /* Extra Light for Apple-like elegance */
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
@@ -1679,7 +1701,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px); /* Safari support */
     box-shadow: 0 18px 55px rgba(0, 0, 0, 0.12);
-    border-top: none; /* Remove top border for edge-to-edge look */
+    border-top: none; /* Hide top border per user request */
     border-bottom: 1px solid rgba(255, 255, 255, 0.8);
 }
 
@@ -1708,27 +1730,73 @@ h2.text-gradient, h2.section-title.text-gradient {
 /* =========================================
    CASE STUDY TABS
    ========================================= */
+.case-tabs-bleed {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow-x: hidden;
+    overflow-y: visible;
+    margin-bottom: var(--case-tabs-gap-to-card);
+}
+
+.case-tabs-bleed::before,
+.case-tabs-bleed::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--case-tabs-gradient-w);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.case-tabs-bleed::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.case-tabs-bleed::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.case-tabs-bleed.show-left::before { opacity: 1; }
+.case-tabs-bleed.show-right::after { opacity: 1; }
+.case-tabs-bleed { padding-left: 0; padding-right: 0; }
+.case-tabs-bleed.edge-left { padding-left: var(--case-tabs-inset); }
+.case-tabs-bleed.edge-right { padding-right: var(--case-tabs-inset); }
 .case-study-tabs {
     display: flex;
     justify-content: flex-start;
-    gap: 2px; /* Reduced gap from 8px to 2px */
-    margin-bottom: 24px;
+    gap: var(--case-tab-gap);
+    margin-bottom: 0;
     /* border-bottom: 1px solid rgba(0,0,0,0.06); Removed outline per user request */
-    padding-bottom: 16px;
+    padding-bottom: calc(var(--case-tab-connector-h) - var(--case-tabs-trim));
+    flex-wrap: nowrap;                 /* Keep tabs on one line */
+    overflow-x: auto;                  /* Enable horizontal scroll when many tabs */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    overscroll-behavior-x: contain;    /* Prevent viewport scroll chaining */
+    scroll-behavior: smooth;           /* Smooth programmatic scroll */
+    scroll-snap-type: x proximity;     /* Snap near centers for better UX */
 }
 
 .case-tab {
     background: transparent;
     border: none;
     font-family: 'Inter', sans-serif;
-    font-size: 15px;
+    font-size: var(--case-tab-font);
     font-weight: 400; /* Changed to regular per user request */
     letter-spacing: normal; /* Default letter spacing */
     color: var(--text-secondary); /* #666 */
-    padding: 6px 14px;
+    padding: var(--case-tab-pad-y) var(--case-tab-pad-x);
     cursor: pointer;
-    border-radius: 100px; /* Changed to 100px (fully round) per user request */
+    border-radius: var(--case-tab-radius);
     transition: all 0.2s ease;
+    flex: 0 0 auto;                    /* Prevent flex shrinking for horizontal scroll */
+    scroll-snap-align: center;         /* Center tabs on snap */
 
     /* Hover Gradient Effect (Left-to-Right Wipe) */
     background-image: linear-gradient(to right, transparent 50%, var(--text-secondary) 50%), 
@@ -1743,15 +1811,18 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .case-tab:hover {
     background-position: 0% 0%, 100% 50%;
-    background-color: rgba(0,0,0,0.04); /* Keep background hover */
+    background-color: var(--case-tab-hover-bg);
 }
 
 .case-tab.active {
-    color: #fff;
-    -webkit-text-fill-color: #fff; /* Override transparent text for active state */
-    background: #000; /* Solid black background for active state */
+    color: var(--case-tab-active-color);
+    -webkit-text-fill-color: var(--case-tab-active-color);
+    background: var(--case-tab-active-bg);
     font-weight: 400; /* Match inactive state (regular) */
     position: relative; /* Enable absolute positioning for pseudo-element */
+    padding: var(--case-tab-active-pad-y) var(--case-tab-active-pad-x);
+    font-size: var(--case-tab-active-font);
+    border-radius: var(--case-tab-active-radius);
 }
 
 /* Connecting line for active tab */
@@ -1760,13 +1831,16 @@ h2.text-gradient, h2.section-title.text-gradient {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 1px; /* Decreased to 1px per user request */
-    height: 48px; /* Adjusted to bridge gap perfectly */
-    background: #000; /* Matching active tab color */
+    width: var(--case-tab-connector-w);
+    height: calc(var(--case-tab-connector-h) - var(--case-tabs-trim));
+    background: var(--case-tab-active-bg);
     opacity: 1; /* Changed to 100% opacity */
     top: 100%;
     pointer-events: none;
 }
+
+/* Optional: hide scrollbar for a cleaner look (still scrollable) */
+.case-study-tabs::-webkit-scrollbar { display: none; }
 
 .case-slide {
     display: none;
@@ -1839,7 +1913,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-heading {
-    font-size: 28px;
+    font-size: 30px; /* Increased by 2 units from 28px */
     font-weight: 400; /* Regular weight per user request */
     line-height: 1.2;
     letter-spacing: -0.02em;
@@ -1848,8 +1922,8 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-body {
-    font-size: var(--text-small);
-    line-height: 1.6;
+    font-size: calc(var(--text-small) * 1.2); /* Reduced from 2x to 1.2x (-40% relative to 2x, effectively +20% from original) */
+    line-height: 1.5; /* Adjusted line-height */
     color: var(--text-secondary);
     max-width: 100%; /* Allow full width to match heading */
 }
@@ -1880,7 +1954,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-media-frame {
-    border-radius: 20px;
+    border-radius: var(--media-radius);
     overflow: hidden;
     background: #000;
 }
@@ -1916,7 +1990,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: cover;
+    object-fit: var(--media-fit);
 }
 
 .media-wrapper {
@@ -1948,7 +2022,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     .impact-media-frame.ratio-9-16 video {
         width: 100%;
         height: auto; /* Video maintains natural height */
-        object-fit: contain; /* Ensure full video is visible */
+        object-fit: var(--media-fit);
     }
 }
 
@@ -2004,30 +2078,35 @@ h2.text-gradient, h2.section-title.text-gradient {
 /* Mobile Landscape Optimization & Square-ish Screens (min-width: 550px) */
 @media (min-width: 550px) and (max-width: 900px) {
     .impact-content-wrapper {
-        flex-direction: row !important; /* Force 2 columns */
-        align-items: center; /* Center vertically for balanced look */
+        flex-direction: row !important;
+        align-items: flex-start;
         gap: 20px;
     }
     
     .impact-copy {
-        flex: 1;
+        flex: 1.3;
+        min-width: 0;
     }
     
     .impact-media {
-        flex: 0.8; /* Reduce media width slightly */
+        flex: 0.8;
         display: flex;
         flex-direction: column;
-        align-items: flex-end; /* Align right */
+        align-items: flex-end;
     }
     
     .impact-media-frame.ratio-9-16 {
-        width: 100%; /* Full width within the column */
-        max-width: 250px; /* Limit max width */
+        width: 100%;
+        max-width: 250px;
         margin: 0;
+    }
+    .impact-media-frame.video-slider-container {
+        width: 70%;
+        max-width: none;
     }
 
     .impact-heading {
-        font-size: 20px; /* Reduce heading size */
+        font-size: 24px;
         margin-bottom: 8px;
     }
     
@@ -2037,7 +2116,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
     
     .impact-metrics {
-        grid-template-columns: 1fr 1fr; /* 2 columns for metrics */
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
         margin-top: 12px;
     }
@@ -2600,6 +2679,86 @@ h2.text-gradient, h2.section-title.text-gradient {
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 10px 24px;
+}
+
+/* =========================================
+   VIDEO WRAPPER STYLES (Replaced Iframe)
+   ========================================= */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    background-color: #eee;
+    /* Desktop: 21:9 Aspect Ratio */
+    aspect-ratio: 21 / 9;
+}
+
+.expertise-video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Mobile Portrait: Crop 20% left/right -> Increase Height */
+@media (max-width: 768px) and (orientation: portrait) {
+    .video-wrapper {
+        /* 
+           Only apply this crop effect on Mobile Portrait mode.
+           To crop 20% from each side (total 40% width reduction relative to height),
+           we need a taller aspect ratio.
+           16:9 = 1.77
+           Crop 20% each side means we only see the center 60% of the width.
+           New Ratio = (16 * 0.6) / 9 = 9.6 / 9 = ~1.06 (Close to Square)
+           Let's set a square-ish ratio to force the height to increase
+           while object-fit: cover handles the cropping.
+        */
+        aspect-ratio: 1 / 1; 
+    }
+}
+
+/* Mobile Landscape & Tablet & Desktop: Keep 21:9 ratio */
+@media (max-width: 768px) and (orientation: landscape) {
+    .video-wrapper {
+        aspect-ratio: 21 / 9;
+    }
+}
+
+/* =========================================
+   SAVILLS VIDEO SLIDER
+   ========================================= */
+.video-slider-container {
+    position: relative;
+    width: 100%;
+    /* Fixed 9:16 aspect ratio (Vertical) */
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.video-slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.video-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.video-slide .media-content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* "Crop đáy" -> Show top part, crop bottom */
+    object-position: top center; 
+    display: block;
 }
 
 .footer-link {

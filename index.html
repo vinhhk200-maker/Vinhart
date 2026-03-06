@@ -42,6 +42,21 @@
 </script>
 <html lang="vi" class="page-home">
 <head>
+    <!-- Google Analytics 4 (GA4) -->
+    <!-- 
+        Thay thế 'G-XXXXXXXXXX' bằng Mã đo lường (Measurement ID) thực tế của bạn.
+        Replace 'G-XXXXXXXXXX' with your actual Measurement ID.
+    -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    <!-- End Google Analytics -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#000000">
@@ -52,7 +67,7 @@
     <title>Huynh Khac Vinh - Artist & Creative Director</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=20260225-01">
 </head>
 <body class="page-home">
@@ -133,21 +148,16 @@
         <!-- Expertise Section -->
         <section class="section fade-in">
             <!-- 
-                VIDEO EMBED PLACEHOLDER 
-                The video URL is now controlled by the configuration script at the top of the file.
+                VIDEO PLAYER (Local File)
+                Replaced iframe with HTML5 video tag as requested.
+                On mobile, the container will crop 20% from left and right to increase height.
             -->
-            <div id="media-wrapper" class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 20px; margin-bottom: 24px; background-color: #eee;">
-                <iframe id="expertise-video"
-                        src="" 
-                        title="Video Player" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        referrerpolicy="strict-origin-when-cross-origin" 
-                        allowfullscreen
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                </iframe>
+            <div id="media-wrapper" class="video-wrapper">
+                <video class="expertise-video-player" autoplay muted loop playsinline preload="metadata">
+                    <source src="images/Savills_Castudy1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
                 <div class="video-gradient-overlay"></div>
-                <img id="expertise-image" src="" alt="Cover Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none;">
             </div>
 
             <div class="video-caption-container">
@@ -292,15 +302,12 @@
                 <h2 class="section-title text-gradient">Creative Case Study</h2>
                 
                 <!-- Tabs Navigation -->
-                <div class="case-study-tabs">
-                    <button class="case-tab active" onclick="switchCase(0)">Global Launch</button>
-                    <button class="case-tab" onclick="switchCase(1)">Brand Identity</button>
-                    <button class="case-tab" onclick="switchCase(2)">UX/UI System</button>
-                    <button class="case-tab" onclick="switchCase(3)">Motion Design</button>
+                <div class="case-tabs-bleed" id="case-tabs-bleed">
+                    <div class="case-study-tabs" id="case-tabs"></div>
                 </div>
 
                 <!-- Project 1 -->
-                <div class="impact-card-inner case-slide active" id="case-0">
+                <div class="impact-card-inner case-slide active" id="case-0" data-title="Global Launch">
                     <!-- Full Width Hero Carousel -->
                     <div class="impact-hero-carousel">
                         <div class="carousel-track">
@@ -332,7 +339,7 @@
                     <div class="impact-content-wrapper container">
                     <div class="impact-copy">
 
-                        <h3 class="impact-heading">Savills 30 Years: Bridging Heritage with Future Innovation.</h3>
+                        <h3 class="impact-heading">The Key Visual Concept & Unique Campaign Highlight: Savills 30 Years.</h3>
                         <p class="impact-body">
                             A milestone event marking 30 years of development in Vietnam, designed to connect C-level leaders through market insights and future opportunities. I made the visual identity to balance the <strong>contrast between the past and present</strong>, driven by my philosophy of '<strong>Make it work, make it right</strong>.' By replacing physical fabrication with sophisticated <strong>motion graphics</strong>, I established a <strong>focused, professional atmosphere</strong> that prioritized clarity and connection.
                         </p>
@@ -343,7 +350,7 @@
                             </div>
                             <div class="impact-metric">
                                 <dt>Focus</dt>
-                                <dd>Motion Visuals, Sustainable Design, Digital Experience</dd>
+                                <dd>KV Design, Motion Visuals, Sustainable Design, Digital Experience</dd>
                             </div>
                             <div class="impact-metric">
                                 <dt>Role</dt>
@@ -352,11 +359,34 @@
                         </dl>
                     </div>
                     <div class="impact-media">
-                        <div class="impact-media-frame ratio-9-16">
-                            <video class="media-content" autoplay loop muted playsinline>
-                                <source src="images/Savills_Castudy1.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
+                        <div class="impact-media-frame video-slider-container">
+                            <div class="video-slider-track" id="savills-video-track">
+                                <div class="video-slide active">
+                                    <video class="media-content" muted playsinline>
+                                        <source src="images/Savills_Castudy1_1.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="video-slide">
+                                    <video class="media-content" muted playsinline>
+                                        <source src="images/Savills_Castudy1_2.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="video-slide">
+                                    <video class="media-content" muted playsinline>
+                                        <source src="images/Savills_Castudy1_3.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="video-slide">
+                                    <video class="media-content" muted playsinline>
+                                        <source src="images/Savills_Castudy1_4.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="video-slide">
+                                    <video class="media-content" muted playsinline>
+                                        <source src="images/Savills_Castudy1_5.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
                         </div>
                         <p class="impact-media-caption">Savills 30 Years Event Concept</p>
                     </div>
@@ -364,7 +394,7 @@
                 </div>
 
                 <!-- Project 2 -->
-                <div class="impact-card-inner case-slide" id="case-1">
+                <div class="impact-card-inner case-slide" id="case-1" data-title="Brand Identity">
                     <div class="impact-content-wrapper container">
                     <div class="impact-copy">
 
@@ -390,7 +420,7 @@
                     <div class="impact-media">
                         <div class="impact-media-frame ratio-9-16">
                             <!-- Placeholder image/video for Project 2 -->
-                            <img src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=Brand+Identity" alt="Brand Identity Project" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img class="media-content" src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=Brand+Identity" alt="Brand Identity Project">
                         </div>
                         <p class="impact-media-caption">Brand Identity Showcase</p>
                     </div>
@@ -398,7 +428,7 @@
                 </div>
 
                 <!-- Project 3 -->
-                <div class="impact-card-inner case-slide" id="case-2">
+                <div class="impact-card-inner case-slide" id="case-2" data-title="UX/UI System">
                     <div class="impact-content-wrapper container">
                     <div class="impact-copy">
 
@@ -424,7 +454,7 @@
                     <div class="impact-media">
                         <div class="impact-media-frame ratio-9-16">
                              <!-- Placeholder image/video for Project 3 -->
-                             <img src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=UX+System" alt="UX System Project" style="width: 100%; height: 100%; object-fit: cover;">
+                             <img class="media-content" src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=UX+System" alt="UX System Project">
                         </div>
                         <p class="impact-media-caption">UX/UI Optimization</p>
                     </div>
@@ -432,7 +462,7 @@
                 </div>
 
                 <!-- Project 4: Motion Design -->
-                <div class="impact-card-inner case-slide" id="case-3">
+                <div class="impact-card-inner case-slide" id="case-3" data-title="Motion Design">
                     <div class="impact-content-wrapper container">
                     <div class="impact-copy">
 
@@ -458,40 +488,169 @@
                     <div class="impact-media">
                         <div class="impact-media-frame ratio-9-16">
                              <!-- Placeholder image/video for Project 4 -->
-                             <img src="https://placehold.co/1080x1920/000000/00D4AA?text=Motion+Design" alt="Motion Design Project" style="width: 100%; height: 100%; object-fit: cover;">
+                             <img class="media-content" src="https://placehold.co/1080x1920/000000/00D4AA?text=Motion+Design" alt="Motion Design Project">
                         </div>
                         <p class="impact-media-caption">Motion Graphics Showcase</p>
                     </div>
                     </div>
                 </div>
+                
+                <!-- Project 5 (Duplicate of Project 2: Brand Identity) -->
+                <div class="impact-card-inner case-slide" id="case-4" data-title="Brand Identity 2">
+                    <div class="impact-content-wrapper container">
+                    <div class="impact-copy">
+
+                        <h3 class="impact-heading">Brand Identity — Extended Exploration.</h3>
+                        <p class="impact-body">
+                            Building on the original identity foundation, this exploration expands applications across campaign touchpoints and motion, ensuring consistency while enabling expressive variations for high-impact moments.
+                        </p>
+                        <dl class="impact-metrics">
+                            <div class="impact-metric">
+                                <dt>Scope</dt>
+                                <dd>Applied Identity, Campaign Toolkit, Motion System</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Impact</dt>
+                                <dd>Faster asset production (+30%), Consistent cross-channel presence</dd>
+                            </div>
+                            <div class="impact-metric">
+                                <dt>Role</dt>
+                                <dd>Design Lead, System Architect</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="impact-media">
+                        <div class="impact-media-frame ratio-9-16">
+                            <!-- Placeholder image/video for Project 5 -->
+                            <img class="media-content" src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=Brand+Identity+II" alt="Brand Identity Extended">
+                        </div>
+                        <p class="impact-media-caption">Brand Identity — Extended System</p>
+                    </div>
+                    </div>
+                </div>
         </section>
         <script>
-            function switchCase(index) {
-                    // Update Tabs
-                    document.querySelectorAll('.case-tab').forEach((tab, i) => {
-                        if (i === index) tab.classList.add('active');
-                        else tab.classList.remove('active');
-                    });
-                    
-                    // Update Content
-                    document.querySelectorAll('.case-slide').forEach((slide, i) => {
-                        if (i === index) {
-                            slide.classList.add('active');
-                            // Restart video if present
-                            const video = slide.querySelector('video');
-                            if (video) {
-                                video.currentTime = 0;
-                                video.play();
-                            }
-                        } else {
-                            slide.classList.remove('active');
-                            // Pause video if present
-                            const video = slide.querySelector('video');
-                            if (video) video.pause();
-                        }
-                    });
+            function switchCase(index, options) {
+                var suppressCenter = options && options.suppressCenter;
+                var tabs = document.querySelectorAll('.case-tab');
+                var slides = document.querySelectorAll('.case-slide');
+                tabs.forEach(function(tab, i){ if(i===index) tab.classList.add('active'); else tab.classList.remove('active'); });
+                slides.forEach(function(slide, i){
+                    if(i===index){
+                        slide.classList.add('active');
+                        var video = slide.querySelector('video');
+                        if(video){ video.currentTime = 0; video.play(); }
+                    } else {
+                        slide.classList.remove('active');
+                        var v = slide.querySelector('video');
+                        if(v){ v.pause(); }
+                    }
+                });
+                if (!suppressCenter) {
+                    centerActiveTab(); // Ensure active tab is visible/centered (skip on initial render)
                 }
-            </script>
+            }
+            // Smoothly center the active tab in view (custom easing)
+            function animateScrollTo(element, targetLeft, duration) {
+                var start = element.scrollLeft;
+                var change = targetLeft - start;
+                var startTime = performance.now();
+                var d = duration || 650; // gentle duration
+                function easeInOutCubic(t) {
+                    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 1, 3) / 2;
+                }
+                function tick(now) {
+                    var elapsed = now - startTime;
+                    var t = Math.min(elapsed / d, 1);
+                    var eased = easeInOutCubic(t);
+                    element.scrollLeft = start + change * eased;
+                    if (t < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            }
+            function centerActiveTab() {
+                var container = document.getElementById('case-tabs');
+                if (!container) return;
+                var active = container.querySelector('.case-tab.active');
+                if (!active) return;
+                var containerRect = container.getBoundingClientRect();
+                var activeRect = active.getBoundingClientRect();
+                var currentScroll = container.scrollLeft;
+                var offsetLeft = active.offsetLeft;
+                var target = offsetLeft - (containerRect.width / 2) + (activeRect.width / 2);
+                var maxScroll = container.scrollWidth - container.clientWidth;
+                if (target < 0) target = 0;
+                if (target > maxScroll) target = maxScroll;
+                animateScrollTo(container, target, 700);
+            }
+            // Auto-center back to active tab after idle (3s) following user scroll/drag
+            var autoCenterTimer = null;
+            function scheduleAutoCenter() {
+                if (autoCenterTimer) clearTimeout(autoCenterTimer);
+                autoCenterTimer = setTimeout(function(){
+                    centerActiveTab();
+                }, 2000);
+            }
+            (function(){
+                var tabsContainer = document.getElementById('case-tabs');
+                var tabsOuter = document.getElementById('case-tabs-bleed');
+                var slides = Array.prototype.slice.call(document.querySelectorAll('.case-slide'));
+                if(!tabsContainer || !slides.length) return;
+                tabsContainer.innerHTML = '';
+                slides.forEach(function(slide, i){
+                    var btn = document.createElement('button');
+                    btn.className = 'case-tab';
+                    btn.type = 'button';
+                    btn.textContent = slide.getAttribute('data-title') || ('Case ' + (i+1));
+                    btn.addEventListener('click', function(){ switchCase(i); });
+                    tabsContainer.appendChild(btn);
+                });
+                // Horizontal interactions: schedule auto-center but DO NOT toggle inset on hover-only
+                ['wheel','touchmove','pointermove','mousedown','pointerdown'].forEach(function(evt){
+                    tabsContainer.addEventListener(evt, function(){
+                        scheduleAutoCenter();
+                    }, { passive: true });
+                });
+                // Keyboard navigation for gentle transitions
+                tabsContainer.addEventListener('keydown', function(e){
+                    var tabs = Array.prototype.slice.call(tabsContainer.querySelectorAll('.case-tab'));
+                    var activeIndex = tabs.findIndex(function(t){ return t.classList.contains('active'); });
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        var next = Math.min(activeIndex + 1, tabs.length - 1);
+                        if (next !== activeIndex) switchCase(next);
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        var prev = Math.max(activeIndex - 1, 0);
+                        if (prev !== activeIndex) switchCase(prev);
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        switchCase(0);
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        switchCase(tabs.length - 1);
+                    }
+                });
+                function updateEdges() {
+                    if (!tabsOuter) return;
+                    var maxScroll = tabsContainer.scrollWidth - tabsContainer.clientWidth;
+                    var left = tabsContainer.scrollLeft;
+                    if (left > 0) tabsOuter.classList.add('show-left'); else tabsOuter.classList.remove('show-left');
+                    if (left < maxScroll - 1) tabsOuter.classList.add('show-right'); else tabsOuter.classList.remove('show-right');
+                    if (left <= 0) tabsOuter.classList.add('edge-left'); else tabsOuter.classList.remove('edge-left');
+                    if (left >= Math.max(0, maxScroll - 1)) tabsOuter.classList.add('edge-right'); else tabsOuter.classList.remove('edge-right');
+                }
+                tabsContainer.addEventListener('scroll', updateEdges, { passive: true });
+                // Update edges on resize without forcing recenter
+                window.addEventListener('resize', updateEdges, { passive: true });
+                var initial = slides.findIndex(function(s){ return s.classList.contains('active'); });
+                if(initial < 0) initial = 0;
+                // Initial render: align to left boundary, do not auto-center
+                switchCase(initial, { suppressCenter: true });
+                tabsContainer.scrollLeft = 0;
+                updateEdges();
+            })();
+        </script>
         </section>
 
         <!-- Recent Companies -->

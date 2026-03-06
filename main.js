@@ -215,4 +215,82 @@ document.addEventListener('DOMContentLoaded', () => {
             startSlideShow(); // Restart auto play
         }, { passive: true });
     }
+
+    // Savills Video Slider Logic
+    const savillsTrack = document.getElementById('savills-video-track');
+    if (savillsTrack) {
+        const slides = savillsTrack.querySelectorAll('.video-slide');
+        const videos = savillsTrack.querySelectorAll('video');
+        let currentIndex = 0;
+        let isSliding = false;
+
+        // Function to go to specific slide
+        function goToVideoSlide(index) {
+            if (isSliding) return;
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+
+            isSliding = true;
+            currentIndex = index;
+
+            // Pause all videos first
+            videos.forEach(v => v.pause());
+
+            // Slide track
+            savillsTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            // Play new video after transition (or immediately if preferred)
+            setTimeout(() => {
+                const currentVideo = videos[currentIndex];
+                currentVideo.currentTime = 0;
+                currentVideo.play().catch(e => console.log('Auto-play failed:', e));
+                isSliding = false;
+            }, 500); // Match CSS transition time
+        }
+
+        // Auto-slide when video ends
+        videos.forEach((video, index) => {
+            video.addEventListener('ended', () => {
+                goToVideoSlide(index + 1);
+            });
+        });
+
+        // Initial Play
+        // Play the first video immediately on load (if policy allows)
+        videos[0].play().catch(e => console.log('Initial Auto-play failed:', e));
+        
+        // Ensure all videos have loop attribute removed if we want sequential play
+        // But user asked for "auto play continuously" which implies:
+        // Video 1 ends -> Slide to 2 -> Video 2 plays -> Ends -> Slide to 3...
+        // The existing 'ended' event handler already does this.
+        // We just need to make sure the first one starts.
+
+        // Touch Swipe Logic
+        let vTouchStartX = 0;
+        let vTouchStartY = 0;
+
+        savillsTrack.addEventListener('touchstart', (e) => {
+            vTouchStartX = e.touches[0].clientX;
+            vTouchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        savillsTrack.addEventListener('touchend', (e) => {
+            const vTouchEndX = e.changedTouches[0].clientX;
+            const vTouchEndY = e.changedTouches[0].clientY;
+            
+            const diffX = vTouchStartX - vTouchEndX;
+            const diffY = vTouchStartY - vTouchEndY;
+
+            // Horizontal swipe detection
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Swipe Left -> Next
+                    goToVideoSlide(currentIndex + 1);
+                } else {
+                    // Swipe Right -> Prev
+                    goToVideoSlide(currentIndex - 1);
+                }
+            }
+        }, { passive: true });
+    }
 });
