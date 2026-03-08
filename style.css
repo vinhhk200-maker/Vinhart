@@ -1839,6 +1839,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .case-study-tabs {
+    position: relative; /* Ensure stable offsetLeft calculation for JS centering */
     display: flex;
     justify-content: flex-start;
     gap: var(--case-tab-gap);
@@ -1851,8 +1852,8 @@ h2.text-gradient, h2.section-title.text-gradient {
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
     overscroll-behavior-x: contain;    /* Prevent viewport scroll chaining */
-    /* scroll-behavior: smooth; REMOVED to prevent conflict with JS animation */
-    /* scroll-snap-type: x proximity; REMOVED to prevent conflict with JS centering */
+    scroll-behavior: auto !important;  /* Ensure JS animation takes full control without interference */
+    scroll-snap-type: none !important; /* Disable snapping to prevent conflict with JS centering */
 }
 
 .case-tab {
@@ -2141,7 +2142,19 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 /* Enhanced Body Content Styling */
-.impact-body img {
+.impact-subheading {
+    font-size: var(--text-body);
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+.impact-body img,
+.impact-inline-media {
     width: 100%;
     height: auto;
     border-radius: 16px;
@@ -2164,17 +2177,120 @@ h2.text-gradient, h2.section-title.text-gradient {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    background: rgba(255,255,255,0.8);
+    width: 64px;
+    height: 64px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--h4);
-    color: #333;
-    pointer-events: none;
+    z-index: 20;
+    pointer-events: none; /* Let click pass through to video/container */
+    transition: all 0.3s ease; /* Smooth transition for all props */
+}
+
+/* Hover Effect on Container -> Scale Play Icon */
+.video-container:hover .play-icon {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+/* Active State (Click) */
+.video-container:active .play-icon {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.play-icon::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 18px; /* Triangle play icon */
+    border-color: transparent transparent transparent #ffffff;
+    margin-left: 4px; /* Optical center adjustment */
+}
+
+/* Hide play icon when playing */
+.video-playing .play-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+/* Video Navigation Buttons (Previous/Next) */
+.video-nav-prev,
+.video-nav-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 20;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.video-nav-prev:hover,
+.video-nav-next:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.video-nav-prev {
+    left: 16px;
+}
+
+.video-nav-next {
+    right: 16px;
+}
+
+/* Video Fade Transition (Grid Layout to fix height collapse) */
+.video-slider-track.fade-track {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: 100%; /* Force full height */
+    position: relative;
+}
+
+.video-slide.fade-transition {
+    /* Stack all slides in the same grid cell */
+    grid-area: 1 / 1;
+    position: relative; /* Take up space in the grid flow */
+    width: 100%;
+    height: 100%; /* Force full height */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    display: block !important;
+    z-index: 1;
+}
+
+.video-slide.fade-transition .media-content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.video-slide.fade-transition.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
 }
 
 .item-caption {
@@ -2918,10 +3034,15 @@ h2.text-gradient, h2.section-title.text-gradient {
 .video-slider-container {
     position: relative;
     width: 100%;
-    /* Fixed 9:16 aspect ratio (Vertical) */
-    aspect-ratio: 9 / 16;
+    /* Remove fixed aspect-ratio to allow full height */
+    /* aspect-ratio: 9 / 16; */
+    height: 100vh; /* Full viewport height */
+    max-height: 100vh;
     overflow: hidden;
     background-color: #000;
+    display: flex; /* Flexbox for centering */
+    align-items: center; /* Vertical center */
+    justify-content: center; /* Horizontal center */
 }
 
 .video-slider-track {
@@ -2936,14 +3057,16 @@ h2.text-gradient, h2.section-title.text-gradient {
     width: 100%;
     height: 100%;
     position: relative;
+    display: flex; /* Flexbox for centering content inside slide */
+    align-items: center;
+    justify-content: center;
 }
 
 .video-slide .media-content {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    /* "Crop đáy" -> Show top part, crop bottom */
-    object-position: top center; 
+    object-fit: cover; /* Cover entire area */
+    object-position: center center; /* Center focus */
     display: block;
 }
 

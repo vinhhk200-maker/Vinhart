@@ -358,6 +358,7 @@
                                 For production, I’ve architected a <strong>high-quality BRAW database</strong> from a single, comprehensive setup. By applying <strong>batch Color Space Transforms</strong>, I create <strong>optimized, cinematic assets</strong> that designers use independently. This removes me as a bottleneck and provides a <strong>full year of marketing content</strong> without repetitive shooting.
                             </li>
                             <li>
+                                <img class="impact-inline-media" src="images/IKA_img_1.jpg" alt="IKA Strategy Visual">
                                 My strategy prioritizes curiosity and empathy over hard-selling. By using <strong>vibe-driven visuals</strong> to filter potential customers, I ensure they <strong>proactively seek the brand</strong>.
                             </li>
                         </ul>
@@ -385,28 +386,57 @@
                     </div>
                     <div class="impact-media">
                         <div class="impact-media-frame video-slider-container" style="position: relative;">
-                            <div class="carousel-nav" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 12px;">
-                                <button class="carousel-dot active" aria-label="Go to video 1"></button>
-                                <button class="carousel-dot" aria-label="Go to video 2"></button>
-                                <button class="carousel-dot" aria-label="Go to video 3"></button>
-                            </div>
-                            <div class="video-slider-track" id="savills-video-track-2">
-                                <div class="video-slide active">
+                            <div class="video-slider-track fade-track" id="savills-video-track-2">
+                                <div class="video-slide active fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/02_IKA_Detail_1.mp4" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="video-slide">
+                                <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/02_IKA_Detail_2.mp4" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="video-slide">
+                                <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/02_IKA_Detail_3.mp4" type="video/mp4">
                                     </video>
                                 </div>
                             </div>
+                            <!-- Buttons moved after track and styled to ensure visibility -->
+                            <button id="btn-prev-ika" class="video-nav-prev" type="button" aria-label="Previous video" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10094;</button>
+                            <button id="btn-next-ika" class="video-nav-next" type="button" aria-label="Next video" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10095;</button>
+                            <script>
+                                (function() {
+                                    const prevBtn = document.getElementById('btn-prev-ika');
+                                    const nextBtn = document.getElementById('btn-next-ika');
+                                    const trackId = 'savills-video-track-2';
+                                    
+                                    function handleClick(direction) {
+                                        console.log('IKA Button clicked:', direction);
+                                        if (window.changeVideoSlide) {
+                                            window.changeVideoSlide(trackId, direction);
+                                        } else {
+                                            console.error('changeVideoSlide function not found!');
+                                        }
+                                    }
+
+                                    if (prevBtn) {
+                                        prevBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleClick(-1);
+                                        });
+                                    }
+                                    if (nextBtn) {
+                                        nextBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleClick(1);
+                                        });
+                                    }
+                                })();
+                            </script>
                         </div>
                         <p class="impact-media-caption">IKA Beauty Ecosystem</p>
                     </div>
@@ -452,7 +482,9 @@
                             <br><br>
                             With a global giant like Savills, there is <strong>no room for ego</strong> or "freestyling." Execution must be <strong>flawless</strong> and <strong>strictly compliant</strong> with brand standards.
                             <br><br>
-                            Ultimately, success isn't about chasing a "WOW" from the crowd. It’s about <strong>deciphering the vision</strong> of the top decision-maker. I align with the person who signs the checks to deliver <strong>actual results</strong>.
+                            Ultimately, success isn't about chasing a "WOW" from the crowd. It’s about <strong>Making it WORKS</strong>. Soo, deciphering the vision of the top decision-maker frome the very begining is supper <strong>importance</strong>.
+                            <br><br>
+                            If the visuals weren't about creative freedom or fancy decorations, then what exactly made this work "worth every penny"? That comes down to my personal strategy and professional expertise—insights I’d love to share with you in a face-to-face chat.
                         </p>
                         <dl class="impact-metrics">
                             <div class="impact-metric">
@@ -470,34 +502,37 @@
                         </dl>
                     </div>
                     <div class="impact-media">
-                        <div class="impact-media-frame video-slider-container">
-                            <div class="video-slider-track" id="savills-video-track">
-                                <div class="video-slide active">
+                        <div class="impact-media-frame video-slider-container" style="position: relative;">
+                            <div class="video-slider-track fade-track" id="savills-video-track">
+                                <div class="video-slide active fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/03_Savills_Detail_1.mp4" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="video-slide">
+                                <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/03_Savills_Detail_2.mp4" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="video-slide">
+                                <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/03_Savills_Detail_3.mp4" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="video-slide">
+                                <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/03_Savills_Detail_4.mp4" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="video-slide">
+                                <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline>
                                         <source src="videos/03_Savills_Detail_5.mp4" type="video/mp4">
                                     </video>
                                 </div>
                             </div>
+                            <!-- Buttons moved after track for visibility -->
+                            <button class="video-nav-prev" type="button" aria-label="Previous video" onclick="changeVideoSlide('savills-video-track', -1)" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10094;</button>
+                            <button class="video-nav-next" type="button" aria-label="Next video" onclick="changeVideoSlide('savills-video-track', 1)" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10095;</button>
                         </div>
                         <p class="impact-media-caption">Savills 30 Years Event Concept</p>
                     </div>
@@ -511,27 +546,74 @@
 
                         <h3 class="impact-heading">Redefining Fintech Visual Language.</h3>
                         <p class="impact-body">
-                            Established a scalable design system for a leading AI Fintech, ensuring consistency across product interfaces, marketing assets, and corporate communications.
+                            This project is a strategic collaboration between <strong>Trusting Social AI</strong> and <strong>TPBank</strong>.
+                            <br><br>
+                            Below is my comprehensive logo development process, encompassing a unified design language system—from brand identity to marketing visuals and brand voice (visual communication)—ensuring consistency across Brand, UI/UX, and Animation.
                         </p>
+
+                        <!-- Added Content: Concept, Color, Visuals -->
+                        <h4 class="impact-subheading">CONCEPT: THE "E" EVOLUTION</h4>
+                        <img class="impact-inline-media" src="images/EVO/1.svg" alt="Concept: The E Evolution">
+                        <p class="impact-body">
+                            The "e" symbol is the core identity, meticulously crafted on a precision geometric grid to ensure perfect balance and scalability.
+                        </p>
+                        <img class="impact-inline-media" src="images/EVO/Logo_animate.gif" alt="Logo Animation Concept">
+                        <p class="impact-body">
+                            Originating from a primitive concept of three distinct dots, the animation intuitively visualizes their convergence into the 'E' form. This efficient blend of shape and motion is designed for future scalability, allowing for lightweight conversion into code-based formats like JSON (Lottie) for seamless web-app integration.
+                        </p>
+
+                        <h4 class="impact-subheading">COLOR STRATEGY</h4>
+                        <img class="impact-inline-media" src="images/EVO/2.png" alt="Color Strategy 1">
+                        <img class="impact-inline-media" src="images/EVO/2+.png" alt="Color Strategy 2">
+                        <p class="impact-body">
+                            Following the 60-30-10 rule, the palette uses a deep Navy and Light Blue foundation. Secondary tones are integrated to provide visual depth, akin to the layers of a fine art painting.
+                        </p>
+
+                        <h4 class="impact-subheading">VISUAL DIRECTION</h4>
+                        <img class="impact-inline-media" src="images/EVO/3_concept_Visual.png" alt="Brand Visual Concept">
+                        <p class="impact-body">
+                            Brand shape consistency creates an unmistakable presence, ensuring distinctiveness in a crowded market. The visual concept is strictly minimalist, derived directly from the logo’s geometry and palette.
+                        </p>
+                        <p class="impact-body">
+                            Personal tech objects serve as the visual anchor, precisely targeting the user base—digital natives seeking installment solutions for technology.
+                        </p>
+                        <p class="impact-body">
+                            I enforced a modern, authentic visual direction to reject the sterile artificiality of traditional banking. Staged, emotionless stock imagery is the antithesis of the brand I created.
+                        </p>
+
+                        <div class="video-container" style="position: relative;">
+                            <video class="impact-inline-media" muted loop playsinline>
+                                <source src="videos/EVO_1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="play-icon"></div>
+                        </div>
                         <dl class="impact-metrics">
-                            <div class="impact-metric">
-                                <dt>Scope</dt>
-                                <dd>Brand Guidelines, Design System, UI Kit</dd>
-                            </div>
-                            <div class="impact-metric">
-                                <dt>Impact</dt>
-                                <dd>Reduced design time by 40%, Unified brand voice</dd>
-                            </div>
-                            <div class="impact-metric">
-                                <dt>Role</dt>
-                                <dd>Brand Strategy, Design Lead</dd>
-                            </div>
-                        </dl>
                     </div>
                     <div class="impact-media">
-                        <div class="impact-media-frame ratio-9-16">
-                            <!-- Placeholder image/video for Project 2 -->
-                            <img class="media-content" src="https://placehold.co/1080x1920/1a1a1a/00D4AA?text=Brand+Identity" alt="Brand Identity Project">
+                        <div class="impact-media-frame video-slider-container evo-slider" style="position: relative; height: auto !important; aspect-ratio: auto !important;">
+                            <div class="video-slider-track fade-track" id="evo-video-track">
+                                <div class="video-slide active fade-transition">
+                                    <div class="video-container" style="position: relative;">
+                                        <video class="media-content" muted playsinline>
+                                            <source src="videos/EVO_2.mp4" type="video/mp4">
+                                        </video>
+                                        <div class="play-icon"></div>
+                                    </div>
+                                </div>
+                                <div class="video-slide fade-transition">
+                                    <div class="video-container" style="position: relative;">
+                                        <video class="media-content" muted playsinline>
+                                            <source src="videos/EVO_3.mp4" type="video/mp4">
+                                        </video>
+                                        <div class="play-icon"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Navigation Buttons -->
+                            <button class="video-nav-prev" onclick="changeVideoSlide('evo-video-track', -1)" type="button">❮</button>
+                            <button class="video-nav-next" onclick="changeVideoSlide('evo-video-track', 1)" type="button">❯</button>
                         </div>
                         <p class="impact-media-caption">Brand Identity Showcase</p>
                     </div>
@@ -641,6 +723,10 @@
                 </div>
         </section>
         <script>
+            // Smoothly center the active tab in view (custom easing)
+            var currentAnimation = null; // Store animation frame ID
+            var clickCenterTimer = null; // Store timer for delayed center after click
+
             function switchCase(index, options) {
                 var suppressCenter = options && options.suppressCenter;
                 var tabs = document.querySelectorAll('.case-tab');
@@ -658,14 +744,27 @@
                     }
                 });
                 if (!suppressCenter) {
-                    centerActiveTab(); // Ensure active tab is visible/centered (skip on initial render)
+                    // Cancel any previous pending click-center
+                    if (clickCenterTimer) clearTimeout(clickCenterTimer);
+                    
+                    // Schedule new center after 3 seconds
+                    clickCenterTimer = setTimeout(function() {
+                        var container = document.getElementById('case-tabs');
+                        // Only center if user is NOT currently interacting
+                        if (container && container.dataset.isInteracting !== 'true') {
+                            centerActiveTab();
+                        }
+                    }, 3000);
                 }
             }
-            // Smoothly center the active tab in view (custom easing)
-            var currentAnimation = null; // Store animation frame ID
             function animateScrollTo(element, targetLeft, duration) {
                 // Cancel any ongoing animation
                 if (currentAnimation) cancelAnimationFrame(currentAnimation);
+
+                // Stop any native momentum scroll immediately
+                element.style.overflowX = 'hidden';
+                void element.offsetWidth; // Force reflow
+                element.style.overflowX = 'auto';
 
                 var start = element.scrollLeft;
                 var change = targetLeft - start;
@@ -684,7 +783,7 @@
                     var elapsed = now - startTime;
                     var t = Math.min(elapsed / d, 1);
                     var eased = easeInOutCubic(t);
-                    element.scrollLeft = start + change * eased;
+                    element.scrollTo({ left: start + change * eased, behavior: 'auto' }); // Explicitly use auto to bypass CSS
                     if (t < 1) {
                         currentAnimation = requestAnimationFrame(tick);
                     } else {
@@ -732,7 +831,7 @@
                 if (target > maxScroll) target = maxScroll;
                 animateScrollTo(container, target, 700);
             }
-            // Auto-center back to active tab after idle (2s) following user scroll/drag
+            // Auto-center back to active tab after idle (10s) following user scroll/drag
             var autoCenterTimer = null;
             function scheduleAutoCenter() {
                 if (autoCenterTimer) clearTimeout(autoCenterTimer);
@@ -742,7 +841,7 @@
                     if (container && container.dataset.isInteracting !== 'true') {
                         centerActiveTab();
                     }
-                }, 2000);
+                }, 10000);
             }
             (function(){
                 var tabsContainer = document.getElementById('case-tabs');
@@ -767,8 +866,8 @@
                 // Track user interaction state to prevent fighting with auto-center
                 tabsContainer.dataset.isInteracting = 'false';
                 
-                // Pointer/Touch start: user is interacting, cancel animations
-                ['mousedown', 'touchstart'].forEach(function(evt){
+                // Pointer/Touch/Hover start: user is interacting, cancel animations
+                ['mousedown', 'touchstart', 'mouseenter'].forEach(function(evt){
                     tabsContainer.addEventListener(evt, function(){
                         tabsContainer.dataset.isInteracting = 'true';
                         if (currentAnimation) cancelAnimationFrame(currentAnimation);
@@ -780,7 +879,7 @@
                 ['mouseup', 'mouseleave', 'touchend', 'touchcancel'].forEach(function(evt){
                     tabsContainer.addEventListener(evt, function(){
                         tabsContainer.dataset.isInteracting = 'false';
-                        // scheduleAutoCenter(); // REMOVED to prevent fighting
+                        scheduleAutoCenter(); // Auto-center after 10s idle
                     }, { passive: true });
                 });
 
@@ -793,7 +892,7 @@
                     clearTimeout(wheelTimer);
                     wheelTimer = setTimeout(function(){
                          tabsContainer.dataset.isInteracting = 'false';
-                         // scheduleAutoCenter(); // REMOVED to prevent fighting
+                         scheduleAutoCenter(); // Auto-center after 10s idle
                     }, 150);
                 }, { passive: true });
                 // Keyboard navigation for gentle transitions
@@ -1459,6 +1558,87 @@
             });
         }, contentObserverOptions);
 
+        // --- Video Interaction & Scroll Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const videos = document.querySelectorAll('video');
+            
+            // Intersection Observer for Auto-Pause/Resume
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    const container = video.parentElement; // We ensured container is parent
+                    
+                    if (entry.isIntersecting) {
+                        // Re-enter viewport: Only play if it was previously user-activated
+                        if (container.classList.contains('video-activated')) {
+                            video.play().then(() => {
+                                container.classList.add('video-playing');
+                            }).catch(() => {
+                                container.classList.remove('video-playing'); 
+                            });
+                        }
+                    } else {
+                        // Exit viewport: Pause
+                        video.pause();
+                        container.classList.remove('video-playing');
+                        // Note: We don't remove 'video-activated', so it knows to resume later
+                    }
+                });
+            }, { threshold: 0.5 }); // 50% visible to trigger
+
+            videos.forEach(video => {
+                // Check if this video is inside the target container (video-slider-track)
+                // or if it's the EVO video (impact-inline-media)
+                // We ONLY want to apply this interaction logic to SPECIFIC videos, 
+                // NOT background videos in carousels.
+                
+                // Identify target videos: 
+                // 1. Inside .video-slider-track (Savills, IKA details)
+                // 2. Class .impact-inline-media (EVO)
+                
+                const isInteractiveVideo = video.closest('.video-slider-track') || video.classList.contains('impact-inline-media');
+                
+                if (!isInteractiveVideo) {
+                    // Skip logic for background/hero videos (let them autoplay/loop as default)
+                    return; 
+                }
+
+                // 1. Setup Container & Play Button
+                // Note: For .impact-inline-media (EVO), we manually wrapped it in .video-container in HTML
+                // For slider videos, the parent might already be the slide div, so we ensure class is added
+                let container = video.parentElement;
+                container.classList.add('video-container');
+                container.style.position = 'relative'; // Ensure relative positioning for button
+                
+                // Check if play icon exists, if not create it (Only if not already in HTML)
+                if (!container.querySelector('.play-icon')) {
+                    const playBtn = document.createElement('div');
+                    playBtn.className = 'play-icon';
+                    container.appendChild(playBtn);
+                }
+
+                // 2. Click Interaction (Attach to container to catch clicks on button too)
+                container.addEventListener('click', (e) => {
+                    // Prevent clicking through if it's a carousel control, but here we want video toggle
+                    // e.stopPropagation(); 
+                    
+                    if (video.paused) {
+                        video.play().then(() => {
+                            container.classList.add('video-playing');
+                            container.classList.add('video-activated'); // Mark as user-interacted
+                        }).catch(err => console.error("Video play failed:", err));
+                    } else {
+                        video.pause();
+                        container.classList.remove('video-playing');
+                        container.classList.remove('video-activated'); // User manually paused, stop auto-resume
+                    }
+                });
+                
+                // 3. Observe for Scroll Logic
+                videoObserver.observe(video);
+            });
+        });
+
         document.querySelectorAll('.section, .experience-item, .recent-companies, .clients-marquee').forEach(el => {
             // Check if fade-in class already exists or add style manually if needed
             // The css for .fade-in needs to be in style.css
@@ -1531,6 +1711,101 @@
                 window.requestAnimationFrame(step);
             }
         }
+    </script>
+    <script>
+        // --- Manual Video Slider (Fade Effect) ---
+        // Global State for Manual Sliders
+        window.videoSliderState = {};
+
+        window.changeVideoSlide = function(trackId, direction, autoPlay = false) {
+            console.log('changeVideoSlide called for:', trackId, 'direction:', direction, 'autoPlay:', autoPlay);
+            const track = document.getElementById(trackId);
+            if (!track) {
+                console.error('Track not found:', trackId);
+                return;
+            }
+
+            // Get all slides in this track
+            const slides = Array.from(track.querySelectorAll('.video-slide'));
+            const totalSlides = slides.length;
+            // console.log('Total slides found:', totalSlides);
+            
+            if (totalSlides === 0) return;
+
+            // Find current active index directly from DOM to ensure sync
+            let currentIndex = slides.findIndex(slide => slide.classList.contains('active'));
+            // console.log('Current active index:', currentIndex);
+
+            if (currentIndex === -1) {
+                currentIndex = 0;
+                slides[0].classList.add('active');
+                console.log('No active slide found, resetting to 0');
+            }
+
+            // Calculate new index
+            let newIndex = currentIndex + direction;
+
+            // Loop around
+            if (newIndex >= totalSlides) newIndex = 0;
+            if (newIndex < 0) newIndex = totalSlides - 1;
+            
+            // console.log('New index:', newIndex);
+
+            // 1. Current Slide: Fade Out
+            const currentSlide = slides[currentIndex];
+            currentSlide.classList.remove('active');
+
+            // Stop current video
+            const currentVideo = currentSlide.querySelector('video');
+            if (currentVideo) {
+                currentVideo.pause();
+                currentVideo.currentTime = 0; 
+                // Reset UI state
+                const container = currentVideo.closest('.video-container') || currentVideo.parentElement;
+                if (container) {
+                    container.classList.remove('video-playing');
+                    container.classList.remove('video-activated');
+                }
+            }
+
+            // 2. New Slide: Fade In
+            const newSlide = slides[newIndex];
+            newSlide.classList.add('active');
+            
+            // 3. Auto Play if requested
+            if (autoPlay) {
+                const nextVideo = newSlide.querySelector('video');
+                if (nextVideo) {
+                    const container = nextVideo.closest('.video-container') || nextVideo.parentElement;
+                    nextVideo.play().then(() => {
+                        if (container) {
+                            container.classList.add('video-playing');
+                            container.classList.add('video-activated');
+                        }
+                    }).catch(err => {
+                        console.log('Autoplay failed:', err);
+                    });
+                }
+            }
+        };
+
+        // --- Auto-Advance Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const tracks = document.querySelectorAll('.video-slider-track.fade-track');
+            tracks.forEach(track => {
+                const videos = track.querySelectorAll('video');
+                videos.forEach(video => {
+                    video.addEventListener('ended', () => {
+                        console.log('Video ended, advancing slide...');
+                        // Find the track ID
+                        const trackId = track.id;
+                        if (trackId) {
+                            changeVideoSlide(trackId, 1, true); // Auto-advance and play
+                        }
+                    });
+                });
+            });
+        });
     </script>
     <script src="js/footer.js"></script>
 </body>
