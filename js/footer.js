@@ -10,7 +10,6 @@ const FooterComponent = {
                 <nav class="footer-nav">
                     <a href="portfolio.html" class="footer-link">Archive</a>
                     <a href="knowledge-sharing.html" class="footer-link">The Lab</a>
-                    <a href="profile.html" class="footer-link">Identity</a>
                     <a href="say-hi.html" class="footer-link">Connect</a>
                 </nav>
                 <div class="footer-contact">

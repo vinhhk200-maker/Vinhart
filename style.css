@@ -98,6 +98,30 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll from 100vw elements */
 }
 
+/* UNIFIED TYPOGRAPHY ENFORCEMENT (Global - All Screens) */
+/* Enforce same font type and size (17px) for all body text, descriptions, and buttons */
+p, 
+.impact-body, 
+.section-intro, 
+.hero-overlay-description, 
+.hero-description,
+.video-description,
+.footer-tagline,
+.impact-metric dd,
+.company-type,
+.hero-cta-btn,
+.footer-link,
+.footer-contact-link,
+button,
+.btn,
+a.btn,
+.case-tab, /* Tabs are interactive elements like buttons */
+.impact-list li {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: var(--text-body) !important; /* 17px */
+    line-height: 1.5 !important;
+}
+
 html.page-home,
 body.page-home {
     background-color: #000000;
@@ -1752,7 +1776,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     width: 100%;
     max-width: 100% !important; /* Full width to match Header/Fluid layout */
     margin: 0 auto !important;
-    padding-top: 15px; /* Reduced from 30px (-50%) to decrease top spacing */
+    padding-top: 46px; /* Increased to 46px per user request */
     padding-left: var(--gutter) !important; /* Restore padding to match layout alignment */
     padding-right: var(--gutter) !important; /* Restore padding to match layout alignment */
     gap: 40px;
@@ -1990,7 +2014,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-body strong {
-    color: #000000; /* Highlight text black 100% */
+    color: #003366; /* Highlight text Dark Blue */
 }
 
 .impact-metrics {
@@ -2181,70 +2205,88 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 /* Mobile Landscape Optimization & Square-ish Screens (min-width: 550px) */
 @media (min-width: 550px) and (max-width: 767px) {
+    /* "iPad Mini" (1024px) Simulation Mode */
     .impact-content-wrapper {
-        flex-direction: row !important;
+        display: flex !important;
+        flex-direction: row !important; /* Force Row (Side-by-Side) */
         align-items: flex-start;
-        gap: 20px;
+        gap: 24px; /* Scaled down gap (vs 48px on Desktop) */
+        padding-top: 40px !important; /* Restore some top padding */
     }
     
     .impact-copy {
-        flex: 1.3;
+        width: 55%;
+        flex: 1;
         min-width: 0;
     }
     
     .impact-media {
-        flex: 0.8;
+        width: 45%; /* Right column */
+        flex: 0 0 45%;
+        margin-top: 0;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-end; /* Align media to right edge */
     }
     
     .impact-media-frame.ratio-9-16 {
         width: 100%;
-        max-width: 250px;
+        max-width: 100%;
         margin: 0;
-        /* Crop image from bottom up by 20% in mobile landscape */
-        overflow: hidden;
-        height: 80%; /* Reduce height to simulate crop */
-        position: relative;
-    }
-    .impact-media-frame.ratio-9-16 img {
-        height: 125%; /* Compensate to keep image size same, just cropped viewport */
-        object-fit: cover;
-        object-position: top; /* Anchor to top so bottom is cropped */
-    }
-    .impact-media-frame.video-slider-container {
-        width: 70%;
-        max-width: none;
-    }
-
-    .impact-heading {
-        font-size: var(--h4);
-        margin-bottom: 8px;
+        height: auto;
+        overflow: visible;
+        /* Restore border radius for "Tablet" feel */
+        border-radius: 20px; 
     }
     
-    .impact-body {
-        font-size: var(--text-xs);
+    .impact-media-frame.video-slider-container {
+        width: 100%;
+    }
+
+    /* Headings & Text - Inherit Global 17px Body, adjust Heading */
+    .impact-heading {
+        font-size: var(--h4); /* Keep modest heading size */
         margin-bottom: 12px;
     }
     
-    .impact-list li {
-        font-size: var(--text-xs); /* Ensure exact match with impact-body on mobile landscape */
-    }
-    
+    /* Metrics: 2 Columns (Simulating Desktop Grid) */
     .impact-metrics {
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-top: 12px;
+        gap: 12px;
+        margin-top: 16px;
     }
     
-    .impact-metric dt { font-size: calc(var(--text-xs) * 0.85); }
-    .impact-metric dd { font-size: var(--text-xs); }
+    /* Masonry Grid: 2 Columns (Simulating Tablet) */
+    .masonry-grid {
+        column-count: 2 !important;
+        column-gap: 16px;
+    }
+    
+    /* Ensure Case Study Tabs have proper spacing in this mode */
+    .case-study-tabs {
+        margin-bottom: 30px !important;
+        padding-bottom: 12px !important; /* Reset padding (no connector needed for Side-by-Side?) */
+    }
+    /* Hide connector in side-by-side mode (usually desktop doesn't have it overlapping content) */
+    .case-tab.active::after {
+        display: none !important; 
+    }
 }
 
 @media (max-width: 768px) {
     .highlights-box-custom { padding: 24px 0; }
     .masonry-grid { column-count: 1; }
+    
+    /* Fix video border radius on mobile */
+    .impact-media-frame {
+        border-radius: 20px; /* Reduced from 60px */
+        border-width: 4px; /* Slightly thinner border */
+    }
+
+    /* Adjust spacing for Case Study tabs */
+    .case-study-tabs {
+        margin-bottom: 30px; /* Add breathing room between tabs and content */
+    }
 }
 
 @media (max-height: 600px) {
@@ -2535,6 +2577,22 @@ h2.text-gradient, h2.section-title.text-gradient {
         width: 100% !important;
         max-width: 100% !important;
         line-height: 1.2 !important;
+    }
+
+    /* Fix Inconsistent Spacing on Mobile (Blue/Red lines issue) - Restored Connector */
+    .case-study-tabs {
+        margin-bottom: 0px !important; /* Remove extra margin */
+        padding-bottom: 41px !important; /* Restore padding for connector space (56px - 15px trim) */
+    }
+    
+    .case-tab.active::after {
+        display: block !important; /* Show connector line on mobile */
+        height: 41px !important; /* Explicit height to match padding-bottom */
+    }
+    
+    .impact-content-wrapper {
+        padding-top: 20px !important; /* Keep reduced top padding for balance */
+        gap: 20px !important;
     }
 
     .hero-overlay-keywords {
