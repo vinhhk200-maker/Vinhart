@@ -10,6 +10,10 @@
     text-size-adjust: 100%;
 }
 
+ul, ol, li {
+    font-size: inherit;
+}
+
 :root {
     /* Color System */
     --bg-primary: #FDFBF7;
@@ -31,7 +35,7 @@
     --h1: 64px; /* Hero / Main Titles */
     --h2: 60px; /* Increased to match Slogan size (was 40px) */
     --h3: 28px; /* Subtitles */
-    --h4: 22px; /* Card Titles / Small Headings */
+    --h4: 24px; /* Card Titles / Small Headings - Updated to 24px based on majority usage */
     
     /* Leading (Line Height) */
     --leading-tight: 1.1;
@@ -56,7 +60,7 @@
 
     /* Case Tabs */
     --case-tab-gap: 2px;
-    --case-tab-font: 15px;
+    --case-tab-font: var(--text-small);
     --case-tab-pad-y: 6px;
     --case-tab-pad-x: 14px;
     --case-tab-radius: 100px;
@@ -70,8 +74,8 @@
     --case-tabs-inset: var(--gutter);
     /* Match hero-cta sizing for active tab */
     --case-tab-active-pad-y: 12px;
-    --case-tab-active-pad-x: 32px;
-    --case-tab-active-font: 16px;
+    --case-tab-active-pad-x: 20px;
+    --case-tab-active-font: var(--text-body);
     --case-tab-active-radius: 999px;
     --case-tabs-trim: 15px;
 
@@ -182,7 +186,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .skill-column h3 {
     font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
+    font-size: var(--text-body);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -368,7 +372,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 .header-name {
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
-    font-size: 18px;
+    font-size: var(--text-body);
     letter-spacing: 1px;
     white-space: nowrap;
     flex-shrink: 0; /* Always show name */
@@ -410,6 +414,23 @@ h2.text-gradient, h2.section-title.text-gradient {
     /* text-overflow: ellipsis; Removed per user request (gradient overlay handles it) */
     display: block;
     min-width: 0;
+    
+    /* Smooth Transition for Text Swap */
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0);
+    will-change: transform, opacity;
+}
+
+.header-title span.is-exiting {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.header-title span.is-entering {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: none; /* Instant jump to start position */
 }
 
 .hamburger-btn {
@@ -481,7 +502,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     position: absolute;
     top: 30px;
     right: var(--gutter);
-    font-size: 32px; /* Slightly reduced size */
+    font-size: var(--h3); /* Slightly reduced size */
     font-weight: 100; /* Thinner font weight */
     background: none;
     border: none;
@@ -526,7 +547,7 @@ h2.text-gradient, h2.section-title.text-gradient {
         letter-spacing: 0.18em;
     }
     .header-name {
-        font-size: 16px;
+        font-size: var(--text-small);
         letter-spacing: 0.8px;
     }
 }
@@ -616,13 +637,13 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .hero-overlay-title .hero-name--overlay {
-    font-size: 26px !important;
+    font-size: var(--fs-hero-name) !important;
     letter-spacing: 0.25em !important;
     margin-right: -0.3em;
 }
 
 .hero-overlay-title .hero-title--overlay {
-    font-size: calc(14px * 0.7) !important;        /* Thu nhỏ ~30% so với 14px gốc */
+    font-size: calc(var(--text-xs) * 0.7) !important;        /* Thu nhỏ ~30% so với 14px gốc */
     letter-spacing: calc(0.25em * 1.8) !important; /* Tăng tracking ~80% so với gốc */
 }
 
@@ -707,7 +728,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .hero-overlay-description {
     font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
+    font-size: var(--text-small);
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.84);
     font-weight: 500;
@@ -734,7 +755,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     display: flex;
     flex-direction: column;
     font-family: 'Inter', sans-serif;
-    font-size: 29px;
+    font-size: var(--h3);
     font-weight: 700;
     letter-spacing: normal;
     line-height: 1.1;
@@ -774,7 +795,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
 
     .hero-overlay-keywords {
-        font-size: 21px; /* Reduced by ~20% from 26px */
+        font-size: calc(var(--fs-hero-name) * 0.8); /* Reduced by ~20% from 26px */
     }
 }
 
@@ -796,7 +817,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
 
     .hero-overlay-keywords {
-        font-size: 34px;
+        font-size: calc(var(--fs-hero-name) * 1.3); /* Systemized 34px (26px * 1.3) */
         text-align: left;
         align-items: flex-start;
     }
@@ -860,7 +881,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     font-family: 'Inter', sans-serif;
     
     /* Fixed Scale: 14px (All Screens) - Immutable per user request */
-    font-size: 14px !important;
+    font-size: var(--fs-hero-title) !important;
     
     font-weight: 600;
     
@@ -1013,7 +1034,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .hero-description {
     font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
+    font-size: var(--text-body);
     max-width: 100%; /* Changed from 680px to 100% per user request */
     margin: var(--space-sm) auto 0; /* Reduced top margin */
     line-height: var(--leading-relaxed);
@@ -1050,7 +1071,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     background-color: #000000; /* User Request: Black background */
     color: #00D4AA; /* User Request: Bright Green (Teal) text */
     font-family: 'Inter', sans-serif;
-    font-size: 17px; /* Standard Apple Body size */
+    font-size: var(--text-body); /* Standard Apple Body size */
     font-weight: 400; /* Regular weight like 'Learn more' */
     text-transform: none; /* Apple buttons are Sentence case, not Uppercase */
     letter-spacing: -0.022em; /* Tight SF Pro spacing */
@@ -1087,8 +1108,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     z-index: 2;
     margin-top: 100vh;
     border-radius: 0;
-    overflow: hidden;
-    /* Removed opacity: 0 to fix "cannot scroll" perception */
+    /* overflow: hidden; Removed to allow sticky positioning to work */
     transition: opacity 0.5s ease;
 }
 
@@ -1123,7 +1143,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     background-color: #000 !important; /* Black background to show placeholder */
     outline: none;
     border: none;
-    box-shadow: none;
+    box-shadow: -2px 0 0 #000, 2px 0 0 #000; /* Fix sub-pixel white gap */
 }
 
 .video-wrapper iframe {
@@ -1176,11 +1196,12 @@ h2.text-gradient, h2.section-title.text-gradient {
     margin-left: calc(-50vw + 50%); /* Pull left to edge */
     margin-right: calc(-50vw + 50%); /* Pull right to edge */
     box-sizing: border-box; /* Include padding in width */
+    box-shadow: -2px 0 0 #000, 2px 0 0 #000; /* Fix sub-pixel white gap */
 }
 
 .video-label {
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
+    font-size: var(--text-xs);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -1189,11 +1210,22 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .video-description {
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
+    font-size: var(--text-small);
     color: rgba(255, 255, 255, 0.8); /* White text with opacity */
     max-width: 500px;
     line-height: 1.5;
     text-align: right;
+}
+
+/* Fix for white gradient appearing on video edges - Applied Globally */
+.video-wrapper::before,
+.video-wrapper::after,
+.video-caption-container::before,
+.video-caption-container::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    opacity: 0 !important;
 }
 
 @media (max-width: 768px) {
@@ -1210,7 +1242,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .section-label {
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 10px;
@@ -1273,7 +1305,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     margin: 0 auto; /* Center the grid */
 }
 .skill-category h3 {
-    font-size: 20px; /* Increased size slightly */
+    font-size: var(--h4); /* Increased size slightly */
     margin-bottom: 25px;
     border-bottom: 1px solid #eee;
     padding-bottom: 15px;
@@ -1351,7 +1383,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     gap: 40px;
 }
 .highlight-item {
-    font-size: 18px;
+    font-size: var(--text-body);
     line-height: 1.6;
 }
 
@@ -1462,13 +1494,13 @@ h2.text-gradient, h2.section-title.text-gradient {
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
-.exp-role { font-size: 24px; width: 100%; margin-bottom: 5px; }
+.exp-role { font-size: var(--h4); width: 100%; margin-bottom: 5px; }
 .exp-company { font-weight: 500; color: var(--text-primary); }
 .exp-date { color: var(--text-secondary); }
 .exp-description { margin-bottom: 30px; max-width: 800px; color: var(--text-secondary); }
 .exp-responsibilities { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
 .responsibility strong { color: var(--text-primary); font-weight: 500; }
-.responsibility { color: var(--text-secondary); font-size: 15px; }
+.responsibility { color: var(--text-secondary); font-size: var(--text-small); }
 
 
 /* Clients Grid */
@@ -1612,7 +1644,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 50px;
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
+    font-size: var(--text-small);
     font-weight: 500;
     color: var(--text-primary);
     transition: all 0.3s ease;
@@ -1640,7 +1672,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 /* =========================================
    RESPONSIVE
    ========================================= */
-@media (max-width: 1024px), (max-height: 600px) {
+@media (max-width: 768px), (max-height: 600px) {
     .hero {
         position: fixed;
         height: 100vh;
@@ -1705,7 +1737,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     border-bottom: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .impact-card-inner {
         padding-left: 0;
         padding-right: 0;
@@ -1732,12 +1764,19 @@ h2.text-gradient, h2.section-title.text-gradient {
    ========================================= */
 .case-tabs-bleed {
     width: 100vw;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    /* position: sticky;  DISABLED for future use */
+    /* top: 54px; DISABLED for future use */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    transform: none;
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: hidden; /* Changed from visible to hidden to clip children */
     margin-bottom: var(--case-tabs-gap-to-card);
+    z-index: 1; /* Lower z-index to avoid overlapping video */
+    /* Updated to vertical gradient: White (top) -> Transparent (bottom) */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    transition: box-shadow 0.3s ease;
+    position: relative; /* Ensure absolute children are relative to this */
 }
 
 .case-tabs-bleed::before,
@@ -1750,6 +1789,8 @@ h2.text-gradient, h2.section-title.text-gradient {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s ease;
+    z-index: 1000; /* Ensure it stays above the tabs but within the container */
+    height: 100%; /* Limit height to the container */
 }
 
 .case-tabs-bleed::before {
@@ -1765,30 +1806,37 @@ h2.text-gradient, h2.section-title.text-gradient {
 .case-tabs-bleed.show-left::before { opacity: 1; }
 .case-tabs-bleed.show-right::after { opacity: 1; }
 .case-tabs-bleed { padding-left: 0; padding-right: 0; }
-.case-tabs-bleed.edge-left { padding-left: var(--case-tabs-inset); }
-.case-tabs-bleed.edge-right { padding-right: var(--case-tabs-inset); }
+/* .case-tabs-bleed.edge-left { padding-left: var(--case-tabs-inset); } REMOVED to prevent jumpy scroll */
+/* .case-tabs-bleed.edge-right { padding-right: var(--case-tabs-inset); } REMOVED to prevent jumpy scroll */
+
+
+.case-tabs-bleed.is-pinned {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Optional: add shadow when pinned */
+}
+
 .case-study-tabs {
     display: flex;
     justify-content: flex-start;
     gap: var(--case-tab-gap);
     margin-bottom: 0;
     /* border-bottom: 1px solid rgba(0,0,0,0.06); Removed outline per user request */
-    padding-bottom: calc(var(--case-tab-connector-h) - var(--case-tabs-trim));
+    /* Add static padding for inset effect */
+    padding: 10px var(--case-tabs-inset) calc(var(--case-tab-connector-h) - var(--case-tabs-trim)) var(--case-tabs-inset); /* Added top padding */
     flex-wrap: nowrap;                 /* Keep tabs on one line */
     overflow-x: auto;                  /* Enable horizontal scroll when many tabs */
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
     overscroll-behavior-x: contain;    /* Prevent viewport scroll chaining */
-    scroll-behavior: smooth;           /* Smooth programmatic scroll */
-    scroll-snap-type: x proximity;     /* Snap near centers for better UX */
+    /* scroll-behavior: smooth; REMOVED to prevent conflict with JS animation */
+    /* scroll-snap-type: x proximity; REMOVED to prevent conflict with JS centering */
 }
 
 .case-tab {
-    background: transparent;
+    background-color: #F7F7F7; /* Light gray background */
     border: none;
     font-family: 'Inter', sans-serif;
     font-size: var(--case-tab-font);
-    font-weight: 400; /* Changed to regular per user request */
+    font-weight: 600; /* Bold for inactive tabs */
     letter-spacing: normal; /* Default letter spacing */
     color: var(--text-secondary); /* #666 */
     padding: var(--case-tab-pad-y) var(--case-tab-pad-x);
@@ -1796,22 +1844,13 @@ h2.text-gradient, h2.section-title.text-gradient {
     border-radius: var(--case-tab-radius);
     transition: all 0.2s ease;
     flex: 0 0 auto;                    /* Prevent flex shrinking for horizontal scroll */
-    scroll-snap-align: center;         /* Center tabs on snap */
-
-    /* Hover Gradient Effect (Left-to-Right Wipe) */
-    background-image: linear-gradient(to right, transparent 50%, var(--text-secondary) 50%), 
-                      linear-gradient(135deg, #FFD406, #144EE3, #D980FA, #0CB8FF, #29E0B2, #FFD406);
-    background-size: 200% 100%, 300% 300%;
-    background-position: 100% 0%, 0% 50%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent; /* Makes text transparent to show background */
-    /* Note: color is set above as fallback, but text-fill-color overrides it */
+    /* scroll-snap-align: center; REMOVED */
+    -webkit-text-fill-color: initial; /* Reset text fill */
 }
 
 .case-tab:hover {
-    background-position: 0% 0%, 100% 50%;
-    background-color: var(--case-tab-hover-bg);
+    background-color: #E5E5E5; /* Darker gray on hover */
+    color: #000;
 }
 
 .case-tab.active {
@@ -1858,7 +1897,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 /* Mobile adjustments for slides */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
     .impact-content-wrapper {
         flex-direction: column;
         gap: 30px;
@@ -1870,10 +1909,10 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
 }
 
-/* Tablet (1024px) specific adjustment: Ensure content fits */
-@media (max-width: 1024px) {
+/* Tablet (1023px) specific adjustment: Ensure content fits */
+@media (max-width: 768px) {
     .impact-heading {
-        font-size: 24px; /* Reduce heading size slightly */
+        font-size: var(--h4); /* Reduce heading size slightly */
     }
     
     .impact-content-wrapper {
@@ -1913,7 +1952,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-heading {
-    font-size: 30px; /* Increased by 2 units from 28px */
+    font-size: var(--h3); /* Increased by 2 units from 28px */
     font-weight: 400; /* Regular weight per user request */
     line-height: 1.2;
     letter-spacing: -0.02em;
@@ -1922,10 +1961,32 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-body {
-    font-size: calc(var(--text-small) * 1.2); /* Reduced from 2x to 1.2x (-40% relative to 2x, effectively +20% from original) */
+    font-size: var(--text-body); /* Standardized to 17px */
     line-height: 1.5; /* Adjusted line-height */
     color: var(--text-secondary);
     max-width: 100%; /* Allow full width to match heading */
+}
+
+.impact-list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0;
+}
+
+.impact-list li {
+    font-size: var(--text-body);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Faint gray line separator */
+}
+
+.impact-list li:last-child {
+    border-bottom: none;
+}
+
+.impact-list li strong {
+    color: #000000;
 }
 
 .impact-body strong {
@@ -1940,7 +2001,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-metric dt {
-    font-size: 11px;
+    font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--text-tertiary);
@@ -1954,13 +2015,15 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-media-frame {
-    border-radius: var(--media-radius);
+    border-radius: 60px; /* Increased by 50% from 40px */
     overflow: hidden;
     background: #000;
+    border: 6px solid #ffffff; /* Reduced -4px from 10px */
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15); /* Gentle drop shadow */
 }
 
 .impact-media-caption {
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--text-secondary);
     display: none; /* Removed per user request */
 }
@@ -2004,26 +2067,67 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 /* Desktop/Big Screen Scale Reduction (-45% total: 70% * 0.85 = ~60%) */
-@media (min-width: 1025px) {
+/* Unified Grid Layout for Tablet & Desktop (min-width: 768px) */
+@media (min-width: 768px) {
+    .impact-content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 320px; /* Optimized for Tablet Portrait (768px) */
+        gap: 32px; /* Reduced gap for better space efficiency on tablets */
+        align-items: start;
+    }
+
+    .impact-copy {
+        min-width: 0; /* Prevent grid blowout */
+    }
+
     .impact-media {
-        flex: 0.6; /* Reduced further from 0.8 to 0.6 to tighten gap significantly */
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end; /* Align children to the right */
+        position: sticky;
+        top: 100px; /* Stick to top with breathing room */
+        height: fit-content;
+        align-self: start;
+        margin: 0;
+        width: 100%;
+        display: block; /* Reset flex */
     }
 
     .impact-media-frame.ratio-9-16 {
-        width: 100%; /* Frame now takes full width of the narrowed parent */
+        width: 100%;
         margin: 0;
-        height: auto; /* Allow height to adjust naturally based on video aspect ratio */
-        aspect-ratio: auto; /* Remove fixed aspect ratio constraint */
+    }
+}
+
+/* Tablet Landscape (iPad Pro/Air) & Small Laptops */
+@media (min-width: 769px) {
+    .impact-content-wrapper {
+        grid-template-columns: 1fr 360px; /* Slightly wider for Landscape */
+        gap: 48px;
+    }
+}
+
+/* Large Desktop Overrides */
+@media (min-width: 1200px) {
+    .impact-content-wrapper {
+        grid-template-columns: 1fr 420px; /* Full width for Desktop */
+        gap: 80px; /* Larger gap */
     }
     
-    .impact-media-frame.ratio-9-16 video {
-        width: 100%;
-        height: auto; /* Video maintains natural height */
-        object-fit: var(--media-fit);
+    .impact-media {
+        top: 120px;
     }
+}
+
+/* Enhanced Body Content Styling */
+.impact-body img {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    margin: 32px 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    display: block;
+}
+
+.impact-body p {
+    margin-bottom: 24px;
 }
 
 .ratio-9-16 {
@@ -2043,7 +2147,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: var(--h4);
     color: #333;
     pointer-events: none;
     backdrop-filter: blur(4px);
@@ -2051,13 +2155,13 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .item-caption {
     padding: 15px;
-    font-size: 14px;
+    font-size: var(--text-xs);
     font-weight: 500;
     color: var(--text-primary);
     border-top: 1px solid #f5f5f5;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .masonry-grid {
         column-count: 2;
     }
@@ -2065,7 +2169,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 /* Removed legacy .impact-card-inner padding block to prevent double padding */
 
-@media (max-width: 900px) {
+@media (max-width: 767px) {
     .impact-media {
         align-items: flex-start;
     }
@@ -2076,7 +2180,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 /* Mobile Landscape Optimization & Square-ish Screens (min-width: 550px) */
-@media (min-width: 550px) and (max-width: 900px) {
+@media (min-width: 550px) and (max-width: 767px) {
     .impact-content-wrapper {
         flex-direction: row !important;
         align-items: flex-start;
@@ -2099,6 +2203,15 @@ h2.text-gradient, h2.section-title.text-gradient {
         width: 100%;
         max-width: 250px;
         margin: 0;
+        /* Crop image from bottom up by 20% in mobile landscape */
+        overflow: hidden;
+        height: 80%; /* Reduce height to simulate crop */
+        position: relative;
+    }
+    .impact-media-frame.ratio-9-16 img {
+        height: 125%; /* Compensate to keep image size same, just cropped viewport */
+        object-fit: cover;
+        object-position: top; /* Anchor to top so bottom is cropped */
     }
     .impact-media-frame.video-slider-container {
         width: 70%;
@@ -2106,13 +2219,17 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
 
     .impact-heading {
-        font-size: 24px;
+        font-size: var(--h4);
         margin-bottom: 8px;
     }
     
     .impact-body {
-        font-size: 13px;
+        font-size: var(--text-xs);
         margin-bottom: 12px;
+    }
+    
+    .impact-list li {
+        font-size: var(--text-xs); /* Ensure exact match with impact-body on mobile landscape */
     }
     
     .impact-metrics {
@@ -2121,8 +2238,8 @@ h2.text-gradient, h2.section-title.text-gradient {
         margin-top: 12px;
     }
     
-    .impact-metric dt { font-size: 10px; }
-    .impact-metric dd { font-size: 12px; }
+    .impact-metric dt { font-size: calc(var(--text-xs) * 0.85); }
+    .impact-metric dd { font-size: var(--text-xs); }
 }
 
 @media (max-width: 768px) {
@@ -2246,7 +2363,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
     .section-label,
     .recent-companies-label {
-        font-size: 11px;
+        font-size: calc(var(--text-xs) * 0.85);
         padding: 3px 10px;
     }
 
@@ -2263,9 +2380,9 @@ h2.text-gradient, h2.section-title.text-gradient {
         margin: 0 auto;
     }
     
-    .menu-link { font-size: 1.4rem; }
+    .menu-link { font-size: var(--h4); }
     .menu-item { margin-bottom: 4px; }
-    .menu-close-btn { top: 10px; right: 20px; font-size: 24px; }
+    .menu-close-btn { top: 10px; right: 20px; font-size: calc(var(--text-xs) * 0.85); }
 }
 
 
@@ -2284,8 +2401,8 @@ h2.text-gradient, h2.section-title.text-gradient {
     /* H1: Name - Fixed Scale 26px (All Screens) - Immutable per user request */
     --fs-hero-name: 26px;
     
-    /* Span: Title - Fixed Scale 14px per user request */
-    --fs-hero-title: 14px;
+    /* Span: Title - Systemized to var(--text-xs) (13px) */
+    --fs-hero-title: var(--text-xs);
     
     /* P: Description - Scale from 14px to 18px -> Adjusted for Mobile to match standard P */
     --fs-hero-desc: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
@@ -2365,7 +2482,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 /* 5. A (CTA) */
 .hero-cta-btn {
-    font-size: 17px !important; /* Enforce standard size */
+    font-size: var(--text-body) !important; /* Enforce standard size */
     margin-top: var(--gap-md);
     padding: 16px 32px !important; /* Enforce standard padding */
 }
@@ -2389,7 +2506,7 @@ h2.text-gradient, h2.section-title.text-gradient {
        Original Min was 1.5rem (24px). Target is ~17px.
     */
     .hero .hero-name-wrapper .hero-name {
-        font-size: 1.45rem !important; /* Increased by 30% from 1.1rem (~23px) */
+        font-size: var(--h4) !important; /* Systemized from 1.45rem (~23px) to 24px */
     }
     .hero .hero-name-wrapper {
         margin-bottom: 0px !important; /* Reset to 0px to push H2 down by ~30% (from -3px) */
@@ -2414,19 +2531,19 @@ h2.text-gradient, h2.section-title.text-gradient {
     /* Increase spacing between Slogan Div and Description P by 30% + 30% = ~1.7 */
     .hero-slogan {
         margin-bottom: 8px !important;
-        font-size: 4.33rem !important; /* Increased ~30% from 3.33rem for mobile portrait */
+        font-size: var(--h1) !important; /* Systemized from 4.33rem (~69px) to 64px */
         width: 100% !important;
         max-width: 100% !important;
         line-height: 1.2 !important;
     }
 
     .hero-overlay-keywords {
-        font-size: 34px; /* Increased ~30% from 26px mobile base */
+        font-size: calc(var(--fs-hero-name) * 1.3); /* Systemized 34px (26px * 1.3) */
     }
 
     /* Mobile CTA: Apple Standard (Consistent 17px/Standard Padding) */
     .hero-cta-btn {
-        font-size: 17px !important; /* Apple Mobile Standard */
+        font-size: var(--text-body) !important; /* Apple Mobile Standard */
         padding: 11px 21px !important; /* Apple Mobile Standard Padding */
         margin-top: 16px !important; /* Reduced from 24px */
     }
@@ -2449,6 +2566,21 @@ h2.text-gradient, h2.section-title.text-gradient {
     .header-title span {
         overflow: visible !important;
         text-overflow: clip !important;
+    }
+
+    /* Move H2 and Tabs up and separate from video */
+    .impact-case .section-title {
+        margin-top: -60px !important; /* Move H2 up significantly */
+        margin-bottom: 8px !important; /* Keep tight spacing with tabs */
+        position: relative;
+        z-index: 5;
+    }
+
+    .case-tabs-bleed {
+        margin-top: 0 !important; /* Reset to follow H2 naturally */
+        margin-bottom: 40px !important; /* Add space below tabs to push video away */
+        position: relative;
+        z-index: 5;
     }
 }
 
@@ -2486,7 +2618,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     /* Apple Standard CTA for Tablet & Desktop */
     .hero-cta-btn {
         padding: 11px 21px !important; /* Standard Apple Padding */
-        font-size: 17px !important; /* Standard Apple Size */
+        font-size: var(--text-body) !important; /* Standard Apple Size */
     }
 }
 
@@ -2496,15 +2628,11 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
 }
 
-/* 4. Tablet Landscape (Standard 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .hero-slogan {
-        max-width: 80%;
-    }
-}
+/* 4. Tablet Landscape (Merged into Desktop) */
+/* @media (min-width: 769px) and (max-width: 1024px) Removed to force Desktop view */
 
-/* 5. Desktop Small (Standard 1280px) */
-@media (min-width: 1025px) and (max-width: 1280px) {
+/* 5. Desktop Small (Standard 1280px) - Expanded to include Tablet Landscape */
+@media (min-width: 769px) and (max-width: 1280px) {
     /* Handled by clamp() */
 }
 
@@ -2549,7 +2677,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     animation: gentleSlideUp 2s ease-out forwards; /* Gentle entry */
     
     /* Match .section-intro style */
-    font-size: 18px;
+    font-size: var(--text-body); /* Standardized from 18px to 17px */
     line-height: 1.6;
     color: var(--text-secondary);
     
@@ -2654,7 +2782,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 .footer-brand {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 16px;
+    font-size: var(--text-body);
     letter-spacing: 0.16em;
     text-transform: uppercase;
     margin-bottom: 8px;
@@ -2662,7 +2790,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 
 .footer-tagline {
     margin: 0;
-    font-size: 14px;
+    font-size: var(--text-small);
     line-height: 1.6;
     color: var(--text-secondary);
 }
@@ -2690,7 +2818,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     overflow: hidden;
     border-radius: 20px;
     margin-bottom: 24px;
-    background-color: #eee;
+    background-color: #000; /* Changed from #eee to #000 for consistency */
     /* Desktop: 21:9 Aspect Ratio */
     aspect-ratio: 21 / 9;
 }
@@ -2762,7 +2890,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .footer-link {
-    font-size: 14px;
+    font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 1.5px;
     text-decoration: none;
@@ -2821,7 +2949,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .footer-meta {
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: rgba(0, 0, 0, 0.6);
 }
 
@@ -2864,7 +2992,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     border-radius: 999px;
     text-decoration: none;
     font-family: 'DM Sans', sans-serif; /* Updated to DM Sans per global request */
-    font-size: 16px;
+    font-size: var(--text-body);
     font-weight: 500;
     letter-spacing: 0.02em;
     cursor: pointer;
@@ -2926,7 +3054,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     .hero-cta {
         margin-top: 24px;
         padding: 10px 28px;
-        font-size: 15px;
+        font-size: var(--text-small);
     }
 }
 /* =========================================
@@ -3008,7 +3136,8 @@ h2.text-gradient, h2.section-title.text-gradient {
     z-index: 2;
 }
 
-.carousel-slide img {
+.carousel-slide img,
+.carousel-slide video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -3044,7 +3173,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.2);
     border: none;
     cursor: pointer;
     padding: 0;
@@ -3052,16 +3181,48 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .carousel-dot.active {
-    background: #ffffff;
+    background: #000000;
     transform: scale(1.2);
 }
 
 .carousel-dot:hover {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+    .impact-hero-carousel {
+        /* Crop 30% from bottom for tablet/mobile: 
+           Use height 70% and overflow hidden to cut off the bottom part.
+           Or adjust aspect-ratio if supported.
+           Since image is object-position: top, reducing container height crops bottom.
+        */
+        height: 70%; 
+        aspect-ratio: auto; /* Reset aspect ratio to allow height override or adjust ratio */
+        aspect-ratio: 21 / 6.3; /* 21 / 9 * 0.7 approx */
+    }
 }
 
 @media (max-width: 768px) {
     .impact-hero-carousel {
         aspect-ratio: 3 / 2; /* Expand height ~20% more for mobile vertical */
+        height: auto; /* Reset fixed height for mobile to use aspect ratio */
+    }
+}
+
+/* Impact List Styles merged into main section */
+
+/* Text Highlight Style - Alternative to Bold */
+.text-highlight {
+    font-weight: inherit; /* Reset to inherit from parent */
+    color: inherit; /* Reset to inherit from parent */
+    background-color: transparent; /* Remove background */
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Remove border radius */
+    text-decoration: none; /* Remove underline */
+}
+
+@media (max-width: 768px) {
+    .case-tabs-bleed {
+        top: 40px; /* Match smaller mobile header height */
     }
 }
