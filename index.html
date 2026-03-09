@@ -2052,6 +2052,34 @@
             initVideoSliders();
         }
     </script>
+    <script>
+        (function(){
+            function toggleGlowForIframe(match, active){
+                var frame = match.closest('.impact-media-frame');
+                if (!frame) return;
+                if (active) frame.classList.add('is-looping');
+                else frame.classList.remove('is-looping');
+            }
+            function toggleGlowFromSource(srcWindow, active){
+                var iframes = Array.prototype.slice.call(document.querySelectorAll('iframe'));
+                var match = iframes.find(function(f){ return f.contentWindow === srcWindow; });
+                if (match) { toggleGlowForIframe(match, active); return; }
+                var fallback = document.querySelector('iframe[src*="tinder_swipenight_Playable"]');
+                if (fallback) { toggleGlowForIframe(fallback, active); }
+            }
+            window.addEventListener('message', function(e){
+                var d = e.data;
+                if (!d) return;
+                if (d.type === 'playable-interact') {
+                    toggleGlowFromSource(e.source, false);
+                    return;
+                }
+                if (d.type === 'playable-loop') {
+                    toggleGlowFromSource(e.source, !!d.active);
+                }
+            }, false);
+        })();
+    </script>
     <script src="js/footer.js"></script>
 </body>
 </html>

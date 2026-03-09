@@ -2050,8 +2050,8 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-cta-box {
-    background-color: #CCFF00;
-    color: #000;
+    background-color: #000000;
+    color: #0CB8FF;
     padding: 24px;
     border-radius: 12px;
     margin-top: 32px;
@@ -2075,21 +2075,22 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-cta-link {
-    color: #000;
+    color: #0CB8FF;
     text-decoration: none;
     font-weight: 500;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(12, 184, 255, 0.4);
     transition: all 0.2s ease;
     padding-bottom: 2px;
 }
 
 .impact-cta-link:hover {
-    border-bottom-color: #000;
-    opacity: 0.8;
+    border-bottom-color: #0CB8FF;
+    opacity: 0.85;
 }
 
 .impact-cta-separator {
-    opacity: 0.5;
+    color: #0CB8FF;
+    opacity: 0.6;
 }
 
 @media (max-width: 768px) {
@@ -2235,6 +2236,25 @@ h2.text-gradient, h2.section-title.text-gradient {
     background: #000;
     border: 6px solid #ffffff; /* Reduced -4px from 10px */
     box-shadow: 0 12px 24px rgba(0,0,0,0.15); /* Gentle drop shadow */
+    position: relative;
+}
+
+.impact-media-frame.is-looping::after {
+    content: "";
+    display: none;
+}
+
+.impact-media-frame.is-looping {
+    filter: drop-shadow(0 12px 24px rgba(255, 0, 128, 0.45)) drop-shadow(0 0 36px rgba(255, 0, 128, 0.45));
+    will-change: filter;
+    animation: outerGlowPulse 1s ease-in-out infinite;
+    transition: filter 0.4s ease;
+}
+
+@keyframes outerGlowPulse {
+    0% { filter: drop-shadow(0 12px 24px rgba(255, 0, 128, 0.30)) drop-shadow(0 0 36px rgba(255, 0, 128, 0.30)); }
+    50% { filter: drop-shadow(0 12px 24px rgba(255, 0, 128, 0.75)) drop-shadow(0 0 36px rgba(255, 0, 128, 0.75)); }
+    100% { filter: drop-shadow(0 12px 24px rgba(255, 0, 128, 0.30)) drop-shadow(0 0 36px rgba(255, 0, 128, 0.30)); }
 }
 
 .impact-media-caption {
