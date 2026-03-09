@@ -782,7 +782,8 @@
                     }
                 });
                 var activeSlide = slides[index];
-                if (activeSlide) {
+                var shouldUpdateHash = !(options && options.skipHash);
+                if (shouldUpdateHash && activeSlide) {
                     var slug = activeSlide.dataset && activeSlide.dataset.slug ? activeSlide.dataset.slug : (activeSlide.id || '');
                     if (slug) history.replaceState(null, '', '#' + slug);
                 }
@@ -808,7 +809,7 @@
                 var slides = Array.prototype.slice.call(document.querySelectorAll('.case-slide'));
                 var idx = slides.indexOf(target);
                 if (idx >= 0) {
-                    switchCase(idx, { suppressCenter: true });
+                    switchCase(idx, { suppressCenter: true, skipHash: true });
                     var tabsOuter = document.getElementById('case-tabs-bleed');
                     var header = document.querySelector('.header');
                     var headerOffset = (header && header.classList.contains('visible')) ? header.offsetHeight : 0;
@@ -1099,7 +1100,7 @@
                 var initial = slides.findIndex(function(s){ return s.classList.contains('active'); });
                 if(initial < 0) initial = 0;
                 // Initial render: align to left boundary, do not auto-center
-                switchCase(initial, { suppressCenter: true });
+                switchCase(initial, { suppressCenter: true, skipHash: true });
                 tabsContainer.scrollLeft = 0;
                 updateEdges();
                 goToHash();
