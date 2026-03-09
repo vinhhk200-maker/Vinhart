@@ -781,6 +781,11 @@
                         if(v){ v.pause(); }
                     }
                 });
+                var activeSlide = slides[index];
+                if (activeSlide) {
+                    var slug = activeSlide.dataset && activeSlide.dataset.slug ? activeSlide.dataset.slug : (activeSlide.id || '');
+                    if (slug) history.replaceState(null, '', '#' + slug);
+                }
                 if (!suppressCenter) {
                     // Cancel any previous pending click-center
                     if (clickCenterTimer) clearTimeout(clickCenterTimer);
@@ -793,6 +798,25 @@
                             centerActiveTab();
                         }
                     }, 3000);
+                }
+            }
+            function goToHash() {
+                var h = window.location.hash ? window.location.hash.substring(1) : '';
+                if (!h) return;
+                var target = document.querySelector('.case-slide[data-slug="'+h+'"]') || document.getElementById(h);
+                if (!target || !target.classList.contains('case-slide')) return;
+                var slides = Array.prototype.slice.call(document.querySelectorAll('.case-slide'));
+                var idx = slides.indexOf(target);
+                if (idx >= 0) {
+                    switchCase(idx, { suppressCenter: true });
+                    var tabsOuter = document.getElementById('case-tabs-bleed');
+                    var header = document.querySelector('.header');
+                    var headerOffset = (header && header.classList.contains('visible')) ? header.offsetHeight : 0;
+                    var extra = (window.innerWidth <= 768) ? 54 : 40;
+                    var offset = (tabsOuter ? tabsOuter.offsetHeight : 0) + headerOffset + extra;
+                    var top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+                    centerActiveTab();
                 }
             }
             function animateScrollTo(element, targetLeft, duration) {
@@ -869,6 +893,26 @@
                 if (target > maxScroll) target = maxScroll;
                 animateScrollTo(container, target, 700);
             }
+            function teaseTabsPreview() {
+                var container = document.getElementById('case-tabs');
+                if (!container) return;
+                if (container.dataset.isInteracting === 'true') return;
+                if (container.dataset.teaseDone === 'true') return;
+                var active = container.querySelector('.case-tab.active');
+                if (!active) return;
+                var original = container.scrollLeft;
+                var maxScroll = container.scrollWidth - container.clientWidth;
+                var activeRect = active.getBoundingClientRect();
+                var delta = Math.min(Math.max(80, Math.min(160, activeRect.width)), activeRect.width * 0.75);
+                var target = Math.min(maxScroll, original + delta);
+                var cap = active.offsetLeft + activeRect.width * 0.75;
+                if (target > cap) target = cap;
+                animateScrollTo(container, target, 500);
+                setTimeout(function() {
+                    animateScrollTo(container, original, 600);
+                    container.dataset.teaseDone = 'true';
+                }, 900);
+            }
             var autoCenterTimer = null;
             function scheduleAutoCenter() {
                 if (autoCenterTimer) clearTimeout(autoCenterTimer);
@@ -884,6 +928,20 @@
                 var tabsOuter = document.getElementById('case-tabs-bleed');
                 var slides = Array.prototype.slice.call(document.querySelectorAll('.case-slide'));
                 if(!tabsContainer || !slides.length) return;
+                function slugify(str){
+                    return (str || '')
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '');
+                }
+                slides.forEach(function(slide, i){
+                    var company = slide.getAttribute('data-company') || '';
+                    var project = slide.getAttribute('data-project') || '';
+                    var s = slugify((company + ' ' + project).trim());
+                    slide.dataset.slug = s || ('case-' + i);
+                });
                 tabsContainer.innerHTML = '';
                 slides.forEach(function(slide, i){
                     var btn = document.createElement('button');
@@ -1044,6 +1102,20 @@
                 switchCase(initial, { suppressCenter: true });
                 tabsContainer.scrollLeft = 0;
                 updateEdges();
+                goToHash();
+                window.addEventListener('hashchange', goToHash);
+                teaseTabsPreview();
+                if (tabsOuter) {
+                    var io = new IntersectionObserver(function(entries){
+                        entries.forEach(function(e){
+                            if (e.isIntersecting) {
+                                teaseTabsPreview();
+                                io.disconnect();
+                            }
+                        });
+                    }, { threshold: 0.3 });
+                    io.observe(tabsOuter);
+                }
             })();
         </script>
         </section>

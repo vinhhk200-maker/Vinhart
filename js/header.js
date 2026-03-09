@@ -87,6 +87,23 @@ const HeaderComponent = {
         this.initHeaderToggles();
         this.initMenu();
         this.initScroll();
+        
+        const headerName = document.querySelector('.header-name');
+        if (headerName) {
+            headerName.addEventListener('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.replace('https://vinhhk.com/');
+            });
+        }
+        const headerLogo = document.querySelector('.header-logo');
+        if (headerLogo) {
+            headerLogo.addEventListener('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.replace('https://vinhhk.com/');
+            }, true);
+        }
     },
 
     initHeaderToggles: function() {
