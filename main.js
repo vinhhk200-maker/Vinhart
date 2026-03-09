@@ -159,7 +159,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const carousels = document.querySelectorAll('.impact-hero-carousel');
     carousels.forEach(carousel => {
         const slides = carousel.querySelectorAll('.carousel-slide');
-        const dots = carousel.querySelectorAll('.carousel-dot');
+        
+        // Generate thumbnails dynamically to replace dots
+        const nav = carousel.querySelector('.carousel-nav');
+        let dots = []; // Store thumbnail elements
+
+        if (nav && slides.length > 0) {
+            nav.innerHTML = ''; // Clear existing hardcoded dots
+            
+            slides.forEach((slide, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'carousel-thumbnail-item';
+                if (index === 0) btn.classList.add('active');
+                
+                const video = slide.querySelector('video');
+                const img = slide.querySelector('img');
+                
+                if (video) {
+                    const source = video.querySelector('source');
+                    if (source) {
+                        const thumbVideo = document.createElement('video');
+                        thumbVideo.muted = true;
+                        thumbVideo.playsInline = true;
+                        const newSource = document.createElement('source');
+                        newSource.src = source.src + '#t=0.001'; // Timestamp hack for thumbnail
+                        newSource.type = source.type;
+                        thumbVideo.appendChild(newSource);
+                        btn.appendChild(thumbVideo);
+                    }
+                } else if (img) {
+                    const thumbImg = document.createElement('img');
+                    thumbImg.src = img.src;
+                    thumbImg.alt = img.alt || `Slide ${index + 1}`;
+                    btn.appendChild(thumbImg);
+                }
+                
+                // Add click listener
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    stopSlideShow();
+                    goToSlide(index);
+                });
+                
+                nav.appendChild(btn);
+                dots.push(btn);
+            });
+        }
+
         let currentSlide = 0;
         const totalSlides = slides.length;
         const intervalTime = 3000; // 3 seconds for images
@@ -209,12 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
+            if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
             
             currentSlide = (index + totalSlides) % totalSlides;
             
             slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
+            if (dots[currentSlide]) dots[currentSlide].classList.add('active');
 
             if (!isHovering) {
                 scheduleNextSlide();
@@ -233,14 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (slideTimeout) clearTimeout(slideTimeout);
             if (currentVideo) currentVideo.onended = null;
         }
-
-        // Event listeners for dots
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                stopSlideShow(); 
-                goToSlide(index);
-            });
-        });
 
         // Initialize
         if (totalSlides > 0) {

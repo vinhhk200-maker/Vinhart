@@ -16,30 +16,7 @@
        Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
-<script>
-    const SHOW_MEDIA_SECTION = true;
-    const SHOW_IMAGE_INSTEAD = false;
-    const AUTO_PLAY_VIDEO = false;
-    const BOTTOM_GRADIENT_IS_DARK = true;
-    const SHOW_BOTTOM_GRADIENT = false;
-    const HERO_CTA_TEXT = "";
-    
-    const MAIN_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder";
-    const MAIN_IMAGE_URL = "https://placehold.co/1200x675";
-
-    const SHOW_HEADER_GRADIENT_BAR = false;
-    const SHOW_HEADER_MARQUEE = false;
-    const HEADER_MARQUEE_GRADIENT_TEXT = "Creativity connects";
-    const HEADER_MARQUEE_PLAIN_TEXT = "—where compelling narratives meet strategic goals.";
-    const HEADER_MARQUEE_SUFFIX_TEXT = "- By VINH, 2026";
-    const HEADER_MARQUEE_LINK_URL = "";
-    const SHOW_HEADER_MARQUEE_LINK_LABEL = "";
-
-    const SHOW_CV_MENU = false;
-
-    const PAGE_BACKGROUND_COLOR = "#000000";
-
-</script>
+<script src="js/config.js"></script>
 <html lang="vi" class="page-home">
 <head>
     <!-- Google Analytics 4 (GA4) -->
@@ -385,21 +362,21 @@
                         </dl>
                     </div>
                     <div class="impact-media">
-                        <div class="impact-media-frame video-slider-container" style="position: relative;">
+                        <div class="impact-media-frame video-slider-container">
                             <div class="video-slider-track fade-track" id="savills-video-track-2">
                                 <div class="video-slide active fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/02_IKA_Detail_1.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/02_IKA_Detail_1.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/02_IKA_Detail_2.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/02_IKA_Detail_2.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/02_IKA_Detail_3.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/02_IKA_Detail_3.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                             </div>
@@ -457,6 +434,11 @@
                                 ==========================================================
                             -->
                             <div class="carousel-slide active">
+                                <video muted autoplay playsinline loop>
+                                    <source src="videos/Carousel1_casestudy_img0.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="carousel-slide">
                                 <img src="images/Carousel1_casestudy_img0.png" alt="Concept KV của sự kiện - Sự kết nối giao thoa giữa xưa và nay, Savills là cầu nối hành trình 30 năm cho sự phát triển ngành bất động sản tại VN">
                             </div>
                             <div class="carousel-slide">
@@ -502,31 +484,31 @@
                         </dl>
                     </div>
                     <div class="impact-media">
-                        <div class="impact-media-frame video-slider-container" style="position: relative;">
+                        <div class="impact-media-frame video-slider-container">
                             <div class="video-slider-track fade-track" id="savills-video-track">
                                 <div class="video-slide active fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/03_Savills_Detail_1.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/03_Savills_Detail_1.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/03_Savills_Detail_2.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/03_Savills_Detail_2.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/03_Savills_Detail_3.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/03_Savills_Detail_3.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/03_Savills_Detail_4.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/03_Savills_Detail_4.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
-                                    <video class="media-content" muted playsinline>
-                                        <source src="videos/03_Savills_Detail_5.mp4" type="video/mp4">
+                                    <video class="media-content" muted playsinline preload="metadata">
+                                        <source src="videos/03_Savills_Detail_5.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                             </div>
@@ -591,20 +573,20 @@
                         <dl class="impact-metrics">
                     </div>
                     <div class="impact-media">
-                        <div class="impact-media-frame video-slider-container evo-slider" style="position: relative; height: auto !important; aspect-ratio: auto !important;">
+                        <div class="impact-media-frame video-slider-container evo-slider">
                             <div class="video-slider-track fade-track" id="evo-video-track">
                                 <div class="video-slide active fade-transition">
                                     <div class="video-container" style="position: relative;">
-                                        <video class="media-content" muted playsinline>
-                                            <source src="videos/EVO_2.mp4" type="video/mp4">
+                                        <video class="media-content" muted playsinline preload="metadata">
+                                            <source src="videos/EVO_2.mp4#t=0.001" type="video/mp4">
                                         </video>
                                         <div class="play-icon"></div>
                                     </div>
                                 </div>
                                 <div class="video-slide fade-transition">
                                     <div class="video-container" style="position: relative;">
-                                        <video class="media-content" muted playsinline>
-                                            <source src="videos/EVO_3.mp4" type="video/mp4">
+                                        <video class="media-content" muted playsinline preload="metadata">
+                                            <source src="videos/EVO_3.mp4#t=0.001" type="video/mp4">
                                         </video>
                                         <div class="play-icon"></div>
                                     </div>
@@ -1717,60 +1699,64 @@
         // Global State for Manual Sliders
         window.videoSliderState = {};
 
-        window.changeVideoSlide = function(trackId, direction, autoPlay = false) {
-            console.log('changeVideoSlide called for:', trackId, 'direction:', direction, 'autoPlay:', autoPlay);
+        // Helper to update thumbnail active state
+        window.updateThumbnails = function(trackId, activeIndex) {
             const track = document.getElementById(trackId);
-            if (!track) {
-                console.error('Track not found:', trackId);
-                return;
-            }
+            if (!track) return;
+            // Find the container
+            const container = track.closest('.video-slider-container');
+            if (!container) return;
+            const nav = container.querySelector('.video-thumbnails-control');
+            if (!nav) return;
+            
+            const items = nav.querySelectorAll('.video-thumbnail-item');
+            items.forEach((item, index) => {
+                if (index === activeIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        };
 
-            // Get all slides in this track
+        window.goToVideoSlide = function(trackId, index, autoPlay = false) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+
             const slides = Array.from(track.querySelectorAll('.video-slide'));
             const totalSlides = slides.length;
-            // console.log('Total slides found:', totalSlides);
             
-            if (totalSlides === 0) return;
-
-            // Find current active index directly from DOM to ensure sync
+            if (index < 0 || index >= totalSlides) return;
+            
+            // Find current active index
             let currentIndex = slides.findIndex(slide => slide.classList.contains('active'));
-            // console.log('Current active index:', currentIndex);
+            if (currentIndex === index) return; // Already active
 
-            if (currentIndex === -1) {
-                currentIndex = 0;
-                slides[0].classList.add('active');
-                console.log('No active slide found, resetting to 0');
-            }
+            if (currentIndex !== -1) {
+                // 1. Current Slide: Fade Out
+                const currentSlide = slides[currentIndex];
+                currentSlide.classList.remove('active');
 
-            // Calculate new index
-            let newIndex = currentIndex + direction;
-
-            // Loop around
-            if (newIndex >= totalSlides) newIndex = 0;
-            if (newIndex < 0) newIndex = totalSlides - 1;
-            
-            // console.log('New index:', newIndex);
-
-            // 1. Current Slide: Fade Out
-            const currentSlide = slides[currentIndex];
-            currentSlide.classList.remove('active');
-
-            // Stop current video
-            const currentVideo = currentSlide.querySelector('video');
-            if (currentVideo) {
-                currentVideo.pause();
-                currentVideo.currentTime = 0; 
-                // Reset UI state
-                const container = currentVideo.closest('.video-container') || currentVideo.parentElement;
-                if (container) {
-                    container.classList.remove('video-playing');
-                    container.classList.remove('video-activated');
+                // Stop current video
+                const currentVideo = currentSlide.querySelector('video');
+                if (currentVideo) {
+                    currentVideo.pause();
+                    currentVideo.currentTime = 0; 
+                    // Reset UI state
+                    const container = currentVideo.closest('.video-container') || currentVideo.parentElement;
+                    if (container) {
+                        container.classList.remove('video-playing');
+                        container.classList.remove('video-activated');
+                    }
                 }
             }
 
             // 2. New Slide: Fade In
-            const newSlide = slides[newIndex];
+            const newSlide = slides[index];
             newSlide.classList.add('active');
+            
+            // Update Thumbnails
+            updateThumbnails(trackId, index);
             
             // 3. Auto Play if requested
             if (autoPlay) {
@@ -1789,8 +1775,76 @@
             }
         };
 
+        window.changeVideoSlide = function(trackId, direction, autoPlay = false) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+            const slides = Array.from(track.querySelectorAll('.video-slide'));
+            let currentIndex = slides.findIndex(slide => slide.classList.contains('active'));
+            if (currentIndex === -1) currentIndex = 0;
+            
+            let newIndex = currentIndex + direction;
+            if (newIndex >= slides.length) newIndex = 0;
+            if (newIndex < 0) newIndex = slides.length - 1;
+            
+            goToVideoSlide(trackId, newIndex, autoPlay);
+        };
+        
+        // Setup Thumbnails
+        function setupThumbnails() {
+            const tracks = document.querySelectorAll('.video-slider-track.fade-track');
+            tracks.forEach(track => {
+                const container = track.closest('.video-slider-container');
+                if (!container) return;
+                
+                // Check if thumbnails already exist
+                if (container.querySelector('.video-thumbnails-control')) return;
+
+                const slides = Array.from(track.querySelectorAll('.video-slide'));
+                if (slides.length <= 1) return;
+
+                const nav = document.createElement('div');
+                nav.className = 'video-thumbnails-control';
+                
+                slides.forEach((slide, index) => {
+                    const video = slide.querySelector('video');
+                    const item = document.createElement('div');
+                    item.className = 'video-thumbnail-item';
+                    if (slide.classList.contains('active')) item.classList.add('active');
+                    
+                    // Create mini video
+                    const miniVideo = document.createElement('video');
+                    miniVideo.muted = true;
+                    miniVideo.playsInline = true;
+                    // Copy source
+                    if (video) {
+                        const source = video.querySelector('source');
+                        if (source) {
+                            const newSource = document.createElement('source');
+                            newSource.src = source.src; // Keep #t=0.001
+                            newSource.type = source.type;
+                            miniVideo.appendChild(newSource);
+                        }
+                    }
+                    
+                    item.appendChild(miniVideo);
+                    
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Play explicitly when user selects a thumbnail
+                        goToVideoSlide(track.id, index, true); 
+                    });
+                    
+                    nav.appendChild(item);
+                });
+                
+                container.appendChild(nav);
+            });
+        }
+
         // --- Auto-Advance Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
+        function initVideoSliders() {
+            setupThumbnails(); // Initialize thumbnails
+            
             const tracks = document.querySelectorAll('.video-slider-track.fade-track');
             tracks.forEach(track => {
                 const videos = track.querySelectorAll('video');
@@ -1805,7 +1859,13 @@
                     });
                 });
             });
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initVideoSliders);
+        } else {
+            initVideoSliders();
+        }
     </script>
     <script src="js/footer.js"></script>
 </body>

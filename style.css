@@ -80,8 +80,57 @@ ul, ol, li {
     --case-tabs-trim: 15px;
 
     /* Media */
-    --media-radius: 20px;
+    --media-radius: clamp(24px, 4vw, 44px);
     --media-fit: cover;
+}
+
+/* Video Thumbnails Control */
+.video-thumbnails-control {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 102; /* Higher than nav buttons (100) */
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.video-thumbnail-item {
+    width: 80px;
+    height: 28px;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    
+    /* Apple Glass Border Effect for Unselected State */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    transition: all 0.3s ease;
+    background: #000;
+    position: relative;
+}
+
+.video-thumbnail-item.active {
+    border-color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.video-thumbnail-item:hover {
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+.video-thumbnail-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none; /* Let clicks pass to button */
+    display: block;
 }
 
 body {
@@ -2040,7 +2089,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .impact-media-frame {
-    border-radius: 60px; /* Increased by 50% from 40px */
+    border-radius: var(--media-radius); /* Apple-style continuous curve */
     overflow: hidden;
     background: #000;
     border: 6px solid #ffffff; /* Reduced -4px from 10px */
@@ -2063,7 +2112,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     break-inside: avoid;
     margin-bottom: 24px;
     background: #fff;
-    border-radius: 12px;
+    border-radius: var(--media-radius); /* Unified Apple-style radius */
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -2157,7 +2206,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 .impact-inline-media {
     width: 100%;
     height: auto;
-    border-radius: 16px;
+    border-radius: var(--media-radius); /* Unified Apple-style radius */
     margin: 32px 0;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     display: block;
@@ -2352,7 +2401,7 @@ h2.text-gradient, h2.section-title.text-gradient {
         height: auto;
         overflow: visible;
         /* Restore border radius for "Tablet" feel */
-        border-radius: 20px; 
+        border-radius: var(--media-radius); 
     }
     
     .impact-media-frame.video-slider-container {
@@ -2395,7 +2444,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     
     /* Fix video border radius on mobile */
     .impact-media-frame {
-        border-radius: 20px; /* Reduced from 60px */
+        /* border-radius handled by fluid variable */
         border-width: 4px; /* Slightly thinner border */
     }
 
@@ -2990,7 +3039,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     position: relative;
     width: 100%;
     overflow: hidden;
-    border-radius: 20px;
+    border-radius: var(--media-radius);
     margin-bottom: 24px;
     background-color: #000; /* Changed from #eee to #000 for consistency */
     /* Desktop: 21:9 Aspect Ratio */
@@ -3029,44 +3078,39 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 /* =========================================
-   SAVILLS VIDEO SLIDER
+   SAVILLS VIDEO SLIDER (and all Video Sliders)
    ========================================= */
 .video-slider-container {
     position: relative;
     width: 100%;
-    /* Remove fixed aspect-ratio to allow full height */
-    /* aspect-ratio: 9 / 16; */
-    height: 100vh; /* Full viewport height */
-    max-height: 100vh;
+    /* Update: Full width, auto height based on video content */
+    height: auto !important; 
+    max-height: none !important;
+    aspect-ratio: auto !important;
     overflow: hidden;
     background-color: #000;
-    display: flex; /* Flexbox for centering */
-    align-items: center; /* Vertical center */
-    justify-content: center; /* Horizontal center */
+    display: block; /* Changed from flex to block to allow natural height */
 }
 
 .video-slider-track {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: auto; /* Allow track to take content height */
     transition: transform 0.5s ease-in-out;
 }
 
 .video-slide {
     flex: 0 0 100%;
     width: 100%;
-    height: 100%;
+    height: auto; /* Allow slide to take content height */
     position: relative;
-    display: flex; /* Flexbox for centering content inside slide */
-    align-items: center;
-    justify-content: center;
+    display: block;
 }
 
 .video-slide .media-content {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* Cover entire area */
-    object-position: center center; /* Center focus */
+    height: auto; /* Let video determine height */
+    object-fit: contain; /* Ensure full video is visible */
     display: block;
 }
 
@@ -3326,48 +3370,55 @@ h2.text-gradient, h2.section-title.text-gradient {
     display: block;
 }
 
-/* Dots Navigation */
+/* Carousel Thumbnails Control */
 .carousel-nav {
     position: absolute;
-    bottom: 20px;
+    top: 20px; /* Changed from bottom: 20px */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 12px;
-    z-index: 10;
+    gap: 10px;
+    z-index: 102; /* Match video thumbnails */
+    pointer-events: auto;
 }
 
-/* Gradient Overlay at Bottom of Carousel */
-.impact-hero-carousel::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 30%; /* Height of the gradient fade */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-    z-index: 5; /* Above slides (z-index 1-2), below dots (z-index 10) */
-    pointer-events: none; /* Allow clicks to pass through */
-}
-
-.carousel-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.2);
-    border: none;
+.carousel-thumbnail-item {
+    width: 80px;
+    height: 28px;
+    border-radius: 14px;
+    overflow: hidden;
     cursor: pointer;
-    padding: 0;
+    
+    /* Apple Glass Border Effect for Unselected State */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
     transition: all 0.3s ease;
+    background: #000;
+    position: relative;
+    padding: 0;
 }
 
-.carousel-dot.active {
-    background: #000000;
-    transform: scale(1.2);
+.carousel-thumbnail-item.active {
+    border-color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-.carousel-dot:hover {
-    background: rgba(0, 0, 0, 0.6);
+.carousel-thumbnail-item:hover {
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+.carousel-thumbnail-item video,
+.carousel-thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    display: block;
 }
 
 @media (max-width: 768px) {
