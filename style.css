@@ -63,7 +63,7 @@ ul, ol, li {
     --case-tab-font: var(--text-small);
     --case-tab-pad-y: 6px;
     --case-tab-pad-x: 14px;
-    --case-tab-radius: 100px;
+    --case-tab-radius: var(--media-radius);
     --case-tab-active-bg: #000;
     --case-tab-active-color: #fff;
     --case-tab-hover-bg: rgba(0,0,0,0.04);
@@ -76,7 +76,7 @@ ul, ol, li {
     --case-tab-active-pad-y: 12px;
     --case-tab-active-pad-x: 20px;
     --case-tab-active-font: var(--text-body);
-    --case-tab-active-radius: 999px;
+    --case-tab-active-radius: var(--media-radius);
     --case-tabs-trim: 15px;
 
     /* Media */
@@ -1906,20 +1906,109 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .case-tab {
+    height: 150px; /* Fixed height as requested */
+    min-width: 140px; /* Minimum width to fit content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
     background-color: #F7F7F7; /* Light gray background */
     border: none;
     font-family: 'Inter', sans-serif;
     font-size: var(--case-tab-font);
-    font-weight: 600; /* Bold for inactive tabs */
+    font-weight: 600;
     letter-spacing: normal; /* Default letter spacing */
-    color: var(--text-secondary); /* #666 */
-    padding: var(--case-tab-pad-y) var(--case-tab-pad-x);
+    color: #000;
+    padding: 16px; /* Fixed padding */
     cursor: pointer;
     border-radius: var(--case-tab-radius);
     transition: all 0.2s ease;
     flex: 0 0 auto;                    /* Prevent flex shrinking for horizontal scroll */
     /* scroll-snap-align: center; REMOVED */
-    -webkit-text-fill-color: initial; /* Reset text fill */
+    -webkit-text-fill-color: #000;
+}
+
+.case-tab-thumb {
+    height: 60px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.case-tab.active .case-tab-thumb {
+    transform: scale(1.1);
+}
+
+.case-tab--placeholder {
+    background-color: #FFFFFF;
+    animation: placeholderPulse 3s ease-in-out infinite alternate;
+    cursor: default;
+}
+.case-tab--placeholder:hover {
+    background-color: inherit;
+    color: inherit;
+}
+.case-tab--placeholder .case-tab-text {
+    gap: 2px;
+}
+.case-tab--placeholder .case-tab-line1,
+.case-tab--placeholder .case-tab-line2 {
+    font-style: italic;
+    font-size: var(--text-xs);
+    opacity: 0.75;
+}
+.case-tab-avatar {
+    width: calc(36px * 1.2);
+    height: calc(36px * 1.2);
+    border-radius: 50%;
+    display: inline-block;
+    object-fit: cover;
+    margin: 6px auto 0;
+}
+.case-tab--placeholder .dots {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-size: calc(var(--text-xs) * 1.4);
+    letter-spacing: 2px;
+}
+.case-tab--placeholder .dot {
+    display: inline-block;
+    animation: dotBlink 0.9s ease-in-out infinite;
+    opacity: 0.4;
+}
+.case-tab--placeholder .dot:nth-child(1) { animation-delay: 0s; }
+.case-tab--placeholder .dot:nth-child(2) { animation-delay: 0.2s; }
+.case-tab--placeholder .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes placeholderPulse {
+    0% { background-color: #FFFFFF; }
+    100% { background-color: #EFEFEF; }
+}
+@keyframes dotBlink {
+    0%, 100% { opacity: 0.2; transform: translateY(0) scale(1); }
+    50% { opacity: 1; transform: translateY(-2px) scale(1.1); }
+}
+
+.case-tab-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    line-height: 1.2;
+    z-index: 2;
+    font-weight: inherit;
+    color: inherit;
+}
+
+.case-tab-line1 {
+    font-weight: 600;
+}
+
+.case-tab-line2 {
+    font-weight: 400;
 }
 
 .case-tab:hover {
@@ -1931,9 +2020,9 @@ h2.text-gradient, h2.section-title.text-gradient {
     color: var(--case-tab-active-color);
     -webkit-text-fill-color: var(--case-tab-active-color);
     background: var(--case-tab-active-bg);
-    font-weight: 400; /* Match inactive state (regular) */
+    font-weight: 600;
     position: relative; /* Enable absolute positioning for pseudo-element */
-    padding: var(--case-tab-active-pad-y) var(--case-tab-active-pad-x);
+    padding: 16px; /* Maintain consistent padding */
     font-size: var(--case-tab-active-font);
     border-radius: var(--case-tab-active-radius);
 }
@@ -1958,6 +2047,58 @@ h2.text-gradient, h2.section-title.text-gradient {
 .case-slide {
     display: none;
     width: 100%;
+}
+
+.impact-cta-box {
+    background-color: #CCFF00;
+    color: #000;
+    padding: 24px;
+    border-radius: 12px;
+    margin-top: 32px;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+}
+
+.impact-cta-text {
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.impact-cta-contact {
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.impact-cta-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+    padding-bottom: 2px;
+}
+
+.impact-cta-link:hover {
+    border-bottom-color: #000;
+    opacity: 0.8;
+}
+
+.impact-cta-separator {
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .impact-cta-box {
+        padding: 20px;
+    }
+    .impact-cta-text {
+        font-size: 15px;
+    }
 }
 
 .case-slide.active {
