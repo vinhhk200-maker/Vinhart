@@ -26,7 +26,9 @@ const FooterComponent = {
         </div>
         <div class="footer-bottom">
             <div class="container footer-bottom-inner">
-                <span class="footer-meta">© 2026 Vinh. All rights reserved.</span>
+                <span class="footer-meta">© ${new Date().getFullYear()} Huynh Khac Vinh. All rights reserved.</span>
+                <span class="footer-meta">Original design & layout. Unauthorized copying/commercial use prohibited.</span>
+                <span class="footer-meta">Report infringement: <a class="footer-contact-link" href="mailto:hello@vinhhk.com">hello@vinhhk.com</a></span>
                 <span class="footer-meta">Based in Ho Chi Minh City, Vietnam</span>
             </div>
         </div>
