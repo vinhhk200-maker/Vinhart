@@ -19,7 +19,7 @@ const FooterComponent = {
                     </div>
                     <div class="footer-contact-item">
                         <img src="icons/mail.svg" alt="Email">
-                        <a href="mailto:vinhhk200@gmail.com" class="footer-contact-link">vinhhk200@gmail.com</a>
+                        <a href="mailto:hello@vinhhk.com" class="footer-contact-link">Hello@vinhhk.com</a>
                     </div>
                 </div>
             </div>

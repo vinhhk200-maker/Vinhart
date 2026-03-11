@@ -887,7 +887,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     }
 
     .hero-overlay-keywords {
-        font-size: calc(var(--fs-hero-name) * 0.91);
+        font-size: calc(var(--fs-hero-name) * 0.728);
         text-align: left;
         align-items: flex-start;
     }
