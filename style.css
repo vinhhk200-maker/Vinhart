@@ -102,6 +102,12 @@ ul, ol, li {
     border-radius: 14px;
     overflow: hidden;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 600;
     
     /* Apple Glass Border Effect for Unselected State */
     border: 1px solid rgba(255, 255, 255, 0.2);

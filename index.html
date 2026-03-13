@@ -16,7 +16,7 @@
        Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
-<script src="js/config.js?v=20260313-03"></script>
+<script src="js/config.js?v=20260313-04"></script>
 <html lang="vi" class="page-home">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY4J6ZB2NR"></script>
@@ -38,12 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260313-03">
+    <link rel="stylesheet" href="style.css?v=20260313-04">
 </head>
 <body class="page-home">
     
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260313-03"></script>
+    <script src="js/header.js?v=20260313-04"></script>
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
@@ -1141,6 +1141,7 @@
                         vs.forEach(function(video){
                             if (!video) return;
                             if (!(video.dataset && video.dataset.autoplay === '1')) return;
+                            if (typeof enableVideoSources === 'function') enableVideoSources(video);
                             try { video.currentTime = 0; } catch(e) {}
                             video.play().catch(function(){});
                         });
@@ -1149,6 +1150,9 @@
                         var vs = slide.querySelectorAll('video');
                         vs.forEach(function(v){
                             try { v.pause(); } catch(e) {}
+                            if (v && v.dataset && v.dataset.autoplay === '1') {
+                                if (typeof disableVideoSources === 'function') disableVideoSources(v);
+                            }
                         });
                     }
                 });
@@ -1646,7 +1650,7 @@
 
     </main>
 
-    <script src="main.js?v=20260313-03"></script>
+    <script src="main.js?v=20260313-04"></script>
     <script>
         // DOM Elements
         const hero = document.querySelector('.hero');
@@ -2416,11 +2420,27 @@
                     const item = document.createElement('div');
                     item.className = 'video-thumbnail-item';
                     if (slide.classList.contains('active')) item.classList.add('active');
+
+                    item.setAttribute('role', 'button');
+                    item.setAttribute('tabindex', '0');
+                    item.setAttribute('aria-label', 'Go to video ' + (index + 1));
+
+                    const label = document.createElement('span');
+                    label.textContent = String(index + 1);
+                    item.appendChild(label);
                     
                     item.addEventListener('click', (e) => {
                         e.stopPropagation();
                         // Play explicitly when user selects a thumbnail
                         goToVideoSlide(track.id, index, true); 
+                    });
+
+                    item.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            goToVideoSlide(track.id, index, true);
+                        }
                     });
                     
                     nav.appendChild(item);
@@ -2643,6 +2663,6 @@
             else init();
         })();
     </script>
-    <script src="js/footer.js?v=20260313-03"></script>
+    <script src="js/footer.js?v=20260313-04"></script>
 </body>
 </html>
