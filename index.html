@@ -2263,6 +2263,9 @@
             }, { threshold: 0.5 }); // 50% visible to trigger
 
             videos.forEach(video => {
+                const isHeroBackgroundVideo = video.classList.contains('hero-bg-video') || !!video.closest('.hero');
+                if (isHeroBackgroundVideo) return;
+
                 // Check if this video is inside the target container (video-slider-track)
                 // or if it's the EVO video (impact-inline-media)
                 // We ONLY want to apply this interaction logic to SPECIFIC videos, 
