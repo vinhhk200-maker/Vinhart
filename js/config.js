@@ -3,7 +3,7 @@
 // ============================================================================
 
 // MEDIA CONFIGURATION (Mostly for Home Page)
-const SHOW_MEDIA_SECTION = false;
+const SHOW_MEDIA_SECTION = true;
 const SHOW_IMAGE_INSTEAD = false;
 const AUTO_PLAY_VIDEO = false;
 const BOTTOM_GRADIENT_IS_DARK = true;

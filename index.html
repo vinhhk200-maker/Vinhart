@@ -1325,8 +1325,11 @@
             // Smoothly center the active tab in view (custom easing)
             var currentAnimation = null; // Store animation frame ID
             var clickCenterTimer = null; // Store timer for delayed center after click
+            var caseSwitchToken = 0;
 
             function switchCase(index, options) {
+                caseSwitchToken += 1;
+                var myToken = caseSwitchToken;
                 var suppressCenter = options && options.suppressCenter;
                 var tabs = document.querySelectorAll('.case-tab');
                 var slides = document.querySelectorAll('.case-slide');
@@ -1335,13 +1338,56 @@
                 if(i===index){
                         slide.classList.add('active');
                         var vs = slide.querySelectorAll('video');
-                        vs.forEach(function(video){
-                            if (!video) return;
-                            if (!(video.dataset && video.dataset.autoplay === '1')) return;
-                            if (typeof enableVideoSources === 'function') enableVideoSources(video);
-                            try { video.currentTime = 0; } catch(e) {}
-                            video.play().catch(function(){});
-                        });
+                        if (slide && slide.id === 'case-2') {
+                            var list = Array.prototype.slice.call(vs).filter(function(v){
+                                return v && v.dataset && v.dataset.autoplay === '1';
+                            });
+                            var primary = list.find(function(v){
+                                var src = (v.getAttribute('src') || (v.dataset && v.dataset.src) || '');
+                                return src.indexOf('Spotify_leadin') !== -1;
+                            }) || list[0];
+                            var secondary = list.filter(function(v){ return v && v !== primary; });
+
+                            function enableAndPlay(video, preloadValue) {
+                                if (!video) return;
+                                if (typeof enableVideoSources === 'function') enableVideoSources(video);
+                                if (preloadValue) video.preload = preloadValue;
+                                try { video.load(); } catch(e) {}
+                                try { video.currentTime = 0; } catch(e) {}
+                                video.play().catch(function(){});
+                            }
+
+                            function enableSecondary() {
+                                if (myToken !== caseSwitchToken) return;
+                                if (!slide.classList.contains('active')) return;
+                                secondary.forEach(function(v){
+                                    enableAndPlay(v, 'metadata');
+                                });
+                            }
+
+                            if (primary) {
+                                enableAndPlay(primary, 'auto');
+                                var done = false;
+                                function onReady(){
+                                    if (done) return;
+                                    done = true;
+                                    enableSecondary();
+                                }
+                                try { primary.addEventListener('loadeddata', onReady, { once: true }); } catch(e) {}
+                                try { primary.addEventListener('canplay', onReady, { once: true }); } catch(e) {}
+                                setTimeout(onReady, 1200);
+                            } else {
+                                enableSecondary();
+                            }
+                        } else {
+                            vs.forEach(function(video){
+                                if (!video) return;
+                                if (!(video.dataset && video.dataset.autoplay === '1')) return;
+                                if (typeof enableVideoSources === 'function') enableVideoSources(video);
+                                try { video.currentTime = 0; } catch(e) {}
+                                video.play().catch(function(){});
+                            });
+                        }
                     if (slide.id === 'case-anim') {
                         if (slide.dataset.animReady === '1') {
                             slide.classList.remove('is-loading');
