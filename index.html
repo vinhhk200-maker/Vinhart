@@ -16,7 +16,7 @@
        Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
-<script src="js/config.js?v=20260313-07"></script>
+<script src="js/config.js?v=20260313-08"></script>
 <html lang="vi" class="page-home">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY4J6ZB2NR"></script>
@@ -38,12 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260313-07">
+    <link rel="stylesheet" href="style.css?v=20260313-08">
 </head>
 <body class="page-home">
     
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260313-07"></script>
+    <script src="js/header.js?v=20260313-08"></script>
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
@@ -1647,7 +1647,7 @@
 
     </main>
 
-    <script src="main.js?v=20260313-07"></script>
+    <script src="main.js?v=20260313-08"></script>
     <script>
         // DOM Elements
         const hero = document.querySelector('.hero');
@@ -2303,6 +2303,25 @@
             }
         }
 
+        function makeStaticMiniThumb(miniVideo) {
+            if (!miniVideo) return;
+            enableVideoSources(miniVideo);
+            miniVideo.muted = true;
+            miniVideo.playsInline = true;
+            miniVideo.preload = 'metadata';
+            miniVideo.loop = false;
+            miniVideo.addEventListener('loadedmetadata', function() {
+                if (miniVideo.dataset.thumbReady === '1') return;
+                try { miniVideo.currentTime = 0.001; } catch (e) {}
+            }, { passive: true });
+            miniVideo.addEventListener('seeked', function() {
+                miniVideo.dataset.thumbReady = '1';
+                try { miniVideo.pause(); } catch (e) {}
+            }, { passive: true });
+            try { miniVideo.load(); } catch (e) {}
+            try { miniVideo.pause(); } catch (e) {}
+        }
+
         // Helper to update thumbnail active state
         window.updateThumbnails = function(trackId, activeIndex) {
             const track = document.getElementById(trackId);
@@ -2322,15 +2341,7 @@
                 }
                 const mini = item.querySelector('video');
                 if (!mini) return;
-                if (index === activeIndex) {
-                    enableVideoSources(mini);
-                    mini.preload = 'metadata';
-                    try { mini.load(); } catch(e) {}
-                    mini.play().catch(function(){});
-                    return;
-                }
-                try { mini.pause(); } catch(e) {}
-                disableVideoSources(mini);
+                makeStaticMiniThumb(mini);
             });
         };
 
@@ -2437,8 +2448,8 @@
                     const miniVideo = document.createElement('video');
                     miniVideo.muted = true;
                     miniVideo.playsInline = true;
-                    miniVideo.loop = true;
-                    miniVideo.preload = 'none';
+                    miniVideo.loop = false;
+                    miniVideo.preload = 'metadata';
                     miniVideo.setAttribute('aria-hidden', 'true');
                     const srcNode = document.createElement('source');
                     let src = '';
@@ -2452,37 +2463,18 @@
                             src = video.getAttribute('src') || video.dataset.src || '';
                         }
                     }
+                    if (src && !src.includes('#t=')) src = src + '#t=0.001';
                     srcNode.dataset.src = src;
                     srcNode.type = type;
                     miniVideo.appendChild(srcNode);
                     item.appendChild(miniVideo);
-
-                    const label = document.createElement('span');
-                    label.textContent = String(index + 1);
-                    item.appendChild(label);
+                    makeStaticMiniThumb(miniVideo);
                     
                     item.addEventListener('click', (e) => {
                         e.stopPropagation();
                         // Play explicitly when user selects a thumbnail
                         goToVideoSlide(track.id, index, true); 
                     });
-
-                    function previewStart() {
-                        if (item.classList.contains('active')) return;
-                        enableVideoSources(miniVideo);
-                        miniVideo.preload = 'metadata';
-                        try { miniVideo.load(); } catch(e) {}
-                        miniVideo.play().catch(function(){});
-                    }
-                    function previewStop() {
-                        if (item.classList.contains('active')) return;
-                        try { miniVideo.pause(); } catch(e) {}
-                        disableVideoSources(miniVideo);
-                    }
-                    item.addEventListener('mouseenter', previewStart);
-                    item.addEventListener('mouseleave', previewStop);
-                    item.addEventListener('focus', previewStart);
-                    item.addEventListener('blur', previewStop);
 
                     item.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -2720,6 +2712,6 @@
             else init();
         })();
     </script>
-    <script src="js/footer.js?v=20260313-07"></script>
+    <script src="js/footer.js?v=20260313-08"></script>
 </body>
 </html>
