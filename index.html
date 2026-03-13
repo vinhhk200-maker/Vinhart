@@ -286,11 +286,8 @@
                                     const trackId = 'savills-video-track-2';
                                     
                                     function handleClick(direction) {
-                                        console.log('IKA Button clicked:', direction);
                                         if (window.changeVideoSlide) {
                                             window.changeVideoSlide(trackId, direction);
-                                        } else {
-                                            console.error('changeVideoSlide function not found!');
                                         }
                                     }
 
@@ -2173,7 +2170,7 @@
                         video.play().then(() => {
                             container.classList.add('video-playing');
                             container.classList.add('video-activated'); // Mark as user-interacted
-                        }).catch(err => console.error("Video play failed:", err));
+                        }).catch(function(){});
                     } else {
                         video.pause();
                         container.classList.remove('video-playing');
@@ -2264,6 +2261,47 @@
         // Global State for Manual Sliders
         window.videoSliderState = {};
 
+        function cacheVideoSources(video) {
+            if (!video) return;
+            const sources = video.querySelectorAll('source');
+            if (sources.length) {
+                sources.forEach(source => {
+                    if (!source.dataset.src) source.dataset.src = source.getAttribute('src') || '';
+                });
+                return;
+            }
+            if (!video.dataset.src) video.dataset.src = video.getAttribute('src') || '';
+        }
+
+        function disableVideoSources(video) {
+            if (!video) return;
+            cacheVideoSources(video);
+            const sources = video.querySelectorAll('source');
+            if (sources.length) {
+                sources.forEach(source => source.removeAttribute('src'));
+            } else {
+                video.removeAttribute('src');
+            }
+            try { video.load(); } catch(e) {}
+        }
+
+        function enableVideoSources(video) {
+            if (!video) return;
+            cacheVideoSources(video);
+            const sources = video.querySelectorAll('source');
+            if (sources.length) {
+                sources.forEach(source => {
+                    if (!source.getAttribute('src') && source.dataset.src) {
+                        source.setAttribute('src', source.dataset.src);
+                    }
+                });
+                return;
+            }
+            if (!video.getAttribute('src') && video.dataset.src) {
+                video.setAttribute('src', video.dataset.src);
+            }
+        }
+
         // Helper to update thumbnail active state
         window.updateThumbnails = function(trackId, activeIndex) {
             const track = document.getElementById(trackId);
@@ -2319,13 +2357,19 @@
             // 2. New Slide: Fade In
             const newSlide = slides[index];
             newSlide.classList.add('active');
+
+            const nextVideo = newSlide.querySelector('video');
+            if (nextVideo) {
+                enableVideoSources(nextVideo);
+                nextVideo.preload = 'metadata';
+                try { nextVideo.load(); } catch(e) {}
+            }
             
             // Update Thumbnails
             updateThumbnails(trackId, index);
             
             // 3. Auto Play if requested
             if (autoPlay) {
-                const nextVideo = newSlide.querySelector('video');
                 if (nextVideo) {
                     const container = nextVideo.closest('.video-container') || nextVideo.parentElement;
                     nextVideo.play().then(() => {
@@ -2333,9 +2377,7 @@
                             container.classList.add('video-playing');
                             container.classList.add('video-activated');
                         }
-                    }).catch(err => {
-                        console.log('Autoplay failed:', err);
-                    });
+                    }).catch(function(){});
                 }
             }
         };
@@ -2371,27 +2413,9 @@
                 nav.className = 'video-thumbnails-control';
                 
                 slides.forEach((slide, index) => {
-                    const video = slide.querySelector('video');
                     const item = document.createElement('div');
                     item.className = 'video-thumbnail-item';
                     if (slide.classList.contains('active')) item.classList.add('active');
-                    
-                    // Create mini video
-                    const miniVideo = document.createElement('video');
-                    miniVideo.muted = true;
-                    miniVideo.playsInline = true;
-                    // Copy source
-                    if (video) {
-                        const source = video.querySelector('source');
-                        if (source) {
-                            const newSource = document.createElement('source');
-                            newSource.src = source.src; // Keep #t=0.001
-                            newSource.type = source.type;
-                            miniVideo.appendChild(newSource);
-                        }
-                    }
-                    
-                    item.appendChild(miniVideo);
                     
                     item.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -2412,10 +2436,18 @@
             
             const tracks = document.querySelectorAll('.video-slider-track.fade-track');
             tracks.forEach(track => {
+                const slides = Array.from(track.querySelectorAll('.video-slide'));
+                slides.forEach(slide => {
+                    if (slide.classList.contains('active')) return;
+                    const v = slide.querySelector('video');
+                    if (!v) return;
+                    v.preload = 'none';
+                    disableVideoSources(v);
+                });
+
                 const videos = track.querySelectorAll('video');
                 videos.forEach(video => {
                     video.addEventListener('ended', () => {
-                        console.log('Video ended, advancing slide...');
                         // Find the track ID
                         const trackId = track.id;
                         if (trackId) {
