@@ -2550,6 +2550,24 @@ body.animation-modal-open #case-tabs {
     display: block;
 }
 
+.impact-media-frame.is-initial-audio .media-audio-toggle {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    z-index: 6;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+.impact-media-frame.is-initial-audio .media-audio-toggle svg {
+    width: 22px;
+    height: 22px;
+}
+
 .media-play-toggle {
     position: absolute;
     left: 50%;
@@ -2578,6 +2596,9 @@ body.animation-modal-open #case-tabs {
 .impact-media-frame.is-playing .media-play-toggle {
     opacity: 0;
     pointer-events: none;
+}
+.impact-media-frame.is-initial-audio .media-play-toggle {
+    display: none;
 }
 
 .impact-media-frame.is-looping::after {

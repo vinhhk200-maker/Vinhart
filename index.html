@@ -134,6 +134,16 @@
                 <span class="video-label">Showreel 2026</span>
                 <p class="video-description">Highlighting key projects in Creative Direction, UI/UX, and Motion Design. A glimpse into the intersection of art and technology.</p>
             </div>
+            <script>
+                (function(){
+                    if (typeof SHOW_MEDIA_SECTION !== 'undefined' && !SHOW_MEDIA_SECTION) {
+                        var mediaWrapper = document.getElementById('media-wrapper');
+                        if (mediaWrapper) mediaWrapper.style.display = 'none';
+                        var caption = document.querySelector('.video-caption-container');
+                        if (caption) caption.style.display = 'none';
+                    }
+                })();
+            </script>
 
             <script>
                 // Load YouTube Iframe API
@@ -2590,6 +2600,10 @@
                 frame.classList.toggle('is-playing', !video.paused);
                 return btn;
             }
+            function getFrame(videoOrBtn){
+                if (!videoOrBtn) return null;
+                return videoOrBtn.closest ? videoOrBtn.closest('.impact-media-frame') : null;
+            }
             function muteAllExcept(activeVideo){
                 var videos = document.querySelectorAll('video.media-content');
                 videos.forEach(function(v){
@@ -2619,18 +2633,25 @@
                 if (!btn) return;
                 var video = findVideo(btn);
                 if (!video) return;
+                var frame = getFrame(btn);
                 e.preventDefault();
                 e.stopPropagation();
-                if (video.muted || video.volume === 0) {
+                var wasMuted = (video.muted || video.volume === 0);
+                if (wasMuted) {
                     muteAllExcept(video);
                     video.muted = false;
                     video.volume = 1;
+                    if (frame) frame.dataset.audioArmed = '1';
                 } else {
                     video.muted = true;
                     video.volume = 0;
                 }
                 syncAudio(btn, video);
                 video.play().catch(function(){});
+                if (frame && frame.classList.contains('is-initial-audio')) {
+                    frame.classList.remove('is-initial-audio');
+                    ensurePlayBtn(frame, video);
+                }
             });
             document.addEventListener('click', function(e){
                 var playBtn = e.target.closest('.media-play-toggle');
@@ -2641,6 +2662,7 @@
                 if (!video) return;
                 e.preventDefault();
                 e.stopPropagation();
+                if (frame.classList.contains('is-initial-audio')) return;
                 togglePlay(video, frame);
             });
             document.addEventListener('click', function(e){
@@ -2649,6 +2671,15 @@
                 if (e.target.closest('.media-audio-toggle') || e.target.closest('.media-play-toggle')) return;
                 var video = frame.querySelector('video.media-content');
                 if (!video) return;
+                if (frame.classList.contains('is-initial-audio')) {
+                    if (frame.dataset.audioArmed === '1' && frame.dataset.hasPausedOnce !== '1') {
+                        frame.dataset.hasPausedOnce = '1';
+                        frame.classList.remove('is-initial-audio');
+                        video.pause();
+                        ensurePlayBtn(frame, video);
+                    }
+                    return;
+                }
                 togglePlay(video, frame);
             });
             function init(){
@@ -2665,6 +2696,7 @@
                 frames.forEach(function(frame){
                     var v = frame.querySelector('video.media-content');
                     if (!v) return;
+                    frame.classList.add('is-initial-audio');
                     var playBtn = ensurePlayBtn(frame, v);
                     function syncPlay(){
                         ensurePlayBtn(frame, v);
