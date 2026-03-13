@@ -879,6 +879,10 @@ h2.text-gradient, h2.section-title.text-gradient {
     color: #ffffff; /* Changed to white per user request */
 }
 
+.hero-overlay-accent--light-green {
+    color: #CCFF00;
+}
+
 .hero-overlay-right {
     display: flex;
     align-items: stretch;
