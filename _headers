@@ -13,9 +13,6 @@
 /assets/images/*
   Cache-Control: public, max-age=0, must-revalidate
 
-/assets/videos/00_Hero_Background.mp4
-  Cache-Control: public, max-age=0, must-revalidate
-
 /assets/videos/*
   Cache-Control: public, max-age=31536000, immutable
 
