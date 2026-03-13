@@ -16,7 +16,7 @@
        Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
-<script src="js/config.js"></script>
+<script src="js/config.js?v=20260313-02"></script>
 <html lang="vi" class="page-home">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY4J6ZB2NR"></script>
@@ -38,12 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260313-01">
+    <link rel="stylesheet" href="style.css?v=20260313-02">
 </head>
 <body class="page-home">
     
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260225-01"></script>
+    <script src="js/header.js?v=20260313-02"></script>
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
@@ -141,134 +141,6 @@
                         if (mediaWrapper) mediaWrapper.style.display = 'none';
                         var caption = document.querySelector('.video-caption-container');
                         if (caption) caption.style.display = 'none';
-                    }
-                })();
-            </script>
-
-            <script>
-                // Load YouTube Iframe API
-                var tag = document.createElement('script');
-                tag.src = "https://www.youtube.com/iframe_api";
-                var firstScriptTag = document.getElementsByTagName('script')[0];
-                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-                // IIFE to scope variables
-                (function() {
-                    let player;
-                    let hasUserStarted = false;
-                    let videoObserver;
-
-                    // Make function global for API callback
-                    window.onYouTubeIframeAPIReady = function() {
-                        const mediaWrapper = document.getElementById('media-wrapper');
-                        const imageElement = document.getElementById('expertise-image');
-                        const videoFrame = document.getElementById('expertise-video');
-
-                        // 1. Check visibility
-                        if (typeof SHOW_MEDIA_SECTION !== 'undefined' && !SHOW_MEDIA_SECTION) {
-                            if (mediaWrapper) mediaWrapper.style.display = 'none';
-                            return;
-                        }
-
-                        // 2. Check Image Mode
-                        if (typeof SHOW_IMAGE_INSTEAD !== 'undefined' && SHOW_IMAGE_INSTEAD) {
-                            if (videoFrame) videoFrame.style.display = 'none';
-                            if (imageElement && typeof MAIN_IMAGE_URL !== 'undefined') {
-                                imageElement.src = MAIN_IMAGE_URL;
-                                imageElement.style.display = 'block';
-                            }
-                            return;
-                        }
-
-                        // 3. Video Mode
-                        if (imageElement) imageElement.style.display = 'none';
-                        if (videoFrame) videoFrame.style.display = 'block';
-
-                        // Parse Video ID
-                        let videoId = 'dQw4w9WgXcQ';
-                        if (typeof MAIN_VIDEO_URL !== 'undefined') {
-                            const match = MAIN_VIDEO_URL.match(/\/embed\/([^?]+)/);
-                            if (match && match[1]) {
-                                videoId = match[1];
-                            }
-                        }
-
-                        const isAutoPlay = (typeof AUTO_PLAY_VIDEO !== 'undefined') ? AUTO_PLAY_VIDEO : false;
-
-                        player = new YT.Player('expertise-video', {
-                            height: '100%',
-                            width: '100%',
-                            videoId: videoId,
-                            playerVars: {
-                                'playsinline': 1,
-                                'rel': 0,
-                                'controls': 1,
-                                'autoplay': isAutoPlay ? 1 : 0,
-                                'mute': isAutoPlay ? 1 : 0,
-                                'enablejsapi': 1,
-                                'origin': window.location.origin
-                            },
-                            events: {
-                                'onReady': onPlayerReady,
-                                'onStateChange': onPlayerStateChange
-                            }
-                        });
-                    };
-
-                    function onPlayerReady(event) {
-                        // Enforce styles to ensure it fills the container
-                        const iframe = event.target.getIframe();
-                        iframe.style.position = 'absolute';
-                        iframe.style.top = '0';
-                        iframe.style.left = '0';
-                        iframe.style.width = '100%';
-                        iframe.style.height = '100%';
-
-                        const isAutoPlay = (typeof AUTO_PLAY_VIDEO !== 'undefined') ? AUTO_PLAY_VIDEO : false;
-                        if (isAutoPlay) {
-                            hasUserStarted = true;
-                            setupIntersectionObserver();
-                        }
-                    }
-
-                    function onPlayerStateChange(event) {
-                        // YT.PlayerState.PLAYING = 1
-                        // YT.PlayerState.ENDED = 0
-                        
-                        if (event.data === YT.PlayerState.PLAYING) {
-                            if (!hasUserStarted) {
-                                hasUserStarted = true;
-                                setupIntersectionObserver();
-                            }
-                        }
-                        
-                        if (event.data === YT.PlayerState.ENDED) {
-                            event.target.playVideo(); // Loop
-                        }
-                    }
-
-                    function setupIntersectionObserver() {
-                        if (videoObserver) return;
-                        
-                        const mediaWrapper = document.getElementById('media-wrapper');
-                        
-                        const observerOptions = {
-                            root: null,
-                            rootMargin: '0px',
-                            threshold: 0.25
-                        };
-
-                        videoObserver = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    if (player && player.playVideo) player.playVideo();
-                                } else {
-                                    if (player && player.pauseVideo) player.pauseVideo();
-                                }
-                            });
-                        }, observerOptions);
-
-                        if (mediaWrapper) videoObserver.observe(mediaWrapper);
                     }
                 })();
             </script>
@@ -1749,7 +1621,7 @@
 
     </main>
 
-    <script src="main.js?v=20260222-01"></script>
+    <script src="main.js?v=20260313-02"></script>
     <script>
         // DOM Elements
         const hero = document.querySelector('.hero');
@@ -2711,6 +2583,6 @@
             else init();
         })();
     </script>
-    <script src="js/footer.js"></script>
+    <script src="js/footer.js?v=20260313-02"></script>
 </body>
 </html>

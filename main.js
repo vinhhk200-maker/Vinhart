@@ -159,65 +159,141 @@ document.addEventListener('DOMContentLoaded', () => {
     const carousels = document.querySelectorAll('.impact-hero-carousel');
     carousels.forEach(carousel => {
         const slides = carousel.querySelectorAll('.carousel-slide');
-        
-        // Generate thumbnails dynamically to replace dots
-        const nav = carousel.querySelector('.carousel-nav');
-        let dots = []; // Store thumbnail elements
-
-        if (nav && slides.length > 0) {
-            nav.innerHTML = ''; // Clear existing hardcoded dots
-            
-            slides.forEach((slide, index) => {
-                const btn = document.createElement('div');
-                btn.className = 'carousel-thumbnail-item';
-                if (index === 0) btn.classList.add('active');
-                
-                const video = slide.querySelector('video');
-                const img = slide.querySelector('img');
-                
-                if (video) {
-                    const source = video.querySelector('source');
-                    if (source) {
-                        const thumbVideo = document.createElement('video');
-                        thumbVideo.muted = true;
-                        thumbVideo.playsInline = true;
-                        const newSource = document.createElement('source');
-                        newSource.src = source.src + '#t=0.001'; // Timestamp hack for thumbnail
-                        newSource.type = source.type;
-                        thumbVideo.appendChild(newSource);
-                        btn.appendChild(thumbVideo);
-                    }
-                } else if (img) {
-                    const thumbImg = document.createElement('img');
-                    thumbImg.src = img.src;
-                    thumbImg.alt = img.alt || `Slide ${index + 1}`;
-                    btn.appendChild(thumbImg);
-                }
-                
-                // Add click listener
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    stopSlideShow();
-                    goToSlide(index);
-                });
-                
-                nav.appendChild(btn);
-                dots.push(btn);
-            });
-        }
-
-        let currentSlide = 0;
         const totalSlides = slides.length;
-        const intervalTime = 3000; // 3 seconds for images
+        let isActive = false;
+        let initialized = false;
+        let dots = [];
+        let currentSlide = 0;
+        const intervalTime = 3000;
         let slideTimeout;
         let currentVideo = null;
         let isHovering = false;
 
+        function setup() {
+            if (initialized) return;
+            initialized = true;
+
+            const nav = carousel.querySelector('.carousel-nav');
+            if (nav && slides.length > 0) {
+                nav.innerHTML = '';
+                slides.forEach((slide, index) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'carousel-thumbnail-item';
+                    if (index === 0) btn.classList.add('active');
+
+                    const video = slide.querySelector('video');
+                    const img = slide.querySelector('img');
+
+                    if (video) {
+                        const source = video.querySelector('source');
+                        if (source) {
+                            const thumbVideo = document.createElement('video');
+                            thumbVideo.muted = true;
+                            thumbVideo.playsInline = true;
+                            thumbVideo.preload = 'none';
+                            const newSource = document.createElement('source');
+                            newSource.src = source.src + '#t=0.001';
+                            newSource.type = source.type;
+                            thumbVideo.appendChild(newSource);
+                            btn.appendChild(thumbVideo);
+                        }
+                    } else if (img) {
+                        const thumbImg = document.createElement('img');
+                        thumbImg.src = img.src;
+                        thumbImg.alt = img.alt || `Slide ${index + 1}`;
+                        btn.appendChild(thumbImg);
+                    }
+
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        stopSlideShow();
+                        activate();
+                        goToSlide(index);
+                    });
+
+                    nav.appendChild(btn);
+                    dots.push(btn);
+                });
+            }
+            
+            if (totalSlides > 0) {
+                carousel.addEventListener('mouseenter', () => {
+                    isHovering = true;
+                    stopSlideShow();
+                });
+                carousel.addEventListener('mouseleave', () => {
+                    isHovering = false;
+                    startSlideShow();
+                });
+
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let isDragging = false;
+
+                carousel.addEventListener('touchstart', (e) => {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    stopSlideShow();
+                }, { passive: true });
+
+                carousel.addEventListener('touchend', (e) => {
+                    const touchEndX = e.changedTouches[0].clientX;
+                    const touchEndY = e.changedTouches[0].clientY;
+                    handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+                    startSlideShow();
+                }, { passive: true });
+
+                carousel.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    touchStartX = e.clientX;
+                    touchStartY = e.clientY;
+                    stopSlideShow();
+                    carousel.style.cursor = 'grabbing';
+                    e.preventDefault();
+                });
+
+                carousel.addEventListener('mouseup', (e) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    const touchEndX = e.clientX;
+                    const touchEndY = e.clientY;
+                    handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+                    startSlideShow();
+                    carousel.style.cursor = 'grab';
+                });
+
+                carousel.addEventListener('mouseleave', (e) => {
+                    if (isDragging) {
+                        isDragging = false;
+                        startSlideShow();
+                        carousel.style.cursor = 'grab';
+                    }
+                });
+
+                function handleSwipe(startX, startY, endX, endY) {
+                    const diffX = startX - endX;
+                    const diffY = startY - endY;
+
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                        if (diffX > 0) {
+                            goToSlide(currentSlide + 1);
+                        } else {
+                            goToSlide(currentSlide - 1);
+                        }
+                    }
+                }
+
+                carousel.style.cursor = 'grab';
+            }
+        }
+
         // Schedule next slide based on content
         function scheduleNextSlide() {
+            if (!isActive) return;
             if (slideTimeout) clearTimeout(slideTimeout);
             if (currentVideo) {
                 currentVideo.onended = null;
+                currentVideo = null;
                 currentVideo = null;
             }
 
@@ -241,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Function to move to specific slide
         function goToSlide(index) {
+            if (!isActive) return;
             if (slideTimeout) clearTimeout(slideTimeout);
             if (currentVideo) {
                 currentVideo.onended = null;
@@ -269,6 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Auto play function
         function startSlideShow() {
+            if (!isActive) return;
             if (!isHovering) {
                 scheduleNextSlide();
             }
@@ -280,86 +358,40 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentVideo) currentVideo.onended = null;
         }
 
-        // Initialize
-        if (totalSlides > 0) {
-            scheduleNextSlide();
-
-            // Pause on hover
-            carousel.addEventListener('mouseenter', () => {
-                isHovering = true;
-                stopSlideShow();
-            });
-            carousel.addEventListener('mouseleave', () => {
-                isHovering = false;
-                startSlideShow();
-            });
-
-            // Swipe Support for Mobile & Desktop (Mouse Drag)
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let isDragging = false;
-
-            // Touch Events
-            carousel.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                stopSlideShow(); // Stop auto play on touch start
-            }, { passive: true });
-
-            carousel.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].clientX;
-                const touchEndY = e.changedTouches[0].clientY;
-                handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
-                startSlideShow(); // Restart auto play
-            }, { passive: true });
-
-            // Mouse Events for Desktop Dragging
-            carousel.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                touchStartX = e.clientX;
-                touchStartY = e.clientY;
-                stopSlideShow();
-                carousel.style.cursor = 'grabbing';
-                e.preventDefault(); // Prevent image drag default behavior
-            });
-
-            carousel.addEventListener('mouseup', (e) => {
-                if (!isDragging) return;
-                isDragging = false;
-                const touchEndX = e.clientX;
-                const touchEndY = e.clientY;
-                handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
-                startSlideShow();
-                carousel.style.cursor = 'grab';
-            });
-
-            carousel.addEventListener('mouseleave', (e) => {
-                if (isDragging) {
-                    isDragging = false;
-                    startSlideShow();
-                    carousel.style.cursor = 'grab';
-                }
-            });
-
-            // Unified Swipe Handler
-            function handleSwipe(startX, startY, endX, endY) {
-                const diffX = startX - endX;
-                const diffY = startY - endY;
-
-                // Check if swipe is horizontal and significant enough
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                    if (diffX > 0) {
-                        // Swiped Left -> Next Slide
-                        goToSlide(currentSlide + 1);
-                    } else {
-                        // Swiped Right -> Previous Slide
-                        goToSlide(currentSlide - 1);
-                    }
+        function deactivate() {
+            if (!initialized) return;
+            if (!isActive) return;
+            isActive = false;
+            stopSlideShow();
+            if (currentVideo) {
+                currentVideo.pause();
+                currentVideo.currentTime = 0;
+            } else {
+                const v = slides[currentSlide] ? slides[currentSlide].querySelector('video') : null;
+                if (v) {
+                    v.pause();
+                    v.currentTime = 0;
                 }
             }
-            
-            // Set initial cursor style
-            carousel.style.cursor = 'grab';
+        }
+        
+        function activate() {
+            setup();
+            if (isActive) return;
+            isActive = true;
+            startSlideShow();
+        }
+
+        if (totalSlides > 0 && 'IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) activate();
+                    else deactivate();
+                });
+            }, { threshold: 0.15, rootMargin: '200px 0px' });
+            io.observe(carousel);
+        } else if (totalSlides > 0) {
+            activate();
         }
     });
 
