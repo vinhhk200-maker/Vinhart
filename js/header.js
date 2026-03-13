@@ -54,7 +54,6 @@ const HeaderComponent = {
         <button class="menu-close-btn" aria-label="Close Menu">×</button>
         <ul class="menu-list">
             <li class="menu-item" id="cv-menu-item" style="display: none;"><a href="cv.html" class="menu-link">CV</a></li>
-            <li class="menu-item"><a href="portfolio.html" class="menu-link">Archive</a></li>
             <li class="menu-item"><a href="knowledge-sharing.html" class="menu-link">The Lab</a></li>
             <li class="menu-item"><a href="say-hi.html" class="menu-link">Connect</a></li>
         </ul>

@@ -13,24 +13,86 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260313-08">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260313-18">
 </head>
 <body>
     <!-- Global Configuration -->
-    <script src="js/config.js?v=20260313-08"></script>
+    <script src="js/config.js?v=20260313-17"></script>
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260313-08"></script>
+    <script src="js/header.js?v=20260313-17"></script>
 
     <main class="container page-content">
         <h1 class="page-title">The Lab</h1>
         <p class="page-subtitle">Insights, articles, and resources on design, leadership, and creative strategy.</p>
+
+        <div class="upload-notice-box" id="lab-upload-notice">
+            <div class="upload-notice-row">
+                <img class="upload-notice-avatar" src="assets/images/VINH_Port.png" alt="Vinh">
+                <div class="upload-notice-content">
+                    <div class="upload-notice-title" id="lab-upload-title">Content upload in progress</div>
+                    <p class="upload-notice-text" id="lab-upload-text">TikTok and YouTube will go live in <span class="upload-countdown" id="lab-upload-countdown">7d 00h 00m 00s</span> <span class="upload-eta">(ETA <span id="lab-upload-date">—</span>)</span>.</p>
+                </div>
+            </div>
+        </div>
         
-        <div class="social-links-container" style="margin-top: 60px; display: flex; gap: 30px; justify-content: center;">
-            <a href="#" class="social-btn" style="padding: 15px 30px; border: 1px solid #000; border-radius: 30px; text-transform: uppercase; font-size: var(--text-xs); letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease;">TikTok</a>
-            <a href="#" class="social-btn" style="padding: 15px 30px; border: 1px solid #000; border-radius: 30px; text-transform: uppercase; font-size: var(--text-xs); letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease;">YouTube</a>
+        <div class="lab-actions">
+            <a href="index.html" class="back-home-btn">Home</a>
         </div>
     </main>
-    <script src="js/footer.js?v=20260313-08"></script>
+    <script src="js/footer.js?v=20260313-17"></script>
+    <script>
+        (function() {
+            var KEY = 'labUploadDeadlineMs';
+            var countdownEl = document.getElementById('lab-upload-countdown');
+            var dateEl = document.getElementById('lab-upload-date');
+            var noticeEl = document.getElementById('lab-upload-notice');
+            var titleEl = document.getElementById('lab-upload-title');
+            var textEl = document.getElementById('lab-upload-text');
+            if (!countdownEl || !dateEl || !noticeEl) return;
+
+            var stored = 0;
+            try { stored = Number(localStorage.getItem(KEY) || '0'); } catch (e) { stored = 0; }
+            var now = Date.now();
+            var deadlineMs = stored && isFinite(stored) && stored > now ? stored : (now + 7 * 24 * 60 * 60 * 1000);
+            try { localStorage.setItem(KEY, String(deadlineMs)); } catch (e) {}
+
+            function formatCountdown(ms) {
+                var s = Math.max(0, Math.floor(ms / 1000));
+                var d = Math.floor(s / 86400);
+                s -= d * 86400;
+                var h = Math.floor(s / 3600);
+                s -= h * 3600;
+                var m = Math.floor(s / 60);
+                s -= m * 60;
+                return d + 'd ' + String(h).padStart(2, '0') + 'h ' + String(m).padStart(2, '0') + 'm ' + String(s).padStart(2, '0') + 's';
+            }
+
+            function formatDate(ms) {
+                var dt = new Date(ms);
+                try {
+                    return dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
+                } catch (e) {
+                    return dt.toDateString();
+                }
+            }
+
+            dateEl.textContent = formatDate(deadlineMs);
+
+            function tick() {
+                var left = deadlineMs - Date.now();
+                if (left <= 0) {
+                    countdownEl.textContent = 'now';
+                    if (titleEl) titleEl.textContent = 'Upload complete';
+                    if (textEl) textEl.textContent = 'TikTok and YouTube links are now live.';
+                    return;
+                }
+                countdownEl.textContent = formatCountdown(left);
+            }
+
+            tick();
+            setInterval(tick, 1000);
+        })();
+    </script>
 </body>
 </html>

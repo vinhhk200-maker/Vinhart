@@ -8,17 +8,16 @@ const FooterComponent = {
             </div>
             <div class="footer-right">
                 <nav class="footer-nav">
-                    <a href="portfolio.html" class="footer-link">Archive</a>
                     <a href="knowledge-sharing.html" class="footer-link">The Lab</a>
                     <a href="say-hi.html" class="footer-link">Connect</a>
                 </nav>
                 <div class="footer-contact">
                     <div class="footer-contact-item">
-                        <img src="icons/phone.svg" alt="Phone">
+                        <img src="assets/icons/phone.svg" alt="Phone">
                         <a href="tel:+84988641499" class="footer-contact-link">(+84) 988 641 499</a>
                     </div>
                     <div class="footer-contact-item">
-                        <img src="icons/mail.svg" alt="Email">
+                        <img src="assets/icons/mail.svg" alt="Email">
                         <a href="mailto:hello@vinhhk.com" class="footer-contact-link">Hello@vinhhk.com</a>
                     </div>
                 </div>
