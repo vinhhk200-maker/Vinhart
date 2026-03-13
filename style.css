@@ -1640,6 +1640,7 @@ body.animation-modal-open #case-tabs {
 .main-content.visible { opacity: 1; }
 
 .section { margin-bottom: 120px; }
+#showreel.section { margin-bottom: 60px; }
 
 /* Video Wrapper (iframe container) */
 .video-wrapper {
@@ -1739,6 +1740,20 @@ body.animation-modal-open #case-tabs {
     display: none !important;
     background: none !important;
     opacity: 0 !important;
+}
+
+#media-wrapper.video-wrapper::before {
+    content: "" !important;
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%) !important;
+    opacity: 1 !important;
+    pointer-events: none;
+    z-index: 3;
 }
 
 @media (max-width: 768px) {
