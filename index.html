@@ -16,7 +16,7 @@
        Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
-<script src="js/config.js?v=20260313-02"></script>
+<script src="js/config.js?v=20260313-03"></script>
 <html lang="vi" class="page-home">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY4J6ZB2NR"></script>
@@ -38,12 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260313-02">
+    <link rel="stylesheet" href="style.css?v=20260313-03">
 </head>
 <body class="page-home">
     
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260313-02"></script>
+    <script src="js/header.js?v=20260313-03"></script>
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
@@ -123,7 +123,7 @@
                 On mobile, the container will crop 20% from left and right to increase height.
             -->
             <div id="media-wrapper" class="video-wrapper">
-                <video class="expertise-video-player" autoplay muted loop playsinline preload="metadata">
+                <video class="expertise-video-player" muted loop playsinline preload="none">
                     <source src="videos/Carousel1_casestudy_img0.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -141,9 +141,30 @@
                         if (mediaWrapper) mediaWrapper.style.display = 'none';
                         var caption = document.querySelector('.video-caption-container');
                         if (caption) caption.style.display = 'none';
+                        var v = mediaWrapper ? mediaWrapper.querySelector('video') : null;
+                        var s = v ? v.querySelector('source') : null;
+                        if (s && !s.dataset.src) s.dataset.src = s.getAttribute('src') || '';
+                        if (s) s.removeAttribute('src');
+                        if (v) {
+                            v.pause();
+                            v.removeAttribute('src');
+                            v.load();
+                        }
                     }
                 })();
+                    var mediaWrapper = document.getElementById('media-wrapper');
+                    var v = mediaWrapper ? mediaWrapper.querySelector('video') : null;
+                    var s = v ? v.querySelector('source') : null;
+                    if (s && !s.dataset.src) s.dataset.src = s.getAttribute('src') || '';
+                    if (s && !s.getAttribute('src') && s.dataset.src) {
+                        s.setAttribute('src', s.dataset.src);
+                        if (v) {
+                            v.load();
+                            v.play().catch(function(){});
+                        }
+                    }
             </script>
+
 
 
         </section>
@@ -172,17 +193,17 @@
                                 ==========================================================
                             -->
                             <div class="carousel-slide active">
-                                <video muted autoplay playsinline>
+                                <video muted playsinline preload="none">
                                     <source src="videos/02_IKA_Carousel_Bg_1.mp4" type="video/mp4">
                                 </video>
                             </div>
                             <div class="carousel-slide">
-                                <video muted autoplay playsinline>
+                                <video muted playsinline preload="none">
                                     <source src="videos/02_IKA_Carousel_Bg_2.mp4" type="video/mp4">
                                 </video>
                             </div>
                             <div class="carousel-slide">
-                                <video muted autoplay playsinline>
+                                <video muted playsinline preload="none">
                                     <source src="videos/02_IKA_Carousel_Bg_3.mp4" type="video/mp4">
                                 </video>
                             </div>
@@ -382,7 +403,7 @@
                                 ==========================================================
                             -->
                             <div class="carousel-slide active">
-                                <video muted autoplay playsinline loop>
+                                <video muted playsinline loop preload="none">
                                     <source src="videos/Carousel1_casestudy_img0.mp4" type="video/mp4">
                                 </video>
                             </div>
@@ -1621,7 +1642,7 @@
 
     </main>
 
-    <script src="main.js?v=20260313-02"></script>
+    <script src="main.js?v=20260313-03"></script>
     <script>
         // DOM Elements
         const hero = document.querySelector('.hero');
@@ -2583,6 +2604,6 @@
             else init();
         })();
     </script>
-    <script src="js/footer.js?v=20260313-02"></script>
+    <script src="js/footer.js?v=20260313-03"></script>
 </body>
 </html>

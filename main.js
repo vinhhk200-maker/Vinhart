@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (video) {
                 currentVideo = video;
                 video.currentTime = 0;
-                video.play().catch(e => console.log('Autoplay prevented', e));
+                video.play().catch(() => {});
                 video.onended = function() {
                     goToSlide(currentSlide + 1);
                 };
