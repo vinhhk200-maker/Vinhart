@@ -1140,12 +1140,19 @@
                 slides.forEach(function(slide, i){
                     if(i===index){
                         slide.classList.add('active');
-                        var video = slide.querySelector('video');
-                        if(video){ video.currentTime = 0; video.play(); }
+                        var vs = slide.querySelectorAll('video');
+                        vs.forEach(function(video){
+                            if (!video) return;
+                            if (!video.autoplay) return;
+                            try { video.currentTime = 0; } catch(e) {}
+                            video.play().catch(function(){});
+                        });
                     } else {
                         slide.classList.remove('active');
-                        var v = slide.querySelector('video');
-                        if(v){ v.pause(); }
+                        var vs = slide.querySelectorAll('video');
+                        vs.forEach(function(v){
+                            try { v.pause(); } catch(e) {}
+                        });
                     }
                 });
                 var activeSlide = slides[index];
