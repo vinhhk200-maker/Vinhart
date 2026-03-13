@@ -190,11 +190,18 @@ document.addEventListener('DOMContentLoaded', () => {
                             const thumbVideo = document.createElement('video');
                             thumbVideo.muted = true;
                             thumbVideo.playsInline = true;
-                            thumbVideo.preload = 'none';
+                            thumbVideo.preload = 'metadata';
                             const newSource = document.createElement('source');
                             newSource.src = source.src + '#t=0.001';
                             newSource.type = source.type;
                             thumbVideo.appendChild(newSource);
+                            thumbVideo.addEventListener('loadedmetadata', () => {
+                                try { thumbVideo.currentTime = 0.001; } catch (e) {}
+                            }, { passive: true });
+                            thumbVideo.addEventListener('seeked', () => {
+                                try { thumbVideo.pause(); } catch (e) {}
+                            }, { passive: true });
+                            try { thumbVideo.load(); } catch (e) {}
                             btn.appendChild(thumbVideo);
                         }
                     } else if (img) {
