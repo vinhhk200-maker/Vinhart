@@ -329,7 +329,7 @@
                             Spotify aims to create an engaging, interactive video ad campaign. Users will select on-screen options based on their musical taste, resulting in a random track played specifically to match their preferences.
                         </p>
                         <div class="impact-media-frame" style="aspect-ratio: 4 / 5; margin: 24px 0; --media-fit: contain;">
-                            <video class="media-content" src="videos/4x5_Spotify_leadin.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                            <video class="media-content" src="videos/4x5_Spotify_leadin.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
                             <button type="button" class="media-audio-toggle" aria-label="Unmute" aria-pressed="true"></button>
                         </div>
                         <div class="impact-body" style="margin-bottom: 24px;">
@@ -373,15 +373,15 @@
                     </div>
                     <div class="impact-media">
                         <div class="impact-media-frame ratio-9-16" style="--media-fit: contain;">
-                         <video class="media-content" src="videos/Spotify_Select_Pop.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                         <video class="media-content" src="videos/Spotify_Select_Pop.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
                              <button type="button" class="media-audio-toggle" aria-label="Unmute" aria-pressed="true"></button>
                     </div>
                     <div class="impact-media-frame ratio-9-16" style="margin-top: 16px; --media-fit: contain;">
-                         <video class="media-content" src="videos/Spotify_Select_Rock.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                         <video class="media-content" src="videos/Spotify_Select_Rock.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
                          <button type="button" class="media-audio-toggle" aria-label="Unmute" aria-pressed="true"></button>
                     </div>
                     <div class="impact-media-frame ratio-9-16" style="margin-top: 16px; --media-fit: contain;">
-                         <video class="media-content" src="videos/Spotify_Select_Rap.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                         <video class="media-content" src="videos/Spotify_Select_Rap.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
                          <button type="button" class="media-audio-toggle" aria-label="Unmute" aria-pressed="true"></button>
                     </div>
                         <p class="impact-media-caption">Spotify Interactive Campaign</p>
@@ -1143,7 +1143,7 @@
                         var vs = slide.querySelectorAll('video');
                         vs.forEach(function(video){
                             if (!video) return;
-                            if (!video.autoplay) return;
+                            if (!(video.dataset && video.dataset.autoplay === '1')) return;
                             try { video.currentTime = 0; } catch(e) {}
                             video.play().catch(function(){});
                         });
