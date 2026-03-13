@@ -862,167 +862,9 @@
                                 return base || 'Video';
                             }
 
-                            function ratioFromSrc(src){
-                                var base = (src || '').split('/').pop() || '';
-                                var raw = base.replace(/\.[^/.]+$/, '');
-                                var m = raw.match(/(\d+)\s*x\s*(\d+)/i);
-                                if (m && m[1] && m[2]) return (m[1] + ' / ' + m[2]);
-                                if (/^45/i.test(raw)) return '4 / 5';
-                                if (/^11/i.test(raw)) return '1 / 1';
-                                return '';
-                            }
-
                             var ANIM_VIDEOS = VIDEO_TAB_FILES.map(function(src){
-                                return { src: src, title: titleFromSrc(src), desc: '', ratio: ratioFromSrc(src) };
+                                return { src: src, title: titleFromSrc(src), desc: '' };
                             });
-
-                            var cardRefs = Object.create(null);
-                            var thumbQueue = [];
-                            var thumbBusy = false;
-                            var thumbVersion = 'v2';
-
-                            function thumbKey(src){
-                                return 'thumb:' + thumbVersion + ':' + (src || '');
-                            }
-
-                            function getCachedThumb(src){
-                                try {
-                                    var raw = localStorage.getItem(thumbKey(src));
-                                    if (!raw) return null;
-                                    var parsed = JSON.parse(raw);
-                                    if (!parsed || !parsed.img) return null;
-                                    return parsed;
-                                } catch(e) {
-                                    return null;
-                                }
-                            }
-
-                            function setCachedThumb(src, payload){
-                                try {
-                                    localStorage.setItem(thumbKey(src), JSON.stringify(payload));
-                                } catch(e) {
-                                }
-                            }
-
-                            function applyThumbToCard(src, dataUrl, ratio){
-                                var ref = cardRefs[src];
-                                if (!ref) return;
-                                if (ratio) {
-                                    ref.card.style.setProperty('--anim-ratio', ratio);
-                                    scheduleLayout(ref.card);
-                                }
-                                if (dataUrl) {
-                                    ref.img.src = dataUrl;
-                                }
-                            }
-
-                            function captureThumbFromVideo(src, done){
-                                var v = document.createElement('video');
-                                v.muted = true;
-                                v.playsInline = true;
-                                v.preload = 'metadata';
-                                v.src = src;
-                                v.style.position = 'absolute';
-                                v.style.left = '-9999px';
-                                v.style.width = '1px';
-                                v.style.height = '1px';
-                                v.style.opacity = '0';
-                                v.style.pointerEvents = 'none';
-                                slide.appendChild(v);
-
-                                var cleaned = false;
-                                function cleanup(){
-                                    if (cleaned) return;
-                                    cleaned = true;
-                                    try { v.pause(); } catch(e) {}
-                                    v.removeAttribute('src');
-                                    v.load();
-                                    v.remove();
-                                }
-
-                                function finish(result){
-                                    cleanup();
-                                    if (done) done(result || null);
-                                }
-
-                                v.addEventListener('loadedmetadata', function(){
-                                    try {
-                                        var t = 0.1;
-                                        if (isFinite(v.duration) && v.duration > 0) {
-                                            t = v.duration / 3;
-                                            if (t > v.duration - 0.1) t = Math.max(0, v.duration - 0.1);
-                                            if (t < 0.1) t = 0.1;
-                                        }
-                                        v.currentTime = t;
-                                    } catch(e) {
-                                        finish(null);
-                                    }
-                                }, { once: true });
-
-                                v.addEventListener('seeked', function(){
-                                    try {
-                                        var w = v.videoWidth || 1280;
-                                        var h = v.videoHeight || 720;
-                                        var maxW = 480;
-                                        var scale = Math.min(1, maxW / w);
-                                        var cw = Math.max(1, Math.round(w * scale));
-                                        var ch = Math.max(1, Math.round(h * scale));
-                                        var c = document.createElement('canvas');
-                                        c.width = cw;
-                                        c.height = ch;
-                                        var ctx = c.getContext('2d');
-                                        ctx.drawImage(v, 0, 0, cw, ch);
-                                        var dataUrl = c.toDataURL('image/jpeg', 0.55);
-                                        finish({ img: dataUrl, ratio: w + ' / ' + h });
-                                    } catch(e) {
-                                        finish(null);
-                                    }
-                                }, { once: true });
-
-                                v.addEventListener('error', function(){
-                                    finish(null);
-                                }, { once: true });
-
-                                setTimeout(function(){
-                                    finish(null);
-                                }, 5000);
-                            }
-
-                            function pumpThumbQueue(){
-                                if (thumbBusy) return;
-                                var next = thumbQueue.shift();
-                                if (!next) return;
-                                var src = next.src;
-                                if (!src) return;
-                                var cached = getCachedThumb(src);
-                                if (cached && cached.img) {
-                                    applyThumbToCard(src, cached.img, cached.ratio);
-                                    return pumpThumbQueue();
-                                }
-                                thumbBusy = true;
-                                captureThumbFromVideo(src, function(result){
-                                    thumbBusy = false;
-                                    if (result && result.img) {
-                                        setCachedThumb(src, { img: result.img, ratio: result.ratio || '', at: Date.now() });
-                                        applyThumbToCard(src, result.img, result.ratio);
-                                    }
-                                    pumpThumbQueue();
-                                });
-                            }
-
-                            function requestThumbCapture(src){
-                                if (!src) return;
-                                if (getCachedThumb(src)) return;
-                                for (var i = 0; i < thumbQueue.length; i++) {
-                                    if (thumbQueue[i] && thumbQueue[i].src === src) return;
-                                }
-                                thumbQueue.push({ src: src });
-                                if (window.requestIdleCallback) {
-                                    window.requestIdleCallback(function(){ pumpThumbQueue(); }, { timeout: 1200 });
-                                } else {
-                                    setTimeout(pumpThumbQueue, 350);
-                                }
-                            }
                             
                             function layoutCard(card){
                                 if (!card) return;
@@ -1054,19 +896,6 @@
                                 return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
                             }
                             
-                            function buildThumb(item, img, card){
-                                var src = item && item.src ? item.src : '';
-                                var cached = src ? getCachedThumb(src) : null;
-                                if (cached && cached.img) {
-                                    img.src = cached.img;
-                                    if (cached.ratio) {
-                                        card.style.setProperty('--anim-ratio', cached.ratio);
-                                    }
-                                } else {
-                                    img.src = svgPlaceholder((item && item.title) ? item.title : 'Video');
-                                }
-                            }
-                            
                             function createCard(item){
                                 var a = document.createElement('a');
                                 a.href = '#';
@@ -1074,12 +903,21 @@
                                 a.dataset.src = item.src;
                                 a.dataset.title = item.title || '';
                                 a.dataset.desc = item.desc || '';
-                                if (item.ratio) a.style.setProperty('--anim-ratio', item.ratio);
                                 
-                                var img = document.createElement('img');
-                                img.className = 'animation-thumb';
-                                img.alt = item.title || 'Animation';
-                                a.appendChild(img);
+                                var v = document.createElement('video');
+                                v.className = 'animation-thumb';
+                                v.playsInline = true;
+                                v.preload = 'metadata';
+                                v.src = item.src;
+                                v.muted = true;
+                                v.setAttribute('aria-label', item.title || 'Animation');
+                                v.addEventListener('loadedmetadata', function(){
+                                    scheduleLayout(a);
+                                }, { once: true });
+                                v.addEventListener('loadeddata', function(){
+                                    scheduleLayout(a);
+                                }, { once: true });
+                                a.appendChild(v);
 
                                 var playBtn = document.createElement('button');
                                 playBtn.type = 'button';
@@ -1100,8 +938,6 @@
                                 titleBtn.setAttribute('aria-label', 'Open fullscreen');
                                 a.appendChild(titleBtn);
                                 
-                                cardRefs[item.src] = { card: a, img: img };
-                                buildThumb(item, img, a);
                                 return a;
                             }
                             
@@ -1113,38 +949,6 @@
                             window.addEventListener('resize', function(){
                                 requestAnimationFrame(layoutAll);
                             }, { passive: true });
-
-                            (function(){
-                                var cards = Array.prototype.slice.call(gallery.querySelectorAll('.animation-card'));
-                                function queue(card){
-                                    if (!card) return;
-                                    requestThumbCapture(card.dataset.src);
-                                }
-                                var queuedAll = false;
-                                function queueAll(){
-                                    if (queuedAll) return;
-                                    queuedAll = true;
-                                    cards.forEach(function(card){ queue(card); });
-                                    pumpThumbQueue();
-                                }
-                                if ('IntersectionObserver' in window) {
-                                    var io = new IntersectionObserver(function(entries){
-                                        entries.forEach(function(entry){
-                                            if (!entry.isIntersecting) return;
-                                            queue(entry.target);
-                                            io.unobserve(entry.target);
-                                        });
-                                    }, { root: null, rootMargin: '600px 0px', threshold: 0.01 });
-                                    cards.forEach(function(card){ io.observe(card); });
-                                } else {
-                                    cards.slice(0, 6).forEach(function(card){ queue(card); });
-                                }
-                                if (window.requestIdleCallback) {
-                                    window.requestIdleCallback(function(){ queueAll(); }, { timeout: 2500 });
-                                } else {
-                                    setTimeout(function(){ queueAll(); }, 1200);
-                                }
-                            })();
                             
                             function setModalMeta(title, desc){
                                 modalTitle.textContent = title || '';
@@ -1171,7 +975,6 @@
                                 activeModalIndex = i;
                                 var item = ANIM_VIDEOS[i];
                                 if (!item) return;
-                                requestThumbCapture(item.src);
                                 stopInlinePlayback();
                                 modal.classList.add('open');
                                 modal.setAttribute('aria-hidden', 'false');
@@ -1199,7 +1002,6 @@
                                 activeModalIndex = i;
                                 var item = ANIM_VIDEOS[i];
                                 if (!item) return;
-                                requestThumbCapture(item.src);
                                 modalVideo.pause();
                                 modalVideo.src = item.src;
                                 setModalMeta(item.title, item.desc);
@@ -1210,7 +1012,6 @@
                                 if (!activeInlineVideo) return;
                                 try { activeInlineVideo.pause(); } catch(e) {}
                                 if (activeInlineCard) activeInlineCard.classList.remove('is-inline-playing');
-                                if (activeInlineVideo.parentElement) activeInlineVideo.parentElement.removeChild(activeInlineVideo);
                                 activeInlineVideo = null;
                                 activeInlineCard = null;
                             }
@@ -1224,21 +1025,23 @@
                                 stopInlinePlayback();
                                 var src = card.dataset.src;
                                 if (!src) return;
-                                requestThumbCapture(src);
-                                var v = document.createElement('video');
-                                v.className = 'animation-inline-video';
-                                v.playsInline = true;
-                                v.muted = false;
-                                v.preload = 'none';
-                                v.src = src;
+                                var v = card.querySelector('video');
+                                if (!v) return;
+                                if (v.currentSrc && v.currentSrc !== src) {
+                                    v.src = src;
+                                }
                                 card.classList.add('is-inline-playing');
-                                card.appendChild(v);
                                 activeInlineCard = card;
                                 activeInlineVideo = v;
                                 v.addEventListener('ended', function(){
                                     stopInlinePlayback();
                                 }, { once: true });
-                                v.play().catch(function(){});
+                                if (v.paused) {
+                                    v.play().catch(function(){});
+                                } else {
+                                    v.pause();
+                                    stopInlinePlayback();
+                                }
                             }
                             
                             gallery.addEventListener('click', function(e){
