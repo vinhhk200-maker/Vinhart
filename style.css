@@ -774,7 +774,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    padding: 0 clamp(24px, 6vw, 80px) clamp(40px, 7vh, 96px);
+    padding: 0 clamp(24px, 6vw, 80px) clamp(72px, 10vh, 140px);
     pointer-events: none; /* Let clicks pass through to video/bg */
 }
 
@@ -860,7 +860,7 @@ h2.text-gradient, h2.section-title.text-gradient {
         justify-content: flex-end;
         flex-direction: column;
         /* Ensure bottom padding accounts for Home Indicator */
-        padding: 0 24px max(56px, calc(env(safe-area-inset-bottom) + 32px)); 
+        padding: 0 24px max(96px, calc(env(safe-area-inset-bottom) + 64px)); 
         gap: 32px;
     }
 
