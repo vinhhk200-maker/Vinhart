@@ -31,7 +31,7 @@
                 <img class="upload-notice-avatar" src="assets/images/VINH_Port.png" alt="Vinh">
                 <div class="upload-notice-content">
                     <div class="upload-notice-title" id="lab-upload-title">Content upload in progress</div>
-                    <p class="upload-notice-text" id="lab-upload-text">TikTok and YouTube will go live in <span class="upload-countdown" id="lab-upload-countdown">7d 00h 00m 00s</span> <span class="upload-eta">(ETA <span id="lab-upload-date">—</span>)</span>.</p>
+                    <p class="upload-notice-text" id="lab-upload-text">New content will go live in <span class="upload-countdown" id="lab-upload-countdown">7d 00h 00m 00s</span> <span class="upload-eta">(ETA <span id="lab-upload-date">—</span>)</span>.</p>
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
                 if (left <= 0) {
                     countdownEl.textContent = 'now';
                     if (titleEl) titleEl.textContent = 'Upload complete';
-                    if (textEl) textEl.textContent = 'TikTok and YouTube links are now live.';
+                    if (textEl) textEl.textContent = 'New content is now live.';
                     return;
                 }
                 countdownEl.textContent = formatCountdown(left);

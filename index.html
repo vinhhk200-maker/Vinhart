@@ -40,6 +40,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=20260313-18">
     <link rel="preload" as="image" href="assets/images/web-thumbnail.jpg?v=20260313-hero-poster-1">
+    <link rel="preload" as="video" href="assets/videos/00_Hero_Background.mp4?v=20260313-hero-bg-1" type="video/mp4">
 </head>
 <body class="page-home">
     
@@ -49,7 +50,7 @@
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
         <div class="hero-video-layer">
-            <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata" poster="assets/images/web-thumbnail.jpg?v=20260313-hero-poster-1">
+            <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" poster="assets/images/web-thumbnail.jpg?v=20260313-hero-poster-1">
                 <source src="assets/videos/00_Hero_Background.mp4?v=20260313-hero-bg-1" type="video/mp4">
             </video>
         </div>
@@ -1414,9 +1415,6 @@
                         var vs = slide.querySelectorAll('video');
                         vs.forEach(function(v){
                             try { v.pause(); } catch(e) {}
-                            if (v && v.dataset && v.dataset.autoplay === '1') {
-                                if (typeof disableVideoSources === 'function') disableVideoSources(v);
-                            }
                         });
                         if (slide.id === 'case-4') {
                             if (typeof window.disableTinderPlayableIframe === 'function') {
@@ -2642,7 +2640,6 @@
                 const currentVideo = currentSlide.querySelector('video');
                 if (currentVideo) {
                     currentVideo.pause();
-                    currentVideo.currentTime = 0; 
                     // Reset UI state
                     const container = currentVideo.closest('.video-container') || currentVideo.parentElement;
                     if (container) {
@@ -2659,8 +2656,11 @@
             const nextVideo = newSlide.querySelector('video');
             if (nextVideo) {
                 enableVideoSources(nextVideo);
-                nextVideo.preload = 'metadata';
-                try { nextVideo.load(); } catch(e) {}
+                nextVideo.preload = 'auto';
+                if (nextVideo.dataset && nextVideo.dataset.primed !== '1') {
+                    try { nextVideo.load(); } catch(e) {}
+                    nextVideo.dataset.primed = '1';
+                }
             }
             
             // Update Thumbnails
@@ -2775,24 +2775,18 @@
             tracks.forEach(track => {
                 const slides = Array.from(track.querySelectorAll('.video-slide'));
                 slides.forEach(slide => {
-                    if (slide.classList.contains('active')) return;
                     const v = slide.querySelector('video');
                     if (!v) return;
-                    v.preload = 'none';
-                    disableVideoSources(v);
-                });
-                const activeSlide = slides.find(slide => slide.classList.contains('active')) || slides[0];
-                if (activeSlide) {
-                    const v = activeSlide.querySelector('video');
-                    if (v) {
-                        enableVideoSources(v);
-                        v.preload = 'metadata';
+                    enableVideoSources(v);
+                    v.preload = 'auto';
+                    if (v.dataset && v.dataset.primed !== '1') {
                         try { v.load(); } catch(e) {}
-                        if (v.hasAttribute('autoplay')) {
-                            v.play().catch(function(){});
-                        }
+                        v.dataset.primed = '1';
                     }
-                }
+                    if (slide.classList.contains('active') && v.hasAttribute('autoplay')) {
+                        v.play().catch(function(){});
+                    }
+                });
 
                 const videos = track.querySelectorAll('video');
                 videos.forEach(video => {
@@ -2812,6 +2806,75 @@
         } else {
             initVideoSliders();
         }
+    </script>
+    <script>
+        (function(){
+            function primeVideo(video, preloadValue) {
+                if (!video) return;
+                if (typeof enableVideoSources === 'function') enableVideoSources(video);
+                if (preloadValue) video.preload = preloadValue;
+                if (video.dataset && video.dataset.primed !== '1') {
+                    try { video.load(); } catch (e) {}
+                    video.dataset.primed = '1';
+                }
+            }
+
+            function isAutoVideo(video) {
+                if (!video) return false;
+                if (video.classList && video.classList.contains('hero-bg-video')) return true;
+                if (video.hasAttribute && video.hasAttribute('autoplay')) return true;
+                if (video.dataset && video.dataset.autoplay === '1') return true;
+                return false;
+            }
+
+            function resumeAutoplayVideos() {
+                if (document.visibilityState !== 'visible') return;
+                var videos = Array.prototype.slice.call(document.querySelectorAll('video'));
+                videos.forEach(function(v){
+                    if (!isAutoVideo(v)) return;
+                    try { v.play().catch(function(){}); } catch (e) {}
+                });
+            }
+
+            function pauseAllVideos() {
+                var videos = Array.prototype.slice.call(document.querySelectorAll('video'));
+                videos.forEach(function(v){
+                    try { v.pause(); } catch (e) {}
+                });
+            }
+
+            function primePriorityVideos() {
+                var hero = document.querySelector('.hero-bg-video');
+                primeVideo(hero, 'auto');
+
+                var list = Array.prototype.slice.call(document.querySelectorAll('video[autoplay], video[data-autoplay=\"1\"]'));
+                list = list.filter(function(v){ return v && v !== hero; });
+
+                var idx = 0;
+                function step() {
+                    if (idx >= list.length) return;
+                    primeVideo(list[idx], 'auto');
+                    idx += 1;
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(step, { timeout: 800 });
+                    } else {
+                        setTimeout(step, 60);
+                    }
+                }
+                step();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', primePriorityVideos);
+            } else {
+                primePriorityVideos();
+            }
+
+            document.addEventListener('visibilitychange', function(){
+                if (document.visibilityState === 'hidden') pauseAllVideos();
+                else resumeAutoplayVideos();
+            });
+        })();
     </script>
     <script>
         (function(){
