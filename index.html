@@ -16,7 +16,7 @@
        Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
-<script src="js/config.js?v=20260313-08"></script>
+<script src="js/config.js?v=20260313-17"></script>
 <html lang="vi" class="page-home">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY4J6ZB2NR"></script>
@@ -38,12 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260313-08">
+    <link rel="stylesheet" href="style.css?v=20260313-17">
 </head>
 <body class="page-home">
     
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260313-08"></script>
+    <script src="js/header.js?v=20260313-17"></script>
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
@@ -445,36 +445,63 @@
                     </div>
                     <div class="impact-media">
                         <div class="impact-media-frame video-slider-container">
-                            <div class="video-slider-track fade-track" id="savills-video-track">
+                            <div class="video-slider-track fade-track" id="savills-video-track-1">
                                 <div class="video-slide active fade-transition">
                                     <video class="media-content" muted playsinline preload="metadata">
-                                        <source src="videos/03_Savills_Detail_1.mp4#t=0.001" type="video/mp4">
+                                        <source src="videos/03_Savills_Detail_1_1.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline preload="metadata">
-                                        <source src="videos/03_Savills_Detail_2.mp4#t=0.001" type="video/mp4">
+                                        <source src="videos/03_Savills_Detail_2_1.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline preload="metadata">
-                                        <source src="videos/03_Savills_Detail_3.mp4#t=0.001" type="video/mp4">
+                                        <source src="videos/03_Savills_Detail_3_1.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline preload="metadata">
-                                        <source src="videos/03_Savills_Detail_4.mp4#t=0.001" type="video/mp4">
+                                        <source src="videos/03_Savills_Detail_4_1.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="video-slide fade-transition">
                                     <video class="media-content" muted playsinline preload="metadata">
-                                        <source src="videos/03_Savills_Detail_5.mp4#t=0.001" type="video/mp4">
+                                        <source src="videos/03_Savills_Detail_5_1.mp4#t=0.001" type="video/mp4">
                                     </video>
                                 </div>
                             </div>
-                            <!-- Buttons moved after track for visibility -->
-                            <button class="video-nav-prev" type="button" aria-label="Previous video" onclick="changeVideoSlide('savills-video-track', -1)" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10094;</button>
-                            <button class="video-nav-next" type="button" aria-label="Next video" onclick="changeVideoSlide('savills-video-track', 1)" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10095;</button>
+                            <button id="btn-prev-savills" class="video-nav-prev" type="button" aria-label="Previous video" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10094;</button>
+                            <button id="btn-next-savills" class="video-nav-next" type="button" aria-label="Next video" style="z-index: 100; cursor: pointer; pointer-events: auto;">&#10095;</button>
+                            <script>
+                                (function() {
+                                    const prevBtn = document.getElementById('btn-prev-savills');
+                                    const nextBtn = document.getElementById('btn-next-savills');
+                                    const trackId = 'savills-video-track-1';
+                                    
+                                    function handleClick(direction) {
+                                        if (window.changeVideoSlide) {
+                                            window.changeVideoSlide(trackId, direction);
+                                        }
+                                    }
+
+                                    if (prevBtn) {
+                                        prevBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleClick(-1);
+                                        });
+                                    }
+                                    if (nextBtn) {
+                                        nextBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleClick(1);
+                                        });
+                                    }
+                                })();
+                            </script>
                         </div>
                         <p class="impact-media-caption">Savills 30 Years Event Concept</p>
                     </div>
@@ -540,7 +567,6 @@
                                         <video class="media-content" muted playsinline preload="metadata">
                                             <source src="videos/EVO_2.mp4#t=0.001" type="video/mp4">
                                         </video>
-                                        <div class="play-icon"></div>
                                     </div>
                                 </div>
                                 <div class="video-slide fade-transition">
@@ -548,7 +574,6 @@
                                         <video class="media-content" muted playsinline preload="metadata">
                                             <source src="videos/EVO_3.mp4#t=0.001" type="video/mp4">
                                         </video>
-                                        <div class="play-icon"></div>
                                     </div>
                                 </div>
                             </div>
@@ -599,7 +624,8 @@
                         <div class="impact-media-frame ratio-9-16">
                             <iframe
                                 class="media-content"
-                                src="tinder_swipenight_Playable/index.html"
+                                id="tinder-iframe"
+                                src="tinder_swipenight_Playable/index.html?v=20260313-17#loop"
                                 title="Tinder Swipe Night Playable"
                                 allow="autoplay; fullscreen"
                                 loading="lazy"
@@ -1647,7 +1673,7 @@
 
     </main>
 
-    <script src="main.js?v=20260313-08"></script>
+    <script src="main.js?v=20260313-17"></script>
     <script>
         // DOM Elements
         const hero = document.querySelector('.hero');
@@ -2141,12 +2167,8 @@
                 // 1. Inside .video-slider-track (Savills, IKA details)
                 // 2. Class .impact-inline-media (EVO)
                 
-                const isInteractiveVideo = video.closest('.video-slider-track') || video.classList.contains('impact-inline-media');
-                
-                if (!isInteractiveVideo) {
-                    // Skip logic for background/hero videos (let them autoplay/loop as default)
-                    return; 
-                }
+                const inMediaFrame = !!video.closest('.impact-media-frame');
+                if (inMediaFrame) return; // Use unified .media-play-toggle logic for tab videos
 
                 // 1. Setup Container & Play Button
                 // Note: For .impact-inline-media (EVO), we manually wrapped it in .video-container in HTML
@@ -2155,12 +2177,7 @@
                 container.classList.add('video-container');
                 container.style.position = 'relative'; // Ensure relative positioning for button
                 
-                // Check if play icon exists, if not create it (Only if not already in HTML)
-                if (!container.querySelector('.play-icon')) {
-                    const playBtn = document.createElement('div');
-                    playBtn.className = 'play-icon';
-                    container.appendChild(playBtn);
-                }
+                // Legacy play-icon disabled for tab videos to avoid conflicts
 
                 // 2. Click Interaction (Attach to container to catch clicks on button too)
                 container.addEventListener('click', (e) => {
@@ -2506,6 +2523,18 @@
                     v.preload = 'none';
                     disableVideoSources(v);
                 });
+                const activeSlide = slides.find(slide => slide.classList.contains('active')) || slides[0];
+                if (activeSlide) {
+                    const v = activeSlide.querySelector('video');
+                    if (v) {
+                        enableVideoSources(v);
+                        v.preload = 'metadata';
+                        try { v.load(); } catch(e) {}
+                        if (v.hasAttribute('autoplay')) {
+                            v.play().catch(function(){});
+                        }
+                    }
+                }
 
                 const videos = track.querySelectorAll('video');
                 videos.forEach(video => {
@@ -2552,6 +2581,16 @@
                     toggleGlowFromSource(e.source, !!d.active);
                 }
             }, false);
+            var tf = document.getElementById('tinder-iframe');
+            if (tf) {
+                function trySkipIntro(){
+                    try { tf.contentWindow.postMessage({ type: 'playable-skip-intro' }, '*'); } catch(e) {}
+                }
+                tf.addEventListener('load', function(){
+                    setTimeout(trySkipIntro, 400);
+                }, { passive: true });
+                setTimeout(trySkipIntro, 1200);
+            }
         })();
     </script>
     <script>
@@ -2559,6 +2598,8 @@
             function findVideo(btn){
                 var frame = btn.closest('.impact-media-frame');
                 if (!frame) return null;
+                var active = frame.querySelector('.video-slide.active video.media-content');
+                if (active) return active;
                 return frame.querySelector('video.media-content');
             }
             function audioIconSvg(muted){
@@ -2652,7 +2693,7 @@
                 if (!playBtn) return;
                 var frame = playBtn.closest('.impact-media-frame');
                 if (!frame) return;
-                var video = frame.querySelector('video.media-content');
+                var video = findVideo(playBtn);
                 if (!video) return;
                 e.preventDefault();
                 e.stopPropagation();
@@ -2663,7 +2704,7 @@
                 var frame = e.target.closest('.impact-media-frame');
                 if (!frame) return;
                 if (e.target.closest('.media-audio-toggle') || e.target.closest('.media-play-toggle')) return;
-                var video = frame.querySelector('video.media-content');
+                var video = frame.querySelector('.video-slide.active video.media-content') || frame.querySelector('video.media-content');
                 if (!video) return;
                 if (frame.classList.contains('is-initial-audio') && frame.dataset.noAudio !== '1') {
                     if (frame.dataset.audioArmed === '1' && frame.dataset.hasPausedOnce !== '1') {
@@ -2688,30 +2729,39 @@
                 });
                 var frames = document.querySelectorAll('.impact-media-frame');
                 frames.forEach(function(frame){
-                    var v = frame.querySelector('video.media-content');
-                    if (!v) return;
+                    var videos = frame.querySelectorAll('video.media-content');
+                    if (!videos.length) return;
                     var hasAudioBtn = !!frame.querySelector('.media-audio-toggle');
                     var noAudio = frame.dataset.noAudio === '1';
                     if (hasAudioBtn && !noAudio) frame.classList.add('is-initial-audio');
                     else frame.classList.remove('is-initial-audio');
                     if (noAudio) {
-                        if (!v.muted) v.muted = true;
-                        if (v.volume !== 0) v.volume = 0;
+                        videos.forEach(function(vv){
+                            if (!vv.muted) vv.muted = true;
+                            if (vv.volume !== 0) vv.volume = 0;
+                        });
                     }
-                    var playBtn = ensurePlayBtn(frame, v);
                     function syncPlay(){
-                        ensurePlayBtn(frame, v);
+                        var active = frame.querySelector('.video-slide.active video.media-content') || frame.querySelector('video.media-content');
+                        if (!active) return;
+                        ensurePlayBtn(frame, active);
+                        if (active.hasAttribute('autoplay') && active.paused && active.dataset.autoTried !== '1') {
+                            active.dataset.autoTried = '1';
+                            active.play().catch(function(){});
+                        }
                     }
-                    v.addEventListener('play', syncPlay, { passive: true });
-                    v.addEventListener('pause', syncPlay, { passive: true });
-                    v.addEventListener('loadedmetadata', syncPlay, { passive: true });
-                    if (playBtn) syncPlay();
+                    videos.forEach(function(vv){
+                        vv.addEventListener('play', syncPlay, { passive: true });
+                        vv.addEventListener('pause', syncPlay, { passive: true });
+                        vv.addEventListener('loadedmetadata', syncPlay, { passive: true });
+                    });
+                    syncPlay();
                 });
             }
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
             else init();
         })();
     </script>
-    <script src="js/footer.js?v=20260313-08"></script>
+    <script src="js/footer.js?v=20260313-17"></script>
 </body>
 </html>

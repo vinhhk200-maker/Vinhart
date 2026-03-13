@@ -457,4 +457,84 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial check
         checkBottomGradient();
     }
+
+    const wrappers = Array.from(document.querySelectorAll('.impact-content-wrapper'));
+    const headerEl = document.querySelector('.header');
+    const stickyGroups = [];
+
+    wrappers.forEach(wrapper => {
+        const media = wrapper.querySelector('.impact-media');
+        if (!media) return;
+        if (media.dataset.stickyPrepared === '1') return;
+
+        const inner = document.createElement('div');
+        inner.className = 'impact-media-sticky';
+        while (media.firstChild) inner.appendChild(media.firstChild);
+        media.appendChild(inner);
+        media.dataset.stickyPrepared = '1';
+        stickyGroups.push({ wrapper, media, inner });
+    });
+
+    function getStickyTop() {
+        if (!headerEl) return 24;
+        const rect = headerEl.getBoundingClientRect();
+        const visible = rect.bottom > 0 && rect.top >= -1;
+        const h = visible ? rect.height : 0;
+        return Math.max(16, Math.round(h + 24));
+    }
+
+    function isTwoColumn(wrapper) {
+        const style = window.getComputedStyle(wrapper);
+        return style.display.includes('flex') && style.flexDirection !== 'column';
+    }
+
+    function updateStickyMedia() {
+        const scrollY = window.scrollY;
+        const topOffset = getStickyTop();
+
+        stickyGroups.forEach(group => {
+            const wrapper = group.wrapper;
+            const inner = group.inner;
+
+            const slide = wrapper.closest('.case-slide');
+            if (slide && !slide.classList.contains('active')) {
+                inner.style.transform = '';
+                inner.style.willChange = '';
+                return;
+            }
+            if (!wrapper.isConnected || wrapper.offsetParent === null) {
+                inner.style.transform = '';
+                inner.style.willChange = '';
+                return;
+            }
+            if (!isTwoColumn(wrapper)) {
+                inner.style.transform = '';
+                inner.style.willChange = '';
+                return;
+            }
+
+            const wrapperTop = wrapper.getBoundingClientRect().top + scrollY;
+            const wrapperHeight = wrapper.offsetHeight;
+            const innerHeight = inner.offsetHeight;
+            const maxTranslate = Math.max(0, wrapperHeight - innerHeight);
+            const desired = scrollY - wrapperTop + topOffset;
+            const translate = Math.min(Math.max(desired, 0), maxTranslate);
+
+            inner.style.willChange = 'transform';
+            inner.style.transform = `translate3d(0, ${Math.round(translate)}px, 0)`;
+        });
+    }
+
+    let stickyTicking = false;
+    function onStickyTick() {
+        if (stickyTicking) return;
+        stickyTicking = true;
+        requestAnimationFrame(() => {
+            updateStickyMedia();
+            stickyTicking = false;
+        });
+    }
+    window.addEventListener('scroll', onStickyTick, { passive: true });
+    window.addEventListener('resize', onStickyTick, { passive: true });
+    updateStickyMedia();
 });

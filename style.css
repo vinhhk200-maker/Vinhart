@@ -2881,6 +2881,27 @@ body.animation-modal-open #case-tabs {
     z-index: 2;
 }
 
+.video-slider-track.fade-track.auto-ratio {
+    display: block;
+    height: auto;
+}
+
+.video-slider-track.fade-track.auto-ratio .video-slide.fade-transition {
+    position: absolute;
+    inset: 0;
+    height: auto;
+}
+
+.video-slider-track.fade-track.auto-ratio .video-slide.fade-transition.active {
+    position: relative;
+    inset: auto;
+}
+
+.video-slider-track.fade-track.auto-ratio .video-slide.fade-transition .media-content {
+    height: auto;
+    object-fit: contain;
+}
+
 .item-caption {
     padding: 15px;
     font-size: var(--text-xs);
