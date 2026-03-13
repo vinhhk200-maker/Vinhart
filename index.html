@@ -704,11 +704,11 @@
                     </div>
                 </div>
                 
-                <div class="impact-card-inner case-slide" id="case-anim" data-title="Video Motion Graphic" data-company="Motion Graphic&#10;Advertisement" data-project="Compilation">
+                <div class="impact-card-inner case-slide" id="case-anim" data-title="Performance-Driven Motion Graphics" data-company="Tech-Driven Motion" data-project="Performance ads">
                     <div class="impact-content-wrapper container">
                         <div class="impact-copy">
-                            <h3 class="impact-heading">Video motion graphic</h3>
-                            <p class="impact-body">A curated selection of motion videos delivered for clients across both global and local advertising campaigns.</p>
+                            <h3 class="impact-heading">Performance-Driven Motion Graphics</h3>
+                            <p class="impact-body">A curated vault of high-converting motion assets engineered for global campaigns across <span class="text-highlight">Tech, Fintech, FMCG, and Entertainment</span>. My leadership is built on a brutal foundation of <span class="text-highlight">Fine Arts and hands-on technical mastery</span>. I don’t just direct pipelines—I understand the mechanics of every <span class="text-highlight">keyframe</span>, bridging high-end <span class="text-highlight">aesthetics</span> with technical <span class="text-highlight">execution at scale</span>.</p>
                             <div class="animation-gallery" id="animation-gallery"></div>
                         </div>
                     </div>
@@ -752,6 +752,27 @@
                             }
                             
                             var VIDEO_TAB_FILES = [
+                                'videos/VideoTab/Leadi-In_Autochess__1.mp4',
+                                'videos/VideoTab/Lead-in_COD_1.mp4',
+                                'videos/VideoTab/C2_Functionality-App_deliveroo_play-concept-pack-2-ratios_1_R0_1.mp4',
+                                'videos/VideoTab/C1_Treat-yourself_deliveroo_play-concept-pack-2-ratios_1_R0_1.mp4',
+                                'videos/VideoTab/C1_9x16_ kaspersky_mwconcept_5226_R0_1.mp4',
+                                'videos/VideoTab/C1_1x1_ kaspersky_mwconcept_5226_R0_1.mp4',
+                                'videos/VideoTab/45millercoors_1.mp4',
+                                'videos/VideoTab/45Lucozade_1.mp4',
+                                'videos/VideoTab/45HeinzUK_1.mp4',
+                                'videos/VideoTab/45havana_1.mp4',
+                                'videos/VideoTab/16x9_everlane_lift-placement_1_R1_1.mp4',
+                                'videos/VideoTab/11gainful_1.mp4',
+                                'videos/VideoTab/9x16_kaplan-education-05_R0_1.mp4',
+                                'videos/VideoTab/9x16_Express_care-of_mw_story3_1.mp4',
+                                'videos/VideoTab/4x5_Spotify_leadin_1.mp4',
+                                'videos/VideoTab/4x5_shutterock-COVID_bright_1_1.mp4',
+                                'videos/VideoTab/4x5_revlon-anz_eyes_play_R0_1_1.mp4',
+                                'videos/VideoTab/4x5_Playable_allbirds_createyourshoe_playable_1.mp4',
+                                'videos/VideoTab/1x1_everlane_lift-placement_1_R1_1.mp4',
+                                'videos/VideoTab/Video-Post-MoThenhanh_1.mp4',
+                                'videos/VideoTab/AVAY-Intro-Video_1_1.mp4'
                             ];
 
                             function titleFromSrc(src){
@@ -762,8 +783,19 @@
                                 return base || 'Video';
                             }
 
+                            function aspectFromSrc(src){
+                                var name = (src || '').toLowerCase();
+                                if (name.indexOf('9x16') !== -1) return '9 / 16';
+                                if (name.indexOf('4x5') !== -1) return '4 / 5';
+                                if (name.indexOf('1x1') !== -1) return '1 / 1';
+                                if (name.indexOf('16x9') !== -1) return '16 / 9';
+                                if (/\/45[^/]*\.mp4$/.test(name)) return '4 / 5';
+                                if (/\/11[^/]*\.mp4$/.test(name)) return '1 / 1';
+                                return '16 / 9';
+                            }
+
                             var ANIM_VIDEOS = VIDEO_TAB_FILES.map(function(src){
-                                return { src: src, title: titleFromSrc(src), desc: '' };
+                                return { src: src, title: titleFromSrc(src), desc: '', ar: aspectFromSrc(src) };
                             });
                             
                             function layoutCard(card){
@@ -803,13 +835,16 @@
                                 a.dataset.src = item.src;
                                 a.dataset.title = item.title || '';
                                 a.dataset.desc = item.desc || '';
+                                a.style.setProperty('--anim-ar', item.ar || '16 / 9');
                                 
                                 var v = document.createElement('video');
                                 v.className = 'animation-thumb';
                                 v.playsInline = true;
-                                v.preload = 'metadata';
-                                v.src = item.src;
+                                v.preload = 'none';
                                 v.muted = true;
+                                v.loop = false;
+                                v.poster = svgPlaceholder(item.title);
+                                v.dataset.src = item.src;
                                 v.setAttribute('aria-label', item.title || 'Animation');
                                 v.addEventListener('loadedmetadata', function(){
                                     scheduleLayout(a);
@@ -844,6 +879,50 @@
                             ANIM_VIDEOS.forEach(function(v){
                                 gallery.appendChild(createCard(v));
                             });
+
+                            function updateCardAspectFromVideo(video){
+                                if (!video) return;
+                                var card = video.closest('.animation-card');
+                                if (!card) return;
+                                var vw = video.videoWidth || 0;
+                                var vh = video.videoHeight || 0;
+                                if (!vw || !vh) return;
+                                card.style.setProperty('--anim-ar', vw + ' / ' + vh);
+                            }
+
+                            function primeThumbForAspect(video){
+                                if (!video) return;
+                                if (video.dataset.metaReady === '1') return;
+                                var src = video.dataset.src || '';
+                                if (!src) return;
+                                video.dataset.metaReady = '1';
+                                video.preload = 'metadata';
+                                if (!video.getAttribute('src')) {
+                                    video.src = src + (src.indexOf('#t=') === -1 ? '#t=0.001' : '');
+                                }
+                                video.addEventListener('loadedmetadata', function(){
+                                    updateCardAspectFromVideo(video);
+                                    requestAnimationFrame(layoutAll);
+                                }, { once: true, passive: true });
+                                try { video.load(); } catch (e) {}
+                                try { video.pause(); } catch (e) {}
+                            }
+
+                            if ('IntersectionObserver' in window) {
+                                var thumbAspectObserver = new IntersectionObserver(function(entries){
+                                    entries.forEach(function(entry){
+                                        if (!entry.isIntersecting) return;
+                                        primeThumbForAspect(entry.target);
+                                    });
+                                }, { rootMargin: '800px 0px', threshold: 0.01 });
+                                gallery.querySelectorAll('video.animation-thumb').forEach(function(v){
+                                    thumbAspectObserver.observe(v);
+                                });
+                            } else {
+                                gallery.querySelectorAll('video.animation-thumb').forEach(function(v){
+                                    primeThumbForAspect(v);
+                                });
+                            }
                             
                             requestAnimationFrame(layoutAll);
                             window.addEventListener('resize', function(){
@@ -911,6 +990,8 @@
                             function stopInlinePlayback(){
                                 if (!activeInlineVideo) return;
                                 try { activeInlineVideo.pause(); } catch(e) {}
+                                try { activeInlineVideo.currentTime = 0; } catch(e) {}
+                                try { activeInlineVideo.muted = true; } catch(e) {}
                                 if (activeInlineCard) activeInlineCard.classList.remove('is-inline-playing');
                                 activeInlineVideo = null;
                                 activeInlineCard = null;
@@ -927,8 +1008,15 @@
                                 if (!src) return;
                                 var v = card.querySelector('video');
                                 if (!v) return;
-                                if (v.currentSrc && v.currentSrc !== src) {
+                                v.preload = 'metadata';
+                                v.addEventListener('loadedmetadata', function(){
+                                    updateCardAspectFromVideo(v);
+                                    requestAnimationFrame(layoutAll);
+                                }, { once: true, passive: true });
+                                var currentSrc = v.getAttribute('src') || '';
+                                if (!currentSrc || currentSrc !== src) {
                                     v.src = src;
+                                    try { v.load(); } catch(e) {}
                                 }
                                 card.classList.add('is-inline-playing');
                                 activeInlineCard = card;
@@ -937,6 +1025,8 @@
                                     stopInlinePlayback();
                                 }, { once: true });
                                 if (v.paused) {
+                                    v.muted = false;
+                                    try { v.currentTime = 0; } catch(e) {}
                                     v.play().catch(function(){});
                                 } else {
                                     v.pause();
@@ -979,6 +1069,21 @@
                                 e.preventDefault();
                                 startInlinePlayback(card);
                             });
+
+                            if ('IntersectionObserver' in window) {
+                                var inlineStopObserver = new IntersectionObserver(function(entries){
+                                    entries.forEach(function(entry){
+                                        if (entry.isIntersecting) return;
+                                        var card = entry.target;
+                                        if (activeInlineCard && card === activeInlineCard) {
+                                            stopInlinePlayback();
+                                        }
+                                    });
+                                }, { threshold: [0, 0.01] });
+                                gallery.querySelectorAll('.animation-card').forEach(function(card){
+                                    inlineStopObserver.observe(card);
+                                });
+                            }
                             btnClose.addEventListener('click', closeModal);
                             backdrop.addEventListener('click', closeModal);
                             modalMeta.addEventListener('click', function(){
@@ -2167,6 +2272,9 @@
                 // 1. Inside .video-slider-track (Savills, IKA details)
                 // 2. Class .impact-inline-media (EVO)
                 
+                const inAnimationTab = !!video.closest('#case-anim') || !!video.closest('#animation-modal') || video.classList.contains('animation-thumb') || video.classList.contains('animation-modal-video');
+                if (inAnimationTab) return;
+
                 const inMediaFrame = !!video.closest('.impact-media-frame');
                 if (inMediaFrame) return; // Use unified .media-play-toggle logic for tab videos
 
