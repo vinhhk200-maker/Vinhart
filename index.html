@@ -16,7 +16,7 @@
        Enable/disable bottom gradient entirely (true = show, false = hide).
     ============================================================================
 -->
-<script src="js/config.js?v=20260313-04"></script>
+<script src="js/config.js?v=20260313-05"></script>
 <html lang="vi" class="page-home">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY4J6ZB2NR"></script>
@@ -38,12 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260313-04">
+    <link rel="stylesheet" href="style.css?v=20260313-05">
 </head>
 <body class="page-home">
     
     <!-- Header injected via js/header.js -->
-    <script src="js/header.js?v=20260313-04"></script>
+    <script src="js/header.js?v=20260313-05"></script>
 
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
@@ -60,7 +60,7 @@
                 <p class="hero-overlay-description">
                     6 years leadership in global agencies and AI fintech, I architect experiences for <span class="hero-overlay-accent">premium brands</span> by bridging <span class="hero-overlay-accent">fine arts</span> with <span class="hero-overlay-accent">high-tech logic</span> to drive business growth.
                 </p>
-                <a href="#media-wrapper" class="hero-cta">View Projects</a>
+                <a href="#case-tabs-bleed" class="hero-cta">View Projects</a>
             </div>
             <div class="hero-overlay-right">
                 <div class="hero-overlay-divider"></div>
@@ -369,18 +369,15 @@
                         </div>
                     </div>
                     <div class="impact-media">
-                        <div class="impact-media-frame ratio-9-16" style="--media-fit: contain;">
-                         <video class="media-content" src="videos/Spotify_Select_Pop.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
-                             <button type="button" class="media-audio-toggle" aria-label="Unmute" aria-pressed="true"></button>
-                    </div>
-                    <div class="impact-media-frame ratio-9-16" style="margin-top: 16px; --media-fit: contain;">
-                         <video class="media-content" src="videos/Spotify_Select_Rock.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
-                         <button type="button" class="media-audio-toggle" aria-label="Unmute" aria-pressed="true"></button>
-                    </div>
-                    <div class="impact-media-frame ratio-9-16" style="margin-top: 16px; --media-fit: contain;">
-                         <video class="media-content" src="videos/Spotify_Select_Rap.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
-                         <button type="button" class="media-audio-toggle" aria-label="Unmute" aria-pressed="true"></button>
-                    </div>
+                        <div class="impact-media-frame ratio-9-16" data-no-audio="1" style="--media-fit: contain;">
+                            <video class="media-content" src="videos/Spotify_Select_Pop.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
+                        </div>
+                        <div class="impact-media-frame ratio-9-16" data-no-audio="1" style="margin-top: 16px; --media-fit: contain;">
+                            <video class="media-content" src="videos/Spotify_Select_Rock.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
+                        </div>
+                        <div class="impact-media-frame ratio-9-16" data-no-audio="1" style="margin-top: 16px; --media-fit: contain;">
+                            <video class="media-content" src="videos/Spotify_Select_Rap.mp4" data-autoplay="1" muted loop playsinline preload="none"></video>
+                        </div>
                         <p class="impact-media-caption">Spotify Interactive Campaign</p>
                     </div>
                     </div>
@@ -1650,7 +1647,7 @@
 
     </main>
 
-    <script src="main.js?v=20260313-04"></script>
+    <script src="main.js?v=20260313-05"></script>
     <script>
         // DOM Elements
         const hero = document.querySelector('.hero');
@@ -2323,6 +2320,17 @@
                 } else {
                     item.classList.remove('active');
                 }
+                const mini = item.querySelector('video');
+                if (!mini) return;
+                if (index === activeIndex) {
+                    enableVideoSources(mini);
+                    mini.preload = 'metadata';
+                    try { mini.load(); } catch(e) {}
+                    mini.play().catch(function(){});
+                    return;
+                }
+                try { mini.pause(); } catch(e) {}
+                disableVideoSources(mini);
             });
         };
 
@@ -2417,6 +2425,7 @@
                 nav.className = 'video-thumbnails-control';
                 
                 slides.forEach((slide, index) => {
+                    const video = slide.querySelector('video');
                     const item = document.createElement('div');
                     item.className = 'video-thumbnail-item';
                     if (slide.classList.contains('active')) item.classList.add('active');
@@ -2424,6 +2433,29 @@
                     item.setAttribute('role', 'button');
                     item.setAttribute('tabindex', '0');
                     item.setAttribute('aria-label', 'Go to video ' + (index + 1));
+
+                    const miniVideo = document.createElement('video');
+                    miniVideo.muted = true;
+                    miniVideo.playsInline = true;
+                    miniVideo.loop = true;
+                    miniVideo.preload = 'none';
+                    miniVideo.setAttribute('aria-hidden', 'true');
+                    const srcNode = document.createElement('source');
+                    let src = '';
+                    let type = 'video/mp4';
+                    if (video) {
+                        const source = video.querySelector('source');
+                        if (source) {
+                            src = source.getAttribute('src') || source.dataset.src || '';
+                            type = source.getAttribute('type') || source.type || type;
+                        } else {
+                            src = video.getAttribute('src') || video.dataset.src || '';
+                        }
+                    }
+                    srcNode.dataset.src = src;
+                    srcNode.type = type;
+                    miniVideo.appendChild(srcNode);
+                    item.appendChild(miniVideo);
 
                     const label = document.createElement('span');
                     label.textContent = String(index + 1);
@@ -2434,6 +2466,23 @@
                         // Play explicitly when user selects a thumbnail
                         goToVideoSlide(track.id, index, true); 
                     });
+
+                    function previewStart() {
+                        if (item.classList.contains('active')) return;
+                        enableVideoSources(miniVideo);
+                        miniVideo.preload = 'metadata';
+                        try { miniVideo.load(); } catch(e) {}
+                        miniVideo.play().catch(function(){});
+                    }
+                    function previewStop() {
+                        if (item.classList.contains('active')) return;
+                        try { miniVideo.pause(); } catch(e) {}
+                        disableVideoSources(miniVideo);
+                    }
+                    item.addEventListener('mouseenter', previewStart);
+                    item.addEventListener('mouseleave', previewStop);
+                    item.addEventListener('focus', previewStart);
+                    item.addEventListener('blur', previewStop);
 
                     item.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -2447,6 +2496,7 @@
                 });
                 
                 container.appendChild(nav);
+                updateThumbnails(track.id, slides.findIndex(s => s.classList.contains('active')));
             });
         }
 
@@ -2614,7 +2664,7 @@
                 if (!video) return;
                 e.preventDefault();
                 e.stopPropagation();
-                if (frame.classList.contains('is-initial-audio')) return;
+                if (frame.classList.contains('is-initial-audio') && frame.dataset.noAudio !== '1') return;
                 togglePlay(video, frame);
             });
             document.addEventListener('click', function(e){
@@ -2623,7 +2673,7 @@
                 if (e.target.closest('.media-audio-toggle') || e.target.closest('.media-play-toggle')) return;
                 var video = frame.querySelector('video.media-content');
                 if (!video) return;
-                if (frame.classList.contains('is-initial-audio')) {
+                if (frame.classList.contains('is-initial-audio') && frame.dataset.noAudio !== '1') {
                     if (frame.dataset.audioArmed === '1' && frame.dataset.hasPausedOnce !== '1') {
                         frame.dataset.hasPausedOnce = '1';
                         frame.classList.remove('is-initial-audio');
@@ -2648,7 +2698,14 @@
                 frames.forEach(function(frame){
                     var v = frame.querySelector('video.media-content');
                     if (!v) return;
-                    frame.classList.add('is-initial-audio');
+                    var hasAudioBtn = !!frame.querySelector('.media-audio-toggle');
+                    var noAudio = frame.dataset.noAudio === '1';
+                    if (hasAudioBtn && !noAudio) frame.classList.add('is-initial-audio');
+                    else frame.classList.remove('is-initial-audio');
+                    if (noAudio) {
+                        if (!v.muted) v.muted = true;
+                        if (v.volume !== 0) v.volume = 0;
+                    }
                     var playBtn = ensurePlayBtn(frame, v);
                     function syncPlay(){
                         ensurePlayBtn(frame, v);
@@ -2663,6 +2720,6 @@
             else init();
         })();
     </script>
-    <script src="js/footer.js?v=20260313-04"></script>
+    <script src="js/footer.js?v=20260313-05"></script>
 </body>
 </html>
