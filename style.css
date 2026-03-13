@@ -2533,25 +2533,51 @@ body.animation-modal-open #case-tabs {
     height: 36px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.22);
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(0, 0, 0, 0.35);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     cursor: pointer;
     z-index: 5;
-    color: transparent;
-    font-size: 0;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    -webkit-appearance: none;
+    appearance: none;
 }
-.media-audio-toggle::before {
-    content: "";
+.media-audio-toggle svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.media-play-toggle {
     position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2724%27%20height%3D%2724%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%3E%3Cpath%20d%3D%27M10%209H7v6h3l4%203V6l-4%203Z%27%20stroke%3D%27white%27%20stroke-width%3D%271.6%27%20stroke-linejoin%3D%27round%27/%3E%3Cpath%20d%3D%27M16.5%209.5l3%203m0-3l-3%203%27%20stroke%3D%27white%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 20px 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.45);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    z-index: 6;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    -webkit-appearance: none;
+    appearance: none;
 }
-.media-audio-toggle.is-unmuted::before {
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2724%27%20height%3D%2724%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%3E%3Cpath%20d%3D%27M10%209H7v6h3l4%203V6l-4%203Z%27%20stroke%3D%27white%27%20stroke-width%3D%271.6%27%20stroke-linejoin%3D%27round%27/%3E%3Cpath%20d%3D%27M16%208.5c1.2%201%201.2%206%200%207.1%27%20stroke%3D%27white%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27/%3E%3Cpath%20d%3D%27M18.5%206.5c2.6%202.4%202.6%208.6%200%2011%27%20stroke%3D%27white%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27/%3E%3C/svg%3E");
+.media-play-toggle svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+.impact-media-frame.is-playing .media-play-toggle {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .impact-media-frame.is-looping::after {

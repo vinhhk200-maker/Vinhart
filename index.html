@@ -2557,11 +2557,38 @@
                 if (!frame) return null;
                 return frame.querySelector('video.media-content');
             }
-            function sync(btn, video){
+            function audioIconSvg(muted){
+                if (muted) {
+                    return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 9H7v6h3l4 3V6l-4 3Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><path d="M16.5 9.5l3 3m0-3l-3 3" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>';
+                }
+                return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 9H7v6h3l4 3V6l-4 3Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8.5c1.2 1 1.2 6 0 7.1" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M18.5 6.5c2.6 2.4 2.6 8.6 0 11" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>';
+            }
+            function playIconSvg(paused){
+                if (paused) {
+                    return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 8l8 4-8 4V8Z" fill="white"/></svg>';
+                }
+                return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 8v8" stroke="white" stroke-width="2.2" stroke-linecap="round"/><path d="M15 8v8" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>';
+            }
+            function syncAudio(btn, video){
                 var muted = !!(video.muted || video.volume === 0);
                 btn.classList.toggle('is-unmuted', !muted);
-                btn.setAttribute('aria-pressed', muted ? 'true' : 'false');
+                btn.setAttribute('aria-pressed', muted ? 'false' : 'true');
                 btn.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+                btn.innerHTML = audioIconSvg(muted);
+            }
+            function ensurePlayBtn(frame, video){
+                if (!frame || !video) return null;
+                var btn = frame.querySelector('.media-play-toggle');
+                if (!btn) {
+                    btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'media-play-toggle';
+                    btn.setAttribute('aria-label', 'Play / Pause');
+                    frame.appendChild(btn);
+                }
+                btn.innerHTML = playIconSvg(!!video.paused);
+                frame.classList.toggle('is-playing', !video.paused);
+                return btn;
             }
             function muteAllExcept(activeVideo){
                 var videos = document.querySelectorAll('video.media-content');
@@ -2574,8 +2601,18 @@
                 btns.forEach(function(btn){
                     var v = findVideo(btn);
                     if (!v) return;
-                    sync(btn, v);
+                    syncAudio(btn, v);
                 });
+            }
+            function togglePlay(video, frame){
+                if (!video) return;
+                if (!frame) frame = video.closest('.impact-media-frame');
+                if (!frame) return;
+                if (video.paused) {
+                    video.play().catch(function(){});
+                } else {
+                    video.pause();
+                }
             }
             document.addEventListener('click', function(e){
                 var btn = e.target.closest('.media-audio-toggle');
@@ -2583,6 +2620,7 @@
                 var video = findVideo(btn);
                 if (!video) return;
                 e.preventDefault();
+                e.stopPropagation();
                 if (video.muted || video.volume === 0) {
                     muteAllExcept(video);
                     video.muted = false;
@@ -2591,18 +2629,50 @@
                     video.muted = true;
                     video.volume = 0;
                 }
-                sync(btn, video);
+                syncAudio(btn, video);
                 video.play().catch(function(){});
+            });
+            document.addEventListener('click', function(e){
+                var playBtn = e.target.closest('.media-play-toggle');
+                if (!playBtn) return;
+                var frame = playBtn.closest('.impact-media-frame');
+                if (!frame) return;
+                var video = frame.querySelector('video.media-content');
+                if (!video) return;
+                e.preventDefault();
+                e.stopPropagation();
+                togglePlay(video, frame);
+            });
+            document.addEventListener('click', function(e){
+                var frame = e.target.closest('.impact-media-frame');
+                if (!frame) return;
+                if (e.target.closest('.media-audio-toggle') || e.target.closest('.media-play-toggle')) return;
+                var video = frame.querySelector('video.media-content');
+                if (!video) return;
+                togglePlay(video, frame);
             });
             function init(){
                 var btns = document.querySelectorAll('.media-audio-toggle');
                 btns.forEach(function(btn){
                     var v = findVideo(btn);
                     if (!v) return;
-                    sync(btn, v);
+                    syncAudio(btn, v);
                     v.addEventListener('volumechange', function(){
-                        sync(btn, v);
+                        syncAudio(btn, v);
                     }, { passive: true });
+                });
+                var frames = document.querySelectorAll('.impact-media-frame');
+                frames.forEach(function(frame){
+                    var v = frame.querySelector('video.media-content');
+                    if (!v) return;
+                    var playBtn = ensurePlayBtn(frame, v);
+                    function syncPlay(){
+                        ensurePlayBtn(frame, v);
+                    }
+                    v.addEventListener('play', syncPlay, { passive: true });
+                    v.addEventListener('pause', syncPlay, { passive: true });
+                    v.addEventListener('loadedmetadata', syncPlay, { passive: true });
+                    if (playBtn) syncPlay();
                 });
             }
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
