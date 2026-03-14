@@ -252,6 +252,11 @@ h2.text-gradient, h2.section-title.text-gradient {
     animation: none;
 }
 
+.case-study-title.section-title.text-gradient {
+    -webkit-text-fill-color: #ffffff;
+    color: #ffffff;
+}
+
 /* New Skills Text Layout */
 .skills-text-layout {
     display: grid;
@@ -705,6 +710,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     width: 100%;
     height: 100vh; /* Native height */
     min-height: 100vh;
+    background-color: #000000;
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -1617,7 +1623,7 @@ body.animation-modal-open #case-tabs {
    MAIN CONTENT
    ========================================= */
 .main-content {
-    background: #ffffff;
+    background: #000000;
     width: 100%;
     /* max-width: 100%; Removed to respect container max-width */
     margin: 0 auto;
@@ -1627,7 +1633,7 @@ body.animation-modal-open #case-tabs {
     margin-top: 100vh;
     border-radius: 0;
     /* overflow: hidden; Removed to allow sticky positioning to work */
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, background-color 0.4s ease;
 }
 
 .main-content::before {

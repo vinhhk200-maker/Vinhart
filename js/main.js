@@ -103,6 +103,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        const caseStudyTitle = document.querySelector('.case-study-title');
+        let mainContentBgRaf = 0;
+        const clamp01 = (n) => Math.max(0, Math.min(n, 1));
+
+        const updateMainContentBackground = () => {
+            mainContentBgRaf = 0;
+            const y = window.scrollY || 0;
+            const t = clamp01(y / 400);
+            const v = Math.round(255 * t);
+            mainContent.style.backgroundColor = `rgb(${v}, ${v}, ${v})`;
+            if (caseStudyTitle) {
+                const textV = Math.round(255 * (1 - t));
+                const textColor = `rgb(${textV}, ${textV}, ${textV})`;
+                caseStudyTitle.style.color = textColor;
+                caseStudyTitle.style.webkitTextFillColor = textColor;
+            }
+        };
+
+        const onScroll = () => {
+            if (mainContentBgRaf) return;
+            mainContentBgRaf = window.requestAnimationFrame(updateMainContentBackground);
+        };
+
+        updateMainContentBackground();
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
+
     // Custom Smooth Scroll for Hero CTA
     const heroCta = document.querySelector('.hero-cta');
     if (heroCta) {
