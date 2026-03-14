@@ -20,6 +20,7 @@ ul, ol, li {
     --bg-secondary: #FFF8E7;
     --accent-primary: #FF6B35;
     --accent-secondary: #00D4AA;
+    --accent-green: #00DE4E;
     --text-primary: #1A1A1A;
     --text-secondary: #666666;
     --text-tertiary: #999999;
@@ -63,7 +64,7 @@ ul, ol, li {
     --case-tab-font: var(--text-small);
     --case-tab-pad-y: 6px;
     --case-tab-pad-x: 14px;
-    --case-tab-radius: var(--media-radius);
+    --case-tab-radius: 0px;
     --case-tab-active-bg: #000;
     --case-tab-active-color: #fff;
     --case-tab-hover-bg: rgba(0,0,0,0.04);
@@ -76,7 +77,7 @@ ul, ol, li {
     --case-tab-active-pad-y: 12px;
     --case-tab-active-pad-x: 20px;
     --case-tab-active-font: var(--text-body);
-    --case-tab-active-radius: var(--media-radius);
+    --case-tab-active-radius: 0px;
     --case-tabs-trim: 15px;
 
     /* Media */
@@ -880,7 +881,7 @@ h2.text-gradient, h2.section-title.text-gradient {
 }
 
 .hero-overlay-accent--light-green {
-    color: #CCFF00;
+    color: var(--accent-green);
 }
 
 .hero-overlay-right {
@@ -901,7 +902,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     font-weight: 700;
     letter-spacing: normal;
     line-height: 1.21;
-    color: #CCFF00;
+    color: #ffffff;
     text-transform: uppercase;
     align-items: flex-start;
     text-align: left;
@@ -1493,17 +1494,17 @@ body.animation-modal-open #case-tabs {
     background: none;
     -webkit-background-clip: initial;
     background-clip: initial;
-    -webkit-text-fill-color: #ffffff;
-    color: #ffffff;
+    -webkit-text-fill-color: currentColor;
+    color: inherit;
     animation: none;
 }
 
 .hero-overlay-keywords .text-gradient::before {
     content: "";
-    width: 0.228em;
-    height: 0.228em;
-    border-radius: 999px;
-    background: #00FF11;
+    width: 1px;
+    height: 0.95em;
+    border-radius: 0;
+    background: var(--accent-green);
     flex: 0 0 auto;
 }
 
