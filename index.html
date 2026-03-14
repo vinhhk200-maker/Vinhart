@@ -1943,6 +1943,13 @@
         const body = document.body;
         const heroOverlayLayout = document.querySelector('.hero-overlay-layout');
         const heroVideoLayer = document.querySelector('.hero-video-layer');
+        let heroVideoScrollPaused = false;
+        let heroVideoReady = false;
+        const heroBgVideo = document.querySelector('.hero-bg-video');
+        if (heroBgVideo) {
+            try { heroBgVideo.addEventListener('loadeddata', function(){ heroVideoReady = true; }, { once: true, passive: true }); } catch (e) {}
+            try { heroBgVideo.addEventListener('canplay', function(){ heroVideoReady = true; }, { once: true, passive: true }); } catch (e) {}
+        }
 
         if (typeof PAGE_BACKGROUND_COLOR === 'string' && PAGE_BACKGROUND_COLOR.trim().length > 0) {
             document.body.style.backgroundColor = PAGE_BACKGROUND_COLOR;
@@ -2247,6 +2254,19 @@
                 }
 
                 const heroVideo = document.querySelector('.hero-bg-video');
+                if (heroVideo) {
+                    if (shouldDisableHero && heroVideoReady) {
+                        if (!heroVideoScrollPaused) {
+                            try { heroVideo.pause(); } catch (e) {}
+                            heroVideoScrollPaused = true;
+                        }
+                    } else {
+                        if (heroVideoScrollPaused) {
+                            try { heroVideo.play().catch(function(){}); } catch (e) {}
+                            heroVideoScrollPaused = false;
+                        }
+                    }
+                }
                 if (heroVideo && isPortrait) {
                     // Force video to cover height, allow width to overflow
                     heroVideo.style.width = '177.78vh'; // 16:9 aspect
