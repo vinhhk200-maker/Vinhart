@@ -4214,7 +4214,7 @@ body.animation-modal-open #case-tabs {
 
 /* Text Highlight Style - Alternative to Bold */
 .text-highlight {
-    color: #0f2d1e;
+    color: #000000;
     font-weight: 600;
 }
 
