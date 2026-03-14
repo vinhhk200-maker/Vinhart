@@ -343,7 +343,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!video) return null;
             video.muted = true;
             video.playsInline = true;
-            video.preload = priority ? 'auto' : 'metadata';
+            const forceAuto = !!(video.dataset && video.dataset.preloadPriority === '1');
+            video.preload = forceAuto ? 'auto' : (priority ? 'auto' : 'metadata');
             const hasData = !!video.currentSrc || video.readyState > 0;
             if (!hasData) {
                 try { video.load(); } catch (e) {}
@@ -367,7 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 primeVideoForSlide(currentSlide, true);
                 primeVideoForSlide(slideIndex(currentSlide + 1), false);
 
-                if (video.ended || (video.paused && (video.currentTime || 0) > 0.05)) {
+                const keepBuffer = !!(video.dataset && video.dataset.keepBuffer === '1');
+                if (!keepBuffer && (video.ended || (video.paused && (video.currentTime || 0) > 0.05))) {
                     try { video.currentTime = 0; } catch (e) {}
                 }
 
@@ -474,12 +476,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentVideo) {
                 detachCurrentEndedHandler();
                 currentVideo.pause();
-                currentVideo.currentTime = 0;
+                const keepBuffer = !!(currentVideo.dataset && currentVideo.dataset.keepBuffer === '1');
+                if (!keepBuffer) currentVideo.currentTime = 0;
             } else {
                 const v = slides[currentSlide] ? slides[currentSlide].querySelector('video') : null;
                 if (v) {
                     v.pause();
-                    v.currentTime = 0;
+                    const keepBuffer = !!(v.dataset && v.dataset.keepBuffer === '1');
+                    if (!keepBuffer) v.currentTime = 0;
                 }
             }
         }

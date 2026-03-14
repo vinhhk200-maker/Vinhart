@@ -832,7 +832,7 @@ h2.text-gradient, h2.section-title.text-gradient {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    padding: 0 clamp(24px, 6vw, 80px) clamp(72px, 10vh, 140px);
+    padding: 0 clamp(24px, 6vw, 80px) max(0px, calc(clamp(72px, 10vh, 140px) - 30px));
     pointer-events: none; /* Let clicks pass through to video/bg */
 }
 
@@ -922,7 +922,7 @@ h2.text-gradient, h2.section-title.text-gradient {
         justify-content: flex-end;
         flex-direction: column;
         /* Ensure bottom padding accounts for Home Indicator */
-        padding: 0 24px max(96px, calc(env(safe-area-inset-bottom) + 64px)); 
+        padding: 0 24px max(0px, calc(max(96px, calc(env(safe-area-inset-bottom) + 64px)) - 30px)); 
         gap: 32px;
     }
 
@@ -953,7 +953,7 @@ h2.text-gradient, h2.section-title.text-gradient {
         align-items: flex-end;
         justify-content: space-between;
         flex-direction: row;
-        padding: 0 32px clamp(28px, 7vh, 56px);
+        padding: 0 32px max(0px, calc(clamp(28px, 7vh, 56px) - 30px));
     }
 
     .hero-overlay-left {
