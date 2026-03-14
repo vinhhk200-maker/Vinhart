@@ -4,7 +4,7 @@ const FooterComponent = {
         <div class="container footer-inner">
             <div class="footer-left">
                 <div class="footer-brand">V I N H</div>
-                <p class="footer-tagline">Creative Operations — Tech Logic · Digital Handcraft · UI/UX · Workflow</p>
+                <p class="footer-tagline">Creative Operations - Tech Logic · Digital Handcraft · UI/UX · Workflow</p>
             </div>
             <div class="footer-right">
                 <nav class="footer-nav">

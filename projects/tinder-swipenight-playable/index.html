@@ -42,6 +42,8 @@
 			#gl-canvas, #myCanvas { width: 100%; height: 100%; touch-action: none; }
 			#end-overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); z-index: 999999; }
 			#hint-overlay { position: fixed; inset: 0; display: none; background: none; z-index: 999999; pointer-events: none; }
+			#loading-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #fff; z-index: 1000000; pointer-events: none; }
+			.loading-text { font-family: -apple-system, BlinkMacSystemFont, Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-weight: 600; color: #111; font-size: 16px; letter-spacing: 0.2px; }
 			.hint-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 10px; }
 			.hint-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 			.hint-bubble { max-width: min(80vw, 320px); background: #fff; color: #000; padding: 10px 12px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.18); border: 1px solid rgba(0,0,0,0.08); font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -65,6 +67,7 @@
 	</div>
 	<div id="end-overlay"><div class="overlay-card"><img class="overlay-avatar" src="../../assets/images/VINH_Port.png" alt="Vinh Avatar"><div class="overlay-title">Round Completed</div><div class="overlay-desc">You’ve finished this round. I will reload the playable so you can keep playing.</div><div class="overlay-countdown">Returning to start in 7s…</div><div class="overlay-progress"><div class="overlay-bar"></div></div></div></div>
 	<div id="hint-overlay"><div class="hint-wrap"><img class="hint-avatar" src="../../assets/images/VINH_Port.png" alt="Vinh Avatar"><div class="hint-bubble"><div class="hint-title">Let’s Swipe</div><div class="hint-desc">Left or Right?</div></div></div></div>
+	<div id="loading-overlay"><div class="loading-text">Loading playable…</div></div>
 
 	
 	<script>
@@ -84,6 +87,34 @@
 				console.warn('Avatar inline failed:', e);
 			}
 		}
+		function hideLoadingOverlay() {
+			var el = document.getElementById('loading-overlay');
+			if (el) { el.style.display = 'none'; }
+		}
+		function showLoadingOverlay() {
+			var el = document.getElementById('loading-overlay');
+			if (el) { el.style.display = 'flex'; }
+		}
+		(function(){
+			var watched = new WeakSet();
+			function hook(el){
+				if (!el || watched.has(el)) return;
+				watched.add(el);
+				el.addEventListener('loadstart', showLoadingOverlay, true);
+				el.addEventListener('waiting', showLoadingOverlay, true);
+				el.addEventListener('stalled', showLoadingOverlay, true);
+				el.addEventListener('playing', hideLoadingOverlay, true);
+				el.addEventListener('canplay', hideLoadingOverlay, true);
+				el.addEventListener('canplaythrough', hideLoadingOverlay, true);
+			}
+			function scan(){
+				try { document.querySelectorAll('video, audio').forEach(hook); } catch(e) {}
+			}
+			if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scan, { once: true });
+			else scan();
+			var mo = new MutationObserver(scan);
+			mo.observe(document.documentElement, { childList: true, subtree: true });
+		})();
 		function showEndMessageThenRestart() {
 			var ov = document.getElementById('end-overlay');
 			if (ov) { ov.style.display = 'flex'; }
@@ -105,6 +136,7 @@
 			var hintTimerStarted = false;
 			var hintTimer = null;
 			var interactedSinceLoop = false;
+				setTimeout(hideLoadingOverlay, 12000);
 			function showHint(){ var ov = document.getElementById('hint-overlay'); if (ov) { ov.style.display = 'block'; } inlineAvatar(); }
 			function hideHint(){ var ov = document.getElementById('hint-overlay'); if (ov) { ov.style.display = 'none'; } }
 			function resetHintState(){ if (hintTimer) { clearTimeout(hintTimer); hintTimer = null; } hintTimerStarted = false; hideHint(); }
@@ -118,6 +150,7 @@
 				if (!firstLoopHandled) { firstLoopHandled = true; }
 				interactedSinceLoop = true;
 				resetHintState();
+					hideLoadingOverlay();
 				try { if (window.parent) { window.parent.postMessage({ type: 'playable-interact' }, '*'); } } catch(e){}
 				notify(false);
 			}

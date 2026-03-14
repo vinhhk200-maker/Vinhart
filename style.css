@@ -151,6 +151,16 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll from 100vw elements */
 }
 
+::selection {
+    background: rgba(0, 222, 78, 0.35);
+    color: #000000;
+}
+
+::-moz-selection {
+    background: rgba(0, 222, 78, 0.35);
+    color: #000000;
+}
+
 /* UNIFIED TYPOGRAPHY ENFORCEMENT (Global - All Screens) */
 /* Enforce same font type and size (17px) for all body text, descriptions, and buttons */
 p, 
@@ -2554,6 +2564,27 @@ body.animation-modal-open #case-tabs {
     flex-wrap: wrap;
 }
 
+.impact-cta-actions {
+    margin-top: 14px;
+}
+
+.impact-cta-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #000000;
+    color: var(--accent-green);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.impact-cta-btn:hover {
+    background: #111111;
+    opacity: 0.92;
+}
+
 .impact-cta-link {
     color: #111827;
     text-decoration: none;
@@ -2946,7 +2977,7 @@ body.animation-modal-open #case-tabs {
 
 @media (min-width: 768px) {
     .motion-tab-vinh-image {
-        max-width: 50%;
+        max-width: 60%;
     }
 }
 
