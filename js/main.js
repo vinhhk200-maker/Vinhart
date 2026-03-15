@@ -475,15 +475,19 @@ document.addEventListener('DOMContentLoaded', () => {
             stopSlideShow();
             if (currentVideo) {
                 detachCurrentEndedHandler();
-                currentVideo.pause();
                 const keepBuffer = !!(currentVideo.dataset && currentVideo.dataset.keepBuffer === '1');
-                if (!keepBuffer) currentVideo.currentTime = 0;
+                if (!keepBuffer) {
+                    currentVideo.pause();
+                    currentVideo.currentTime = 0;
+                }
             } else {
                 const v = slides[currentSlide] ? slides[currentSlide].querySelector('video') : null;
                 if (v) {
-                    v.pause();
                     const keepBuffer = !!(v.dataset && v.dataset.keepBuffer === '1');
-                    if (!keepBuffer) v.currentTime = 0;
+                    if (!keepBuffer) {
+                        v.pause();
+                        v.currentTime = 0;
+                    }
                 }
             }
         }

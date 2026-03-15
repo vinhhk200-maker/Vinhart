@@ -50,7 +50,7 @@
     <!-- Hero Section (Fixed Background) -->
     <section class="hero" id="hero">
         <div class="hero-video-layer">
-            <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" poster="assets/images/web-thumbnail.jpg?v=20260313-hero-poster-1">
+            <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" data-preload-priority="1" data-keep-buffer="1" poster="assets/images/web-thumbnail.jpg?v=20260313-hero-poster-1">
                 <source src="assets/videos/00_Hero_Background.mp4?v=20260313-hero-bg-1" type="video/mp4">
             </video>
         </div>
@@ -216,17 +216,17 @@
                                 ==========================================================
                             -->
                             <div class="carousel-slide active">
-                                <video muted playsinline preload="auto" data-preload-priority="1" data-keep-buffer="1">
+                                <video autoplay muted loop playsinline preload="auto" data-preload-priority="1" data-keep-buffer="1">
                                     <source src="assets/videos/02_IKA_Carousel_Bg_1.mp4" type="video/mp4">
                                 </video>
                             </div>
                             <div class="carousel-slide">
-                                <video muted playsinline preload="auto" data-preload-priority="1" data-keep-buffer="1">
+                                <video autoplay muted loop playsinline preload="auto" data-preload-priority="1" data-keep-buffer="1">
                                     <source src="assets/videos/02_IKA_Carousel_Bg_2.mp4" type="video/mp4">
                                 </video>
                             </div>
                             <div class="carousel-slide">
-                                <video muted playsinline preload="auto" data-preload-priority="1" data-keep-buffer="1">
+                                <video autoplay muted loop playsinline preload="auto" data-preload-priority="1" data-keep-buffer="1">
                                     <source src="assets/videos/02_IKA_Carousel_Bg_3.mp4" type="video/mp4">
                                 </video>
                             </div>
@@ -423,7 +423,7 @@
                                 ==========================================================
                             -->
                             <div class="carousel-slide active">
-                                <video muted playsinline loop preload="auto" data-preload-priority="1" data-keep-buffer="1">
+                                <video autoplay muted playsinline loop preload="auto" data-preload-priority="1" data-keep-buffer="1">
                                     <source src="assets/videos/Carousel1_casestudy_img0.mp4" type="video/mp4">
                                 </video>
                             </div>
@@ -1931,7 +1931,7 @@
 
     </main>
 
-    <script src="js/main.js?v=20260314-07"></script>
+    <script src="js/main.js?v=20260315-01"></script>
     <script>
         // DOM Elements
         const hero = document.querySelector('.hero');
@@ -1943,13 +1943,6 @@
         const body = document.body;
         const heroOverlayLayout = document.querySelector('.hero-overlay-layout');
         const heroVideoLayer = document.querySelector('.hero-video-layer');
-        let heroVideoScrollPaused = false;
-        let heroVideoReady = false;
-        const heroBgVideo = document.querySelector('.hero-bg-video');
-        if (heroBgVideo) {
-            try { heroBgVideo.addEventListener('loadeddata', function(){ heroVideoReady = true; }, { once: true, passive: true }); } catch (e) {}
-            try { heroBgVideo.addEventListener('canplay', function(){ heroVideoReady = true; }, { once: true, passive: true }); } catch (e) {}
-        }
 
         if (typeof PAGE_BACKGROUND_COLOR === 'string' && PAGE_BACKGROUND_COLOR.trim().length > 0) {
             document.body.style.backgroundColor = PAGE_BACKGROUND_COLOR;
@@ -2254,19 +2247,6 @@
                 }
 
                 const heroVideo = document.querySelector('.hero-bg-video');
-                if (heroVideo) {
-                    if (shouldDisableHero && heroVideoReady) {
-                        if (!heroVideoScrollPaused) {
-                            try { heroVideo.pause(); } catch (e) {}
-                            heroVideoScrollPaused = true;
-                        }
-                    } else {
-                        if (heroVideoScrollPaused) {
-                            try { heroVideo.play().catch(function(){}); } catch (e) {}
-                            heroVideoScrollPaused = false;
-                        }
-                    }
-                }
                 if (heroVideo && isPortrait) {
                     // Force video to cover height, allow width to overflow
                     heroVideo.style.width = '177.78vh'; // 16:9 aspect
